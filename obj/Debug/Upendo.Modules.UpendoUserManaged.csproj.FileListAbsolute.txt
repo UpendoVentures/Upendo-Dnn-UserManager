@@ -1,0 +1,113 @@
+C:\Users\Nariel\Documents\Upendo\Modules\UpendoUserManaged\Modules\UpendoUserManaged\bin\Upendo.Modules.UpendoUserManaged.xml
+C:\Users\Nariel\Documents\Upendo\Modules\UpendoUserManaged\Modules\UpendoUserManaged\bin\Upendo.Modules.UpendoUserManaged.dll
+C:\Users\Nariel\Documents\Upendo\Modules\UpendoUserManaged\Modules\UpendoUserManaged\bin\Upendo.Modules.UpendoUserManaged.pdb
+C:\Users\Nariel\Documents\Upendo\Modules\UpendoUserManaged\Modules\UpendoUserManaged\bin\DotNetNuke.dll
+C:\Users\Nariel\Documents\Upendo\Modules\UpendoUserManaged\Modules\UpendoUserManaged\bin\DotNetNuke.pdb
+C:\Users\Nariel\Documents\Upendo\Modules\UpendoUserManaged\Modules\UpendoUserManaged\bin\Microsoft.ApplicationBlocks.Data.dll
+C:\Users\Nariel\Documents\Upendo\Modules\UpendoUserManaged\Modules\UpendoUserManaged\bin\DotNetNuke.Instrumentation.dll
+C:\Users\Nariel\Documents\Upendo\Modules\UpendoUserManaged\Modules\UpendoUserManaged\bin\DotNetNuke.Instrumentation.pdb
+C:\Users\Nariel\Documents\Upendo\Modules\UpendoUserManaged\Modules\UpendoUserManaged\bin\DotNetNuke.Log4Net.dll
+C:\Users\Nariel\Documents\Upendo\Modules\UpendoUserManaged\Modules\UpendoUserManaged\bin\DotNetNuke.Log4Net.pdb
+C:\Users\Nariel\Documents\Upendo\Modules\UpendoUserManaged\Modules\UpendoUserManaged\bin\DotNetNuke.Web.dll
+C:\Users\Nariel\Documents\Upendo\Modules\UpendoUserManaged\Modules\UpendoUserManaged\bin\DotNetNuke.Web.pdb
+C:\Users\Nariel\Documents\Upendo\Modules\UpendoUserManaged\Modules\UpendoUserManaged\bin\DotNetNuke.WebUtility.dll
+C:\Users\Nariel\Documents\Upendo\Modules\UpendoUserManaged\Modules\UpendoUserManaged\bin\DotNetNuke.WebUtility.pdb
+C:\Users\Nariel\Documents\Upendo\Modules\UpendoUserManaged\Modules\UpendoUserManaged\bin\DotNetNuke.Web.Client.dll
+C:\Users\Nariel\Documents\Upendo\Modules\UpendoUserManaged\Modules\UpendoUserManaged\bin\DotNetNuke.Web.Client.pdb
+C:\Users\Nariel\Documents\Upendo\Modules\UpendoUserManaged\Modules\UpendoUserManaged\bin\DotNetNuke.Web.Deprecated.dll
+C:\Users\Nariel\Documents\Upendo\Modules\UpendoUserManaged\Modules\UpendoUserManaged\bin\DotNetNuke.Web.Deprecated.pdb
+C:\Users\Nariel\Documents\Upendo\Modules\UpendoUserManaged\Modules\UpendoUserManaged\bin\Telerik.Web.UI.dll
+C:\Users\Nariel\Documents\Upendo\Modules\UpendoUserManaged\Modules\UpendoUserManaged\bin\DotNetNuke.Web.Mvc.dll
+C:\Users\Nariel\Documents\Upendo\Modules\UpendoUserManaged\Modules\UpendoUserManaged\bin\DotNetNuke.Web.Mvc.pdb
+C:\Users\Nariel\Documents\Upendo\Modules\UpendoUserManaged\Modules\UpendoUserManaged\bin\System.Web.Mvc.dll
+C:\Users\Nariel\Documents\Upendo\Modules\UpendoUserManaged\Modules\UpendoUserManaged\bin\System.Web.Razor.dll
+C:\Users\Nariel\Documents\Upendo\Modules\UpendoUserManaged\Modules\UpendoUserManaged\bin\System.Net.Http.Formatting.dll
+C:\Users\Nariel\Documents\Upendo\Modules\UpendoUserManaged\Modules\UpendoUserManaged\bin\System.Web.Http.dll
+C:\Users\Nariel\Documents\Upendo\Modules\UpendoUserManaged\Modules\UpendoUserManaged\bin\System.Web.Helpers.dll
+C:\Users\Nariel\Documents\Upendo\Modules\UpendoUserManaged\Modules\UpendoUserManaged\bin\System.Web.WebPages.Deployment.dll
+C:\Users\Nariel\Documents\Upendo\Modules\UpendoUserManaged\Modules\UpendoUserManaged\bin\System.Web.WebPages.Razor.dll
+C:\Users\Nariel\Documents\Upendo\Modules\UpendoUserManaged\Modules\UpendoUserManaged\bin\System.Web.WebPages.dll
+C:\Users\Nariel\Documents\Upendo\Modules\UpendoUserManaged\Modules\UpendoUserManaged\bin\Microsoft.Web.Infrastructure.dll
+C:\Users\Nariel\Documents\Upendo\Modules\UpendoUserManaged\Modules\UpendoUserManaged\bin\Newtonsoft.Json.dll
+C:\Users\Nariel\Documents\Upendo\Modules\UpendoUserManaged\Modules\UpendoUserManaged\obj\Debug\Upendo.Modules.UpendoUserManaged.csproj.AssemblyReference.cache
+C:\Users\Nariel\Documents\Upendo\Modules\UpendoUserManaged\Modules\UpendoUserManaged\obj\Debug\Upendo.Modules.UpendoUserManaged.csproj.CoreCompileInputs.cache
+C:\Users\Nariel\Documents\Upendo\Modules\UpendoUserManaged\Modules\UpendoUserManaged\obj\Debug\Upendo.Modules.UpendoUserManaged.csproj.CopyComplete
+C:\Users\Nariel\Documents\Upendo\Modules\UpendoUserManaged\Modules\UpendoUserManaged\obj\Debug\Upendo.Modules.UpendoUserManaged.dll
+C:\Users\Nariel\Documents\Upendo\Modules\UpendoUserManaged\Modules\UpendoUserManaged\obj\Debug\Upendo.Modules.UpendoUserManaged.pdb
+C:\Users\Nariel\Documents\Upendo\Modules\UpendoUserManaged\Modules\UpendoUserManaged\bin\EntityFramework.SqlServer.dll
+C:\Users\Nariel\Documents\Upendo\Modules\UpendoUserManaged\Modules\UpendoUserManaged\bin\EntityFramework.dll
+D:\Trabajo\NTSPRINT\Extension Generator Upendo DNN\UpendoUserManaged\Modules\UpendoUserManaged\bin\Telerik.Web.UI.dll
+D:\Trabajo\NTSPRINT\Extension Generator Upendo DNN\UpendoUserManaged\Modules\UpendoUserManaged\bin\Upendo.Modules.UpendoUserManaged.xml
+D:\Trabajo\NTSPRINT\Extension Generator Upendo DNN\UpendoUserManaged\Modules\UpendoUserManaged\bin\Upendo.Modules.UpendoUserManaged.dll
+D:\Trabajo\NTSPRINT\Extension Generator Upendo DNN\UpendoUserManaged\Modules\UpendoUserManaged\bin\Upendo.Modules.UpendoUserManaged.pdb
+D:\Trabajo\NTSPRINT\Extension Generator Upendo DNN\UpendoUserManaged\Modules\UpendoUserManaged\bin\DotNetNuke.dll
+D:\Trabajo\NTSPRINT\Extension Generator Upendo DNN\UpendoUserManaged\Modules\UpendoUserManaged\bin\DotNetNuke.pdb
+D:\Trabajo\NTSPRINT\Extension Generator Upendo DNN\UpendoUserManaged\Modules\UpendoUserManaged\bin\Microsoft.ApplicationBlocks.Data.dll
+D:\Trabajo\NTSPRINT\Extension Generator Upendo DNN\UpendoUserManaged\Modules\UpendoUserManaged\bin\DotNetNuke.Instrumentation.dll
+D:\Trabajo\NTSPRINT\Extension Generator Upendo DNN\UpendoUserManaged\Modules\UpendoUserManaged\bin\DotNetNuke.Instrumentation.pdb
+D:\Trabajo\NTSPRINT\Extension Generator Upendo DNN\UpendoUserManaged\Modules\UpendoUserManaged\bin\DotNetNuke.Log4Net.dll
+D:\Trabajo\NTSPRINT\Extension Generator Upendo DNN\UpendoUserManaged\Modules\UpendoUserManaged\bin\DotNetNuke.Log4Net.pdb
+D:\Trabajo\NTSPRINT\Extension Generator Upendo DNN\UpendoUserManaged\Modules\UpendoUserManaged\bin\DotNetNuke.Web.dll
+D:\Trabajo\NTSPRINT\Extension Generator Upendo DNN\UpendoUserManaged\Modules\UpendoUserManaged\bin\DotNetNuke.Web.pdb
+D:\Trabajo\NTSPRINT\Extension Generator Upendo DNN\UpendoUserManaged\Modules\UpendoUserManaged\bin\DotNetNuke.WebUtility.dll
+D:\Trabajo\NTSPRINT\Extension Generator Upendo DNN\UpendoUserManaged\Modules\UpendoUserManaged\bin\DotNetNuke.WebUtility.pdb
+D:\Trabajo\NTSPRINT\Extension Generator Upendo DNN\UpendoUserManaged\Modules\UpendoUserManaged\bin\DotNetNuke.Web.Client.dll
+D:\Trabajo\NTSPRINT\Extension Generator Upendo DNN\UpendoUserManaged\Modules\UpendoUserManaged\bin\DotNetNuke.Web.Client.pdb
+D:\Trabajo\NTSPRINT\Extension Generator Upendo DNN\UpendoUserManaged\Modules\UpendoUserManaged\bin\DotNetNuke.Web.Deprecated.dll
+D:\Trabajo\NTSPRINT\Extension Generator Upendo DNN\UpendoUserManaged\Modules\UpendoUserManaged\bin\DotNetNuke.Web.Deprecated.pdb
+D:\Trabajo\NTSPRINT\Extension Generator Upendo DNN\UpendoUserManaged\Modules\UpendoUserManaged\bin\DotNetNuke.Web.Mvc.dll
+D:\Trabajo\NTSPRINT\Extension Generator Upendo DNN\UpendoUserManaged\Modules\UpendoUserManaged\bin\DotNetNuke.Web.Mvc.pdb
+D:\Trabajo\NTSPRINT\Extension Generator Upendo DNN\UpendoUserManaged\Modules\UpendoUserManaged\bin\EntityFramework.SqlServer.dll
+D:\Trabajo\NTSPRINT\Extension Generator Upendo DNN\UpendoUserManaged\Modules\UpendoUserManaged\bin\EntityFramework.dll
+D:\Trabajo\NTSPRINT\Extension Generator Upendo DNN\UpendoUserManaged\Modules\UpendoUserManaged\bin\System.Web.Mvc.dll
+D:\Trabajo\NTSPRINT\Extension Generator Upendo DNN\UpendoUserManaged\Modules\UpendoUserManaged\bin\System.Web.Razor.dll
+D:\Trabajo\NTSPRINT\Extension Generator Upendo DNN\UpendoUserManaged\Modules\UpendoUserManaged\bin\System.Net.Http.Formatting.dll
+D:\Trabajo\NTSPRINT\Extension Generator Upendo DNN\UpendoUserManaged\Modules\UpendoUserManaged\bin\System.Web.Http.dll
+D:\Trabajo\NTSPRINT\Extension Generator Upendo DNN\UpendoUserManaged\Modules\UpendoUserManaged\bin\System.Web.Helpers.dll
+D:\Trabajo\NTSPRINT\Extension Generator Upendo DNN\UpendoUserManaged\Modules\UpendoUserManaged\bin\System.Web.WebPages.Deployment.dll
+D:\Trabajo\NTSPRINT\Extension Generator Upendo DNN\UpendoUserManaged\Modules\UpendoUserManaged\bin\System.Web.WebPages.Razor.dll
+D:\Trabajo\NTSPRINT\Extension Generator Upendo DNN\UpendoUserManaged\Modules\UpendoUserManaged\bin\System.Web.WebPages.dll
+D:\Trabajo\NTSPRINT\Extension Generator Upendo DNN\UpendoUserManaged\Modules\UpendoUserManaged\bin\Microsoft.Web.Infrastructure.dll
+D:\Trabajo\NTSPRINT\Extension Generator Upendo DNN\UpendoUserManaged\Modules\UpendoUserManaged\bin\Newtonsoft.Json.dll
+D:\Trabajo\NTSPRINT\Extension Generator Upendo DNN\UpendoUserManaged\Modules\UpendoUserManaged\obj\Debug\Upendo.Modules.UpendoUserManaged.csproj.CoreCompileInputs.cache
+D:\Trabajo\NTSPRINT\Extension Generator Upendo DNN\UpendoUserManaged\Modules\UpendoUserManaged\obj\Debug\Upendo.Modules.UpendoUserManaged.csproj.CopyComplete
+D:\Trabajo\NTSPRINT\Extension Generator Upendo DNN\UpendoUserManaged\Modules\UpendoUserManaged\obj\Debug\Upendo.Modules.UpendoUserManaged.dll
+D:\Trabajo\NTSPRINT\Extension Generator Upendo DNN\UpendoUserManaged\Modules\UpendoUserManaged\obj\Debug\Upendo.Modules.UpendoUserManaged.pdb
+D:\Work\UpendoUserManager\Modules\UpendoUserManaged\bin\Upendo.Modules.UpendoUserManaged.xml
+D:\Work\UpendoUserManager\Modules\UpendoUserManaged\bin\Upendo.Modules.UpendoUserManaged.dll
+D:\Work\UpendoUserManager\Modules\UpendoUserManaged\bin\Upendo.Modules.UpendoUserManaged.pdb
+D:\Work\UpendoUserManager\Modules\UpendoUserManaged\bin\DotNetNuke.dll
+D:\Work\UpendoUserManager\Modules\UpendoUserManaged\bin\DotNetNuke.pdb
+D:\Work\UpendoUserManager\Modules\UpendoUserManaged\bin\Microsoft.ApplicationBlocks.Data.dll
+D:\Work\UpendoUserManager\Modules\UpendoUserManaged\bin\DotNetNuke.Instrumentation.dll
+D:\Work\UpendoUserManager\Modules\UpendoUserManaged\bin\DotNetNuke.Instrumentation.pdb
+D:\Work\UpendoUserManager\Modules\UpendoUserManaged\bin\DotNetNuke.Log4Net.dll
+D:\Work\UpendoUserManager\Modules\UpendoUserManaged\bin\DotNetNuke.Log4Net.pdb
+D:\Work\UpendoUserManager\Modules\UpendoUserManaged\bin\DotNetNuke.Web.dll
+D:\Work\UpendoUserManager\Modules\UpendoUserManaged\bin\DotNetNuke.Web.pdb
+D:\Work\UpendoUserManager\Modules\UpendoUserManaged\bin\DotNetNuke.WebUtility.dll
+D:\Work\UpendoUserManager\Modules\UpendoUserManaged\bin\DotNetNuke.WebUtility.pdb
+D:\Work\UpendoUserManager\Modules\UpendoUserManaged\bin\DotNetNuke.Web.Client.dll
+D:\Work\UpendoUserManager\Modules\UpendoUserManaged\bin\DotNetNuke.Web.Client.pdb
+D:\Work\UpendoUserManager\Modules\UpendoUserManaged\bin\DotNetNuke.Web.Deprecated.dll
+D:\Work\UpendoUserManager\Modules\UpendoUserManaged\bin\DotNetNuke.Web.Deprecated.pdb
+D:\Work\UpendoUserManager\Modules\UpendoUserManaged\bin\Telerik.Web.UI.dll
+D:\Work\UpendoUserManager\Modules\UpendoUserManaged\bin\DotNetNuke.Web.Mvc.dll
+D:\Work\UpendoUserManager\Modules\UpendoUserManaged\bin\DotNetNuke.Web.Mvc.pdb
+D:\Work\UpendoUserManager\Modules\UpendoUserManaged\bin\EntityFramework.SqlServer.dll
+D:\Work\UpendoUserManager\Modules\UpendoUserManaged\bin\EntityFramework.dll
+D:\Work\UpendoUserManager\Modules\UpendoUserManaged\bin\System.Web.Mvc.dll
+D:\Work\UpendoUserManager\Modules\UpendoUserManaged\bin\System.Web.Razor.dll
+D:\Work\UpendoUserManager\Modules\UpendoUserManaged\bin\System.Net.Http.Formatting.dll
+D:\Work\UpendoUserManager\Modules\UpendoUserManaged\bin\System.Web.Http.dll
+D:\Work\UpendoUserManager\Modules\UpendoUserManaged\bin\System.Web.Helpers.dll
+D:\Work\UpendoUserManager\Modules\UpendoUserManaged\bin\System.Web.WebPages.Deployment.dll
+D:\Work\UpendoUserManager\Modules\UpendoUserManaged\bin\System.Web.WebPages.Razor.dll
+D:\Work\UpendoUserManager\Modules\UpendoUserManaged\bin\System.Web.WebPages.dll
+D:\Work\UpendoUserManager\Modules\UpendoUserManaged\bin\Microsoft.Web.Infrastructure.dll
+D:\Work\UpendoUserManager\Modules\UpendoUserManaged\bin\Newtonsoft.Json.dll
+D:\Work\UpendoUserManager\Modules\UpendoUserManaged\obj\Debug\Upendo.Modules.UpendoUserManaged.csproj.AssemblyReference.cache
+D:\Work\UpendoUserManager\Modules\UpendoUserManaged\obj\Debug\Upendo.Modules.UpendoUserManaged.csproj.CoreCompileInputs.cache
+D:\Work\UpendoUserManager\Modules\UpendoUserManaged\obj\Debug\Upendo.Modules.UpendoUserManaged.csproj.CopyComplete
+D:\Work\UpendoUserManager\Modules\UpendoUserManaged\obj\Debug\Upendo.Modules.UpendoUserManaged.dll
+D:\Work\UpendoUserManager\Modules\UpendoUserManaged\obj\Debug\Upendo.Modules.UpendoUserManaged.pdb
