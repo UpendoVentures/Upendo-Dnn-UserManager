@@ -1,0 +1,74 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Upendo.Modules.UserManager</name>
+    </assembly>
+    <members>
+        <member name="M:Upendo.Modules.UserManager.Controllers.SettingsController.Settings">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Upendo.Modules.UserManager.Controllers.SettingsController.Settings(Upendo.Modules.UserManager.Models.Settings)">
+            <summary>
+            
+            </summary>
+            <param name="settings"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Upendo.Modules.UserManager.Utility.UserRepository">
+            <summary>
+            User Repository
+            </summary>
+        </member>
+        <member name="M:Upendo.Modules.UserManager.Utility.UserRepository.GetUsers(Upendo.Modules.UserManager.ViewModels.Pagination)">
+            <summary>
+            Get all users by param
+            </summary>
+            <param name="pagination"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Upendo.Modules.UserManager.Utility.UserRepository.GetRolesByUser(System.Double,System.Int32,System.Nullable{System.Int32},System.Int32,System.String,System.Int32)">
+            <summary>
+            Returns the roles of the user
+            </summary>
+            <param name="take"></param>
+            <param name="pageIndex"></param>
+            <param name="goToPage"></param>
+            <param name="portalId"></param>
+            <param name="search"></param>
+            <param name="itemId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Upendo.Modules.UserManager.Utility.UserRepository.GetUser(System.Int32,System.Int32)">
+            <summary>
+            Return the user
+            </summary>
+            <param name="portalId"></param>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Upendo.Modules.UserManager.Utility.UserRepository.CreateUser(Upendo.Modules.UserManager.ViewModels.UserViewModel,System.Int32)">
+            <summary>
+            Create User
+            </summary>
+            <param name="user"></param>
+            <param name="portalId"></param>
+        </member>
+        <member name="M:Upendo.Modules.UserManager.Utility.UserRepository.EditUser(System.Int32,Upendo.Modules.UserManager.ViewModels.UserViewModel)">
+            <summary>
+            Edit the user
+            </summary>
+            <param name="portalId"></param>
+            <param name="user"></param>
+        </member>
+        <member name="M:Upendo.Modules.UserManager.Utility.UserRepository.DeleteUser(System.Int32,System.Int32)">
+            <summary>
+            Delete User
+            </summary>
+            <param name="itemId"></param>
+            <param name="portalId"></param>
+        </member>
+    </members>
+</doc>

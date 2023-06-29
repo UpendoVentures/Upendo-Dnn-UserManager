@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<dotnetnuke type="Package" version="6.0">
+  <packages>
+    <package name="Upendo.Modules.UserManager_Symbols" type="Library" version="01.00.00">
+      <friendlyName>UserManager Module Symbols</friendlyName>
+      <description><![CDATA[Managed Users]]></description>
+      <owner>
+        <name>Upendo</name>
+        <organization>Upendo</organization>
+        <url>https://upendoventures.com/</url>
+        <email>support@upendoventures.com</email>
+      </owner>
+      <license src="License.txt" />
+      <releaseNotes src="ReleaseNotes.txt" />
+      <azureCompatible>True</azureCompatible>
+      <dependencies>
+        <dependency type="managedPackage" version="1.0.0">Upendo.Modules.UserManager</dependency>
+      </dependencies>
+      <components>
+        <component type="ResourceFile">
+          <resourceFiles>
+            <basePath></basePath>
+            <resourceFile>
+              <name>Resources.zip</name>
+            </resourceFile>
+          </resourceFiles>
+        </component>
+      </components>
+    </package>
+  </packages>
+</dotnetnuke>

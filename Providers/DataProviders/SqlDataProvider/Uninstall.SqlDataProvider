@@ -1,0 +1,17 @@
+/*
+
+UNINSTALL SQL PROVIDER SCRIPT
+
+UserManager Extension for DNN
+
+*/
+
+IF NOT OBJECT_ID('{databaseOwner}[{objectQualifier}uvm_Example]') IS NULL
+    DROP TABLE {databaseOwner}[{objectQualifier}uvm_Example];
+GO
+
+/*
+
+END OF FILE
+
+*/
