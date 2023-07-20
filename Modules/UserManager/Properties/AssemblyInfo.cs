@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("UserManager Modules Extension for DNN")]
-[assembly: AssemblyDescription("UserManager Extension for DNN")]
+[assembly: AssemblyTitle("Upendo DNN User Manager Module for DNN")]
+[assembly: AssemblyDescription("Upendo DNN User Manager Extension for DNN")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Upendo")]
+[assembly: AssemblyCompany("Upendo Ventures, LLC")]
 [assembly: AssemblyProduct("UserManager Modules Extension for DNN")]
-[assembly: AssemblyCopyright("Copyright 2023 Upendo")]
+[assembly: AssemblyCopyright("Copyright (C) Upendo Ventures, LLC")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
