@@ -172,6 +172,7 @@
     <Content Include="Views\UserManage\Edit.cshtml" />
     <Content Include="Views\UserManage\Index.cshtml" />
     <Content Include="Views\UserManage\UserRoles.cshtml" />
+    <Content Include="Views\Shared\Error.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
