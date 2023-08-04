@@ -3,6 +3,7 @@
 @using System.Text.RegularExpressions
 @using DotNetNuke.Web.Mvc.Helpers
 @using Upendo.Modules.UserManager.ViewModels;
+@using DotNetNuke.Services.Localization;
 
 @{
     string srcLogo = DotNetNuke.Entities.Tabs.TabController.CurrentPage.Title +
@@ -14,6 +15,8 @@
     var showing = @Model.PageIndex + 1;
     var pageIndexTo = @Model.PageIndex + @Model.Take;
     var pageView = @Model.GoToPage > 1 ? @Model.GoToPage : (pageIndexTo / @Model.Take) == 0 ? 1 : (pageIndexTo / @Model.Take);
+    string ResourceFile = "~/DesktopModules/MVC/Upendo.Modules.UserManager/App_LocalResources/UserRoles.resx";
+    string SharedResourceFile = "~/DesktopModules/MVC/Upendo.Modules.UserManager/App_LocalResources/Shared.resx";
 
 }
 <div id="Items-@Dnn.ModuleContext.ModuleId" style="margin: 2%!important;">
@@ -22,7 +25,7 @@
             <img alt="logo" src=@srcLogo />
         </div>
         <div class="col-md-8">
-            <h1 id="title">@name Role List</h1>
+            <h1 id="title">@name @Localization.GetString("RoleList", @ResourceFile)</h1>
         </div>
     </div>
     <hr />
@@ -30,7 +33,7 @@
         <ul class="nav navbar-nav navbar-left" style="margin-right: 20px;">
             <li class="dropdown">
                 <a class="dropDown btn dropdown-toggle" data-toggle="dropdown" href="#" style=" display: inline-flex;">
-                    Rows per page: @Model.Take
+                    @Localization.GetString("RowsPerPage", @SharedResourceFile) @Model.Take
                     <span class="caret"></span>
                 </a>        <ul class="dropdown-menu">
                     <li>
@@ -55,7 +58,7 @@
                     </li>
                     <li>
                         <a class="confirm page-link" href="@Url.Action("UserRoles", "UserManage", new { take = @Model.RecordsTotal, pageIndex = @Model.PageIndex, search=@Model.Search, itemId=@userId})">
-                            <span aria-hidden="true">All</span>
+                            <span aria-hidden="true">@Localization.GetString("All", @SharedResourceFile)</span>
                         </a>
                     </li>
                 </ul>
@@ -63,7 +66,7 @@
         </ul>
         <div class="input-group">
             <span class="input-group-btn">
-                <button class="btn btn-primary box-shadow" type="submit">Search!</button>
+                <button class="btn btn-primary box-shadow" type="submit">@Localization.GetString("Search", @SharedResourceFile)</button>
             </span>
             @Html.TextBoxFor(m => m.Search, new { @class = "form-control", @type = "text", @style = " height: 40px;box-shadow: 0 0 3px 0 #888888" })
         </div>
@@ -71,7 +74,7 @@
     <div class="col-md-5">
         <ul class="nav navbar-nav navbar-right">
             <a type="button" class="btn btn-warning" href="@Url.Action("Index", "UserManage", new {})" style="color: white;">
-                User List
+                @Localization.GetString("UserList", @ResourceFile)
             </a>
         </ul>
     </div>
@@ -79,8 +82,8 @@
         <thead>
             <tr style="background-color:#6d5a2c; color:#FFFFFF">
                 <th hidden></th>
-                <th>ROLE</th>
-                <th style="text-align:center">ACTIONS</th>
+                <th>@Localization.GetString("Role", @ResourceFile)</th>
+                <th style="text-align:center">@Localization.GetString("Actions", @ResourceFile)</th>
             </tr>
         </thead>
         <tbody>
@@ -89,8 +92,8 @@
                 <tr>
                     <td colspan="6">
                         <div class="center">
-                            <h1>No roles founds</h1>
-                            <h2>with this search criteria</h2>
+                            <h1>@Localization.GetString("NoRolesFounds", @ResourceFile)</h1>
+                            <h2>@Localization.GetString("SearchCriteria", @ResourceFile)</h2>
                         </div>
                     </td>
                 </tr>
@@ -109,15 +112,15 @@
                         <td style="text-align:center">
                             @if (@item.HasRole == true)
                             {
-                                <a data-hint="Delete" class="btn btn-danger btn-sm edit hint--top hint--" href="@Url.Action("UserRoles", "UserManage", new {take = @Model.Take, pageIndex=@Model.PageIndex, search=@Model.Search, itemId=@userId, roleId = item.RoleId, userId = @userId, actionView="Remove"})"
-                                   data-toggle="tooltip" data-placement="top" title="Delete">
+                                <a class="btn btn-danger btn-sm edit hint--top hint--" href="@Url.Action("UserRoles", "UserManage", new {take = @Model.Take, pageIndex=@Model.PageIndex, search=@Model.Search, itemId=@userId, roleId = item.RoleId, userId = @userId, actionView="Remove"})"
+                                   data-toggle="tooltip" data-placement="top" title="@Localization.GetString("Delete", @ResourceFile)">
                                     <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
                                 </a>
                             }
                             else
                             {
-                                <a data-hint="Add Role" class="btn btn-primary btn-sm edit hint--top hint--" href="@Url.Action("UserRoles", "UserManage", new {take = @Model.Take, pageIndex=@Model.PageIndex, search=@Model.Search, itemId=@userId, roleId = item.RoleId, userId = @userId, actionView="Add" })"
-                                   data-toggle="tooltip" data-placement="top" title="Add Role">
+                                <a class="btn btn-primary btn-sm edit hint--top hint--" href="@Url.Action("UserRoles", "UserManage", new {take = @Model.Take, pageIndex=@Model.PageIndex, search=@Model.Search, itemId=@userId, roleId = item.RoleId, userId = @userId, actionView="Add" })"
+                                   data-toggle="tooltip" data-placement="top" title="@Localization.GetString("AddRole", @ResourceFile)">
                                     <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
                                 </a>
                             }
@@ -128,21 +131,21 @@
         </tbody>
     </table>
     <div class="data-footer">
-        <span class="text-align-left">Page @pageView of @Model.PagesTotal Pages</span>
+        <span class="text-align-left">@Localization.GetString("Page", @SharedResourceFile) @pageView @Localization.GetString("Of", @SharedResourceFile) @Model.PagesTotal @Localization.GetString("Pages", @SharedResourceFile)</span>
         <div class="input-group ml10">
             <span class="input-group-btn">
-                <button class="btn btn-primary box-shadow" type="submit">Go To Page:</button>
+                <button class="btn btn-primary box-shadow" type="submit">@Localization.GetString("GoToPage", @SharedResourceFile)</button>
             </span>
             @Html.TextBoxFor(m => m.GoToPage, new { @class = "form-control", @type = "text", @style = "width: 82px; height: 40px;box-shadow: 0 0 3px 0 #888888" })
         </div>
         <div class="right">
-            <span> Showing @showing to @pageIndexTo of @Model.RecordsTotal entries</span>
-            <a data-hint="Previus" class="btn btn-default btn-sm hint--top hint--" href="@Url.Action("UserRoles", "UserManage", new {take = @Model.Take, pageIndex=@pageIndexMinus, search=@Model.Search, itemId=@userId})"
-               data-toggle="tooltip" data-placement="top" title="Previus">
+            <span> @Localization.GetString("Showing", @SharedResourceFile) @showing @Localization.GetString("To", @SharedResourceFile) @pageIndexTo @Localization.GetString("Of", @SharedResourceFile) @Model.RecordsTotal @Localization.GetString("Entries", @SharedResourceFile)</span>
+            <a class="btn btn-default btn-sm hint--top hint--" href="@Url.Action("UserRoles", "UserManage", new {take = @Model.Take, pageIndex=@pageIndexMinus, search=@Model.Search, itemId=@userId})"
+               data-toggle="tooltip" data-placement="top" title="@Localization.GetString("Previus", @SharedResourceFile)">
                 <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
             </a>
-            <a data-hint="Next" class="btn btn-default btn-sm ml5 hint--top hint--" href="@Url.Action("UserRoles", "UserManage", new {take = @Model.Take, pageIndex=@pageIndexPlus, search=@Model.Search, itemId=@userId})"
-               data-toggle="tooltip" data-placement="top" title="Next">
+            <a class="btn btn-default btn-sm ml5 hint--top hint--" href="@Url.Action("UserRoles", "UserManage", new {take = @Model.Take, pageIndex=@pageIndexPlus, search=@Model.Search, itemId=@userId})"
+               data-toggle="tooltip" data-placement="top" title="@Localization.GetString("Next", @SharedResourceFile)">
                 <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
             </a>
         </div>
