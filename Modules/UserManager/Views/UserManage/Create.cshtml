@@ -2,9 +2,12 @@
 
 @using System.Collections.Generic
 @using DotNetNuke.Web.Mvc.Helpers
+@using DotNetNuke.Services.Localization;
+
 @{
     string srcLogo = DotNetNuke.Entities.Tabs.TabController.CurrentPage.Title +
     "/DesktopModules/MVC/Upendo.Modules.UserManager/Images/Upendo-logo-trans.png";
+    string ResourceFile = "~/DesktopModules/MVC/Upendo.Modules.UserManager/App_LocalResources/AddEdit.resx";
 }
 <div id="Items-@Dnn.ModuleContext.ModuleId" style="margin: 2%!important;">
     <div class="col-md-12">
@@ -12,7 +15,7 @@
             <img alt="logo" src=@srcLogo />
         </div>
         <div class="col-md-6">
-            <h2 id="subtitle">Create User</h2>
+            <h2 id="subtitle">@Localization.GetString("CreateUser", @ResourceFile)</h2>
         </div>
     </div>
     <hr />
@@ -24,27 +27,27 @@
             @Html.ValidationSummary(false, "", new { @class = "" })
         </div>
         <div class="formItem col-6">
-            <div><label>First Name</label></div>
+            <div><label>@Localization.GetString("FirstName", @ResourceFile)</label></div>
             @Html.TextBoxFor(m => m.FirstName)
             @Html.ValidationMessageFor(m => m.FirstName)
         </div>
         <div class="formItem col-6">
-            <div><label>Last Name</label></div>
+            <div><label>@Localization.GetString("LastName", @ResourceFile)</label></div>
             @Html.TextBoxFor(m => m.LastName)
             @Html.ValidationMessageFor(m => m.LastName)
         </div>
         <div class="formItem col-6">
-            <div><label>Username</label></div>
+            <div><label>@Localization.GetString("Username", @ResourceFile)</label></div>
             @Html.TextBoxFor(m => m.Username)
             @Html.ValidationMessageFor(m => m.Username)
         </div>
         <div class="formItem col-6">
-            <div><label>Email</label></div>
+            <div><label>@Localization.GetString("Email", @ResourceFile)</label></div>
             @Html.TextBoxFor(m => m.Email, new { @class = "form-control", @type = "email" })
             @Html.ValidationMessageFor(m => m.Email)
         </div>
         <div class="formItem col-6">
-            <div><label>Password</label></div>
+            <div><label>@Localization.GetString("Password", @ResourceFile)</label></div>
             @Html.TextBoxFor(m => m.Password, new
             {
                 @class = "form-control",
@@ -55,63 +58,68 @@
             <span id="passwordValidationMessage"></span>
         </div>
         <div class="formItem col-6">
-            <div><label>Confirm Password</label></div>
+            <div><label>@Localization.GetString("ConfirmPassword", @ResourceFile)</label></div>
             @Html.TextBoxFor(m => m.ConfirmPassword, new
             {
                 @id = "confirm_password",
                 @type = "password",
-                onkeyup =
-            "validatePassword();"
+                onkeyup = "validatePassword();"
             })
             <span id='message'></span>
         </div>
         <div class="formItem col-12">
             <div class="dnnFormItem col-3">
                 @Html.CheckBoxFor(m => m.IsSuperUser, new { @id = "checkbox" })
-                <label>IsSuperUser</label>
+                <label>@Localization.GetString("IsSuperUser", @ResourceFile)</label>
             </div>
             <div class="dnnFormItem col-3">
                 @Html.CheckBoxFor(m => m.Approved, new { @id = "checkbox" })
-                <label>Approved</label>
+                <label>@Localization.GetString("Approved", @ResourceFile)</label>
             </div>
             <div class="dnnFormItem col-4">
                 @Html.CheckBoxFor(m => m.SendEmail, new { @id = "checkbox" })
-                <label>Send An Email To New User</label>
+                <label>@Localization.GetString("SendEmailNewUser", @ResourceFile)</label>
             </div>
         </div>
     </fieldset>
     <div class="buttomForm mt20">
         <div class="center">
-            <button type="submit" class="disabled" id="saveButton">Save</button>
+            <button type="submit" class="disabled" id="saveButton">@Localization.GetString("Save", @ResourceFile)</button>
             <a type="button" class="cancel-buttom" style="color: white;" href="@Url.Action("Index", "UserManage")">
-                Cancel
+                @Localization.GetString("Cancel", @ResourceFile) 
             </a>
         </div>
     </div>
 </div>
 <script type="text/javascript">
+    var weak = '@DotNetNuke.Services.Localization.Localization.GetString("Weak.Text", @ResourceFile)';
+    var fair = '@DotNetNuke.Services.Localization.Localization.GetString("Fair.Text", @ResourceFile)';
+    var strong = '@DotNetNuke.Services.Localization.Localization.GetString("Strong.Text", @ResourceFile)';
+    var passwordMatch = '@DotNetNuke.Services.Localization.Localization.GetString("PasswordMatch.Text", @ResourceFile)';
+    var match = '@DotNetNuke.Services.Localization.Localization.GetString("Match.Text", @ResourceFile)';
+
     function validatePassStrength(pass, minLength, minNumberOfSpecialChars, validationExpression) {
         var passwordElement = document.getElementById('password');
         var passwordValidationMessage = document.getElementById('passwordValidationMessage');
         if (pass.length < minLength) {
             passwordElement.style.color = "red";
             passwordValidationMessage.style.color = "red";
-            return "weak";
+            return weak;
         }
         var specialChars = pass.match(/[!@@#$%^&*(),.?":{}|<>+\-]/g);
         if (specialChars === null || specialChars.length < minNumberOfSpecialChars) {
             passwordElement.style.color = "#f6d500";
             passwordValidationMessage.style.color = "#f6d500";
-            return "fair";
+            return fair;
         }
         if (validationExpression !== "" && !new RegExp(validationExpression).test(pass)) {
             passwordElement.style.color = "#f6d500";
             passwordValidationMessage.style.color = "#f6d500";
-            return "fair";
+            return fair;
         }
         passwordElement.style.color = "green";
         passwordValidationMessage.style.color = "green";
-        return "strong";
+        return strong;
     }
     function handlePasswordValidation() {
         var password = document.getElementById('password').value;
@@ -137,13 +145,13 @@
         var message = document.getElementById('message');
         if (password == confirm_password) {
             message.style.color = 'green';
-            message.innerHTML = 'Match';
+            message.innerHTML = Match;
             // Enabling a button again
             document.querySelector('#saveButton').classList.remove("disabled");
             document.querySelector('#saveButton').classList.add("primary");
         } else {
             message.style.color = 'red';
-            message.innerHTML = 'Password and Confirmation Password must match.';
+            message.innerHTML = passwordMatch;
             // Disabling a button
             document.querySelector('#saveButton').classList.remove("primary");
             document.querySelector('#saveButton').classList.add("disabled");
