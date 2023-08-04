@@ -1,4 +1,5 @@
 using DotNetNuke.Framework.JavaScriptLibraries;
+using DotNetNuke.Services.Localization;
 using DotNetNuke.Web.Mvc.Framework.ActionFilters;
 using DotNetNuke.Web.Mvc.Framework.Controllers;
 using System.Web.Mvc;
@@ -10,15 +11,31 @@ namespace Upendo.Modules.UserManager.Controllers
     [DnnHandleError]
     public class RolesManageController : DnnController
     {
+        private readonly string ResourceFile = "~/DesktopModules/MVC/Upendo.Modules.UserManager/App_LocalResources/UserManageController.resx";
+
         [ModuleAction(ControlKey = "Edit", TitleKey = "AddItem")]
         public ActionResult Index(double? take, int? pageIndex, string filter, int? goToPage, string search, string orderBy, string order)
         {
-            double takeValue = take == null ? default : take.Value;
-            int pageIndexValue = take == null ? default : pageIndex.Value;
-            var portalId = ModuleContext.PortalId;
-            ViewBag.Filter = filter;
-            var result = RolesRepository.GetRoles(takeValue, pageIndexValue, filter, goToPage, portalId, search, orderBy, order);
-            return View(result);
+            // Check if the user is authenticated
+            bool isAuthenticated = Request.IsAuthenticated;
+
+            if (!isAuthenticated)
+            {
+                // User not authenticated, return error message
+                string errorMessage = Localization.GetString("NotPermissions.Text", ResourceFile);
+                ViewBag.ErrorMessage = errorMessage;
+                return View("Error");
+            }
+            else
+            {
+                double takeValue = take == null ? default : take.Value;
+                int pageIndexValue = take == null ? default : pageIndex.Value;
+                var portalId = ModuleContext.PortalId;
+                ViewBag.Filter = filter;
+                var result = RolesRepository.GetRoles(takeValue, pageIndexValue, filter, goToPage, portalId, search, orderBy, order);
+                return View(result);
+            }
+
         }
 
         public ActionResult Create()
@@ -28,7 +45,7 @@ namespace Upendo.Modules.UserManager.Controllers
             ViewBag.RoleGroups = RolesRepository.GetRoleGroups(portalId);
             return View();
         }
-        
+
         [HttpPost]
         public ActionResult Create(RolesViewModel item)
         {

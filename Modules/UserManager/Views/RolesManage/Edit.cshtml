@@ -1,34 +1,40 @@
 @inherits DotNetNuke.Web.Mvc.Framework.DnnWebViewPage<Upendo.Modules.UserManager.ViewModels.RolesViewModel>
 @using System.Collections.Generic
 @using DotNetNuke.Web.Mvc.Helpers
+@using DotNetNuke.Services.Localization;
+
+@{
+    string ResourceFile = "~/DesktopModules/MVC/Upendo.Modules.UserManager/App_LocalResources/AddEditRoles.resx";
+}
+
 <div class="dnnDialog">
     <fieldset>
         <div class="dnnFormItem">
-            <div><label>Role Name</label></div>
+            <div><label>@Localization.GetString("RoleName", @ResourceFile)</label></div>
             @Html.TextBoxFor(m => m.RoleName)
         </div>
         <div class="dnnFormItem">
-            <div><label>Description</label></div>
+            <div><label>@Localization.GetString("Description", @ResourceFile)</label></div>
             @Html.TextBoxFor(m => m.Description)
         </div>
         <div class="dnnFormItem">
-            <div><label>Role Group</label></div>
+            <div><label>@Localization.GetString("RoleGroup", @ResourceFile)</label></div>
             @Html.DropDownListFor(m => m.RoleGroupID, new SelectList(ViewBag.RoleGroups, "RoleGroupId",
             "RoleGroupName"))
         </div>
         <div class="dnnFormItem col-3">
             @Html.CheckBoxFor(m => m.AutoAssignment, new { @id = "checkbox" })
-            <label>AutoAssignment</label>
+            <label>@Localization.GetString("AutoAssignment", @ResourceFile)</label>
         </div>
         <div class="dnnFormItem col-3">
             @Html.CheckBoxFor(m => m.IsPublic, new { @id = "checkbox" })
-            <label>IsPublic</label>
+            <label>@Localization.GetString("IsPublic", @ResourceFile)</label>
         </div>
 
         @Html.HiddenFor(m => m.RoleId)
     </fieldset>
     <div class="buttomForm mt20">
-        <button type="submit" class="primary">Save</button>
+        <button type="submit" class="primary">@Localization.GetString("Save", @ResourceFile)</button>
         <button id="cancelEdit" href="#">@Dnn.LocalizeString("Cancel")</button>
     </div>
 </div>
