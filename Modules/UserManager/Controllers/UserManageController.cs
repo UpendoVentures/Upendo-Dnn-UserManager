@@ -2,6 +2,7 @@
 using DotNetNuke.Entities.Users;
 using DotNetNuke.Framework.JavaScriptLibraries;
 using DotNetNuke.Security.Roles;
+using DotNetNuke.Services.Localization;
 using DotNetNuke.Web.Mvc.Framework.ActionFilters;
 using DotNetNuke.Web.Mvc.Framework.Controllers;
 using System;
@@ -14,6 +15,9 @@ namespace Upendo.Modules.UserManager.Controllers
     [DnnHandleError]
     public class UserManageController : DnnController
     {
+        private readonly string ResourceFile = "~/DesktopModules/MVC/Upendo.Modules.UserManager/App_LocalResources/UserManageController.resx";
+        private readonly string SharedResourceFile = "~/DesktopModules/MVC/Upendo.Modules.UserManager/App_LocalResources/Shared.resx";
+
         [ModuleAction(ControlKey = "Edit", TitleKey = "AddItem")]
         public ActionResult Index(double? take, int? pageIndex, string filter, int? goToPage, string search, string orderBy, string order)
         {
@@ -23,7 +27,7 @@ namespace Upendo.Modules.UserManager.Controllers
             if (!isAuthenticated)
             {
                 // User not authenticated, return error message
-                string errorMessage = "You do not have the necessary security permissions to use this application.";
+                string errorMessage = Localization.GetString("NotPermissions.Text", ResourceFile);
                 ViewBag.ErrorMessage = errorMessage;
                 return View("Error");
             }
@@ -37,23 +41,23 @@ namespace Upendo.Modules.UserManager.Controllers
                 switch (filter)
                 {
                     case "8":
-                        ViewBag.Filter = "All";
+                        ViewBag.Filter = Localization.GetString("All", SharedResourceFile); ;
                         break;
                     case "0":
-                        ViewBag.Filter = "Authorized";
+                        ViewBag.Filter = Localization.GetString("Authorized", SharedResourceFile);
                         break;
                     case "1":
-                        ViewBag.Filter = "Unauthorized";
+                        ViewBag.Filter = Localization.GetString("Unauthorized", SharedResourceFile);
                         break;
                     case "2":
-                        ViewBag.Filter = "Deleted";
+                        ViewBag.Filter = Localization.GetString("Deleted", SharedResourceFile);
                         break;
                     case "3":
-                        ViewBag.Filter = "SuperUsers";
+                        ViewBag.Filter = Localization.GetString("SuperUsers", SharedResourceFile);
                         break;
                     default:
                         filter = "0";
-                        ViewBag.Filter = "Authorized";
+                        ViewBag.Filter = Localization.GetString("Authorized", SharedResourceFile);
                         break;
                 }
                 var pagination = new Pagination()
@@ -87,7 +91,8 @@ namespace Upendo.Modules.UserManager.Controllers
             ModelState.Remove("UserId");
             if (user != null)
             {
-                ModelState.AddModelError(string.Empty, @"The username is already in use.");
+                string errorMessage = Localization.GetString("UsernameInUse.Text", ResourceFile);
+                ModelState.AddModelError(string.Empty, @errorMessage);
                 return View(item);
             }
           
@@ -167,7 +172,7 @@ namespace Upendo.Modules.UserManager.Controllers
             if (!isAuthenticated)
             {
                 // User not authenticated, return error message
-                string errorMessage = "You do not have the necessary security permissions to use this application.";
+                string errorMessage = Localization.GetString("NotPermissions.Text", ResourceFile);
                 ViewBag.ErrorMessage = errorMessage;
                 return View("Error");
             }
