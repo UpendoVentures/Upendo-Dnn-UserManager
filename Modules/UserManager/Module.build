@@ -1,7 +1,7 @@
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <ModulePath>Upendo.Modules.UserManager</ModulePath>
-    <DNNFileName>UserManager</DNNFileName>
+    <DNNFileName>Upendo.UserManager</DNNFileName>
     <PackageName>Upendo.UserManager</PackageName>
     <Extension>zip</Extension>
     <BuildScriptsPath>$(MSBuildProjectDirectory)\..\..\Build</BuildScriptsPath>

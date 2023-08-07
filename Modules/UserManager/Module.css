@@ -68,7 +68,6 @@
 
 .buttomForm button {
     border: none;
-    color: white;
     padding: 12px 30px;
     text-align: center;
     text-decoration: none;
@@ -82,7 +81,6 @@
 
 .cancel-buttom {
     border: none;
-    color: white;
     background-color: grey;
     padding: 12px 30px;
     text-align: center;
@@ -107,7 +105,7 @@
 }
 
 .buttomForm #cancelEdit {
-    background-color: grey;
+    
 }
 
 .checkbox {

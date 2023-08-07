@@ -23,19 +23,19 @@
             "RoleGroupName"))
         </div>
         <div class="dnnFormItem col-3">
-            @Html.CheckBoxFor(m => m.AutoAssignment, new { @id = "checkbox" })
-            <label>@Localization.GetString("AutoAssignment", @ResourceFile)</label>
+            @Html.CheckBoxFor(m => m.AutoAssignment, new { @id = "chkAutoAssign" })
+            <label for="chkAutoAssign">@Localization.GetString("AutoAssignment", @ResourceFile)</label>
         </div>
         <div class="dnnFormItem col-3">
-            @Html.CheckBoxFor(m => m.IsPublic, new { @id = "checkbox" })
-            <label>@Localization.GetString("IsPublic", @ResourceFile)</label>
+            @Html.CheckBoxFor(m => m.IsPublic, new { @id = "chkIsPublic" })
+            <label for="chkIsPublic">@Localization.GetString("IsPublic", @ResourceFile)</label>
         </div>
 
         @Html.HiddenFor(m => m.RoleId)
     </fieldset>
     <div class="buttomForm mt20">
-        <button type="submit" class="primary">@Localization.GetString("Save", @ResourceFile)</button>
-        <button id="cancelEdit" href="#">@Dnn.LocalizeString("Cancel")</button>
+        <button type="submit" class="dnnPrimaryAction">@Localization.GetString("Save", @ResourceFile)</button>
+        <button id="cancelEdit" href="#" class="dnnSecondaryAction">@Dnn.LocalizeString("Cancel")</button>
     </div>
 </div>
 <script type="text/javascript">

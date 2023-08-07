@@ -133,7 +133,7 @@
     <value>ROLE</value>
   </data>
   <data name="RoleList.Text" xml:space="preserve">
-    <value>Role List</value>
+    <value>Editing Roles For:</value>
   </data>
   <data name="SearchCriteria.Text" xml:space="preserve">
     <value>with this search criteria</value>
