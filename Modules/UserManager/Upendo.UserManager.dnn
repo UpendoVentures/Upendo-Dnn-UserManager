@@ -20,21 +20,6 @@
         <dependency type="coreversion">09.09.00</dependency>
       </dependencies>
       <components>
-        <component type="Script">
-          <scripts>
-            <basePath>DesktopModules\MVC\Upendo.Modules.UserManager</basePath>
-            <script type="Install">
-              <path>Providers\DataProviders\SqlDataProvider</path>
-              <name>01.00.00.SqlDataProvider</name>
-              <version>01.00.00</version>
-            </script>
-            <script type="UnInstall">
-              <path>Providers\DataProviders\SqlDataProvider</path>
-              <name>Uninstall.SqlDataProvider</name>
-              <version>01.00.00</version>
-            </script>
-          </scripts>
-        </component>
 
         <component type="Module">
           <desktopModule>
