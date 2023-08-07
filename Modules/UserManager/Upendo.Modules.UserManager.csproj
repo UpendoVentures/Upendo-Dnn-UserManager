@@ -149,8 +149,16 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\_ViewStart.cshtml" />
   </ItemGroup>
-  <ItemGroup />
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="App_LocalResources\AddEdit.resx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_LocalResources\AddEditRoles.resx" />
+    <Content Include="App_LocalResources\Index.resx" />
+    <Content Include="App_LocalResources\Shared.resx" />
+    <Content Include="App_LocalResources\UserManageController.resx" />
+    <Content Include="App_LocalResources\UserRoles.resx" />
+  </ItemGroup>
   <ItemGroup>
     <Content Include="Web.config">
       <SubType>Designer</SubType>
