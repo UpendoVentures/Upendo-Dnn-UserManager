@@ -61,20 +61,20 @@
             </div>
             <div class="formItem col-12">
                 <div class="dnnFormItem col-3">
-                    @Html.CheckBoxFor(m => m.IsSuperUser, new { @id = "checkbox" })
-                    <label>@Localization.GetString("IsSuperUser", @ResourceFile)</label>
+                    @Html.CheckBoxFor(m => m.IsSuperUser, new { @id = "chkIsSuperuser" })
+                    <label for="chkIsSuperuser">@Localization.GetString("IsSuperUser", @ResourceFile)</label>
                 </div>
                 <div class="dnnFormItem col-3">
-                    @Html.CheckBoxFor(m => m.Approved, new { @id = "checkbox" })
-                    <label>@Localization.GetString("Approved", @ResourceFile)</label>
+                    @Html.CheckBoxFor(m => m.Approved, new { @id = "chkApproved" })
+                    <label for="chkApproved">@Localization.GetString("Approved", @ResourceFile)</label>
                 </div>
                 <div class="dnnFormItem col-3">
-                    @Html.CheckBoxFor(m => m.IsDeleted, new { @id = "checkbox" })
-                    <label>@Localization.GetString("IsDeleted", @ResourceFile)</label>
+                    @Html.CheckBoxFor(m => m.IsDeleted, new { @id = "chkIsDeleted" })
+                    <label for="chkIsDeleted">@Localization.GetString("IsDeleted", @ResourceFile)</label>
                 </div>
                 <div class="dnnFormItem col-6">
-                    @Html.CheckBoxFor(m => m.SendEmail, new { @id = "checkbox" })
-                    <label>@Localization.GetString("SendEmailNewUser", @ResourceFile)</label>
+                    @Html.CheckBoxFor(m => m.SendEmail, new { @id = "chkSendEmail" })
+                    <label for="chkSendEmail">@Localization.GetString("SendEmailNewUser", @ResourceFile)</label>
                 </div>
                 @Html.HiddenFor(m => m.UserId)
             </div>
@@ -111,8 +111,8 @@
 <div class="col-12 mt20">
     <div class="buttomForm ">
         <div class="center">
-            <button type="submit" class="primary" id="saveButton">@Localization.GetString("Save", @ResourceFile)</button>
-            <button id="cancelEdit" href="#">@Localization.GetString("Cancel", @ResourceFile)</button>
+            <button type="submit" class="dnnPrimaryAction" id="saveButton">@Localization.GetString("Save", @ResourceFile)</button>
+            <button id="cancelEdit" href="#" class="dnnSecondaryAction">@Localization.GetString("Cancel", @ResourceFile)</button>
         </div>
     </div>
 </div>

@@ -93,8 +93,6 @@
     <Compile Include="Components\FeatureController.cs" />
     <Compile Include="Controllers\RolesManageController.cs" />
     <Compile Include="Controllers\UserManageController.cs" />
-    <Compile Include="Data\ExampleInfoRepository.cs" />
-    <Compile Include="Controllers\SettingsController.cs" />
     <Compile Include="Models\DnnModel\AspnetApplications.cs" />
     <Compile Include="Models\DnnModel\AspnetMembership.cs" />
     <Compile Include="Models\DnnModel\AspnetUsers.cs" />
@@ -103,9 +101,6 @@
     <Compile Include="Models\DnnModel\Roles.cs" />
     <Compile Include="Models\DnnModel\UserRoles.cs" />
     <Compile Include="Models\DnnModel\Users.cs" />
-    <Compile Include="Models\Interfaces\IExampleInfo.cs" />
-    <Compile Include="Models\ExampleInfo.cs" />
-    <Compile Include="Controllers\ExampleController.cs" />
     <Compile Include="Models\Settings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utility\Functions.cs" />
@@ -120,7 +115,6 @@
     <Content Include="App_LocalResources\Example.resx">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="App_LocalResources\Settings.resx" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Images\defaultUserPicture.jpg" />
@@ -131,19 +125,15 @@
     <Content Include="Images\logo.png" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="UserManager.dnn">
+    <Content Include="Upendo.UserManager.dnn">
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Module.build">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="UserManager_Symbols.dnn">
+    <Content Include="Upendo.UserManager_Symbols.dnn">
       <SubType>Designer</SubType>
     </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Providers\DataProviders\SqlDataProvider\01.00.00.SqlDataProvider" />
-    <Content Include="Providers\DataProviders\SqlDataProvider\Uninstall.SqlDataProvider" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Shared\_Layout.cshtml" />
@@ -151,21 +141,17 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_LocalResources\AddEdit.resx" />
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="App_LocalResources\AddEditRoles.resx" />
     <Content Include="App_LocalResources\Index.resx" />
     <Content Include="App_LocalResources\Shared.resx" />
     <Content Include="App_LocalResources\UserManageController.resx" />
     <Content Include="App_LocalResources\UserRoles.resx" />
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="Views\Example\Index.cshtml" />
-    <Content Include="Views\Example\Edit.cshtml" />
-    <Content Include="Views\Settings\Settings.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="NuGet.config" />
@@ -180,6 +166,7 @@
     <Content Include="Views\UserManage\Edit.cshtml" />
     <Content Include="Views\UserManage\Index.cshtml" />
     <Content Include="Views\UserManage\UserRoles.cshtml" />
+    <Content Include="Views\Shared\Error.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">14.0</VisualStudioVersion>

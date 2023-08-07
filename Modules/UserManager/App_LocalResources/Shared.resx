@@ -130,7 +130,7 @@
     <value>Unauthorized</value>
   </data>
   <data name="Entries.Text" xml:space="preserve">
-    <value>Entries</value>
+    <value>Records</value>
   </data>
   <data name="GoToPage.Text" xml:space="preserve">
     <value>Go To Page:</value>
@@ -145,19 +145,19 @@
     <value>Pages</value>
   </data>
   <data name="RowsPerPage.Text" xml:space="preserve">
-    <value>Rows per page:</value>
+    <value>Rows Per Page:</value>
   </data>
   <data name="Search.Text" xml:space="preserve">
-    <value>Search!</value>
+    <value>Search</value>
   </data>
   <data name="Showing.Text" xml:space="preserve">
     <value>Showing</value>
   </data>
-  <data name="SorBy.Text" xml:space="preserve">
-    <value>SorBy</value>
+  <data name="SortBy.Text" xml:space="preserve">
+    <value>Sort By</value>
   </data>
   <data name="SuperUsers.Text" xml:space="preserve">
-    <value>SuperUsers</value>
+    <value>Superusers</value>
   </data>
   <data name="To.Text" xml:space="preserve">
     <value>to</value>
@@ -169,6 +169,9 @@
     <value>Next</value>
   </data>
   <data name="Previus.Text" xml:space="preserve">
-    <value>Previus</value>
+    <value>Previous</value>
+  </data>
+  <data name="EditingSiteRoles.Text" xml:space="preserve">
+    <value>Editing Site Roles</value>
   </data>
 </root>

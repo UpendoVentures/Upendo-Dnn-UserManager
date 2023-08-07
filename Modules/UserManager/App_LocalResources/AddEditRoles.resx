@@ -117,17 +117,14 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AutoAssignment" xml:space="preserve">
-    <value>AutoAssignment</value>
-  </data>
   <data name="AutoAssignment.Text" xml:space="preserve">
-    <value>AutoAssignment</value>
+    <value>Automatically Assign Role</value>
   </data>
   <data name="Description.Text" xml:space="preserve">
     <value>Description</value>
   </data>
   <data name="IsPublic.Text" xml:space="preserve">
-    <value>IsPublic</value>
+    <value>Public Role?</value>
   </data>
   <data name="RoleGroup.Text" xml:space="preserve">
     <value>Role Group</value>

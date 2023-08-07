@@ -17,16 +17,6 @@
 
 }
 <div id="Items-@Dnn.ModuleContext.ModuleId" style="margin: 2%!important;">
-    <div class="col-md-12">
-        <div class="col-md-4">
-            <img alt="logo" src=@srcLogo />
-        </div>
-        <div class="col-md-8">
-            <h1 id="title">@Localization.GetString("Title", @ResourceFile)</h1>
-            <h4 id="subtitle">@Localization.GetString("SubTitle", @ResourceFile)</h4>
-        </div>
-    </div>
-    <hr />
     <div class="col-md-12" style="margin-bottom: 20px;">
         <ul class="nav navbar-nav navbar-right">
             <a type="button" class="dnnPrimaryAction" href="@Url.Action("Create", "UserManage", new {ctl = "Edit"})">
@@ -34,16 +24,19 @@
             </a>
             <span id="dialogs-DeleteUnauthorized" class="dnnActions" style="display: initial;">
                 <a type="button" class="confirm btn btn-warning" href="@Url.Action("DeleteUnauthorizedUsers", "UserManage", new {})" style="color: white;">
+                    <span class="glyphicon glyphicon-trash color-white" aria-hidden="true"></span> 
                     @Localization.GetString("DeleteUnauthorizedUsers", @ResourceFile)
                 </a>
             </span>
             <span id="dialogs-RemoveDelete" class="dnnActions" style="display: initial;">
                 <a type="button" class="confirm btn btn-warning" href="@Url.Action("RemoveDeletedUsers", "UserManage", new {})" style="color: white;">
+                    <span class="glyphicon glyphicon-trash color-white" aria-hidden="true"></span> 
                     @Localization.GetString("RemoveDeleteUsers", @ResourceFile)
                 </a>
             </span>
             <span class="dnnActions" style="display: initial;">
                 <a type="button" class="btn btn-info" href="@Url.Action("Index", "RolesManage", new {})" style="color: white;">
+                    <span class="glyphicon glyphicon-tasks color-white" aria-hidden="true"></span> 
                     @Localization.GetString("RolesList", @ResourceFile)
                 </a>
             </span>
@@ -132,7 +125,7 @@
                     </li>
                     <li class="dropdown" style="margin: 0 10px !important;">
                         <a class="dropDown btn dropdown-toggle" data-toggle="dropdown" href="#" style=" display: inline-flex;">
-                            <span class="color-black">@Localization.GetString("SorBy", @SharedResourceFile)</span>
+                            <span class="color-black">@Localization.GetString("SortBy", @SharedResourceFile)</span>
                             <span class="caret" style=" display: inline-flex;"></span>
                         </a>
                         <ul class="dropdown-menu">
@@ -177,8 +170,8 @@
                 <th class="uppercase-text">@Localization.GetString("Username", @ResourceFile)</th>
                 <th class="uppercase-text">@Localization.GetString("DisplayName", @ResourceFile)</th>
                 <th class="uppercase-text">@Localization.GetString("Email", @ResourceFile)</th>
-                <th style="text-align:center uppercase-text">@Localization.GetString("SUPERUSER", @ResourceFile)</th>
-                <th style="text-align:center">@Localization.GetString("Actions", @ResourceFile)</th>
+                <th style="text-align: center;" class="uppercase-text text-center">@Localization.GetString("Superuser", @ResourceFile)</th>
+                <th style="text-align:center" class="text-center">@Localization.GetString("Actions", @ResourceFile)</th>
             </tr>
         </thead>
         <tbody>
@@ -202,13 +195,18 @@
                             @item.UserId
                         </td>
                         <td>
-                            @item.Username
+                            <a data-hint="Edit" href="@Url.Action("Edit", "UserManage", new {ctl = "Edit", itemId = item.UserId})"
+                               data-toggle="tooltip" data-placement="top" title="@Localization.GetString("Edit", @SharedResourceFile)">
+                                @item.Username
+                            </a>
                         </td>
                         <td>
                             @item.DisplayName
                         </td>
                         <td>
-                            @item.Email
+                            <a href="mailto:@item.Email" target="_blank">
+                                @item.Email
+                            </a>
                         </td>
                         <td class="text-center">
                             @if (@item.IsSuperUser == true)
@@ -243,9 +241,9 @@
         </tbody>
     </table>
     <div class="data-footer">
-        <span class="text-align-left">@Localization.GetString("Page", @SharedResourceFile) @pageView @Localization.GetString("Of", @SharedResourceFile) @Model.PagesTotal @Localization.GetString("Pages", @SharedResourceFile)</span>
+        <span class="text-align-left">@Localization.GetString("Page", @SharedResourceFile) <strong>@pageView</strong> @Localization.GetString("Of", @SharedResourceFile) <strong>@Model.PagesTotal</strong> @Localization.GetString("Pages", @SharedResourceFile)</span>
         <div class="right">
-            <span> @Localization.GetString("Showing", @SharedResourceFile) @pageIndexPaginate @Localization.GetString("To", @SharedResourceFile) @pageIndexTo @Localization.GetString("Of", @SharedResourceFile) @Model.RecordsTotal @Localization.GetString("Entries", @SharedResourceFile)</span>
+            <span> @Localization.GetString("Showing", @SharedResourceFile) <strong>@pageIndexPaginate</strong> @Localization.GetString("To", @SharedResourceFile) <strong>@pageIndexTo</strong> @Localization.GetString("Of", @SharedResourceFile) <strong>@Model.RecordsTotal</strong> @Localization.GetString("Entries", @SharedResourceFile)</span>
             <a class="btn btn-default btn-sm " href="@Url.Action("Index", "UserManage", new {take = @Model.Take, pageIndex=@pageIndexMinus, filter = @ViewBag.Filter, search=@Model.Search, orderBy=@Model.OrderBy , order=@Model.Order})"
                data-toggle="tooltip" data-placement="top" title="@Localization.GetString("Previus", @SharedResourceFile)">
                 <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
