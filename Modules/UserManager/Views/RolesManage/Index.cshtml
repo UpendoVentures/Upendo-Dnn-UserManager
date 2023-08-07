@@ -16,16 +16,10 @@
     string SharedResourceFile = "~/DesktopModules/MVC/Upendo.Modules.UserManager/App_LocalResources/Shared.resx";
 }
 <div id="Items-@Dnn.ModuleContext.ModuleId" style="margin: 2%!important;">
-    <div class="col-md-12">
-        <div class="col-md-4">
-            <img alt="logo" src=@srcLogo />
-        </div>
-        <div class="col-md-8">
-            <h1 id="title">@Localization.GetString("Title", @ResourceFile)</h1>
-            <h4 id="subtitle">@Localization.GetString("SubTitle", @ResourceFile)</h4>
-        </div>
-    </div>
+
+    <h2 id="subtitle">@Localization.GetString("EditingSiteRoles", @SharedResourceFile)</h2>
     <hr />
+
     <div class="col-md-9">
         <ul class="nav navbar-nav" style="margin-right: 20px;">
             <li class="dropdown">
@@ -63,7 +57,10 @@
         </ul>
         <div class="input-group">
             <span class="input-group-btn">
-                <button class="btn btn-primary box-shadow" type="submit">@Localization.GetString("Search", @SharedResourceFile)</button>
+                <button class="btn btn-primary box-shadow" type="submit">
+                    <span class="glyphicon glyphicon-search color-white" aria-hidden="true"></span> 
+                    @Localization.GetString("Search", @SharedResourceFile)
+                </button>
             </span>
             @Html.TextBoxFor(m => m.Search, new { @class = "form-control", @type = "text", @style = " height: 40px;box-shadow: 0 0 3px 0 #888888" })
         </div>
@@ -71,9 +68,11 @@
     <div class="col-md-3">
         <ul class="nav navbar-nav navbar-right">
             <a type="button" class="dnnPrimaryAction" href="@Url.Action("Create", "RolesManage", new {ctl = "Edit"})">
-                @Localization.GetString("CreateRol", @ResourceFile)
+                <span class="glyphicon glyphicon-search color-white" aria-hidden="true"></span>  
+                @Localization.GetString("CreateRole", @ResourceFile)
             </a>
             <a type="button" class="btn btn-warning color-white" style="display: initial;" href="@Url.Action("Index", "UserManage", new {})">
+                <span class="glyphicon glyphicon-chevron-left color-white" aria-hidden="true"></span> 
                 @Localization.GetString("UserList", @ResourceFile)
             </a>
         </ul>
