@@ -150,6 +150,9 @@
   <data name="FirstName.Text" xml:space="preserve">
     <value>First Name</value>
   </data>
+  <data name="InvalidEmailAddress.Text" xml:space="preserve">
+    <value>Invalid email address.</value>
+  </data>
   <data name="IsDeleted.Text" xml:space="preserve">
     <value>IsDeleted</value>
   </data>
@@ -197,6 +200,9 @@
   </data>
   <data name="UserRoles.Text" xml:space="preserve">
     <value>User Roles</value>
+  </data>
+  <data name="ValidEmailAddress.Text" xml:space="preserve">
+    <value>Valid email address.</value>
   </data>
   <data name="Weak.Text" xml:space="preserve">
     <value>weak</value>
