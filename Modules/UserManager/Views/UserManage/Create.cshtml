@@ -43,21 +43,29 @@
         </div>
         <div class="formItem col-6">
             <div><label>@Localization.GetString("Email", @ResourceFile)</label></div>
-            @Html.TextBoxFor(m => m.Email, new { @class = "form-control", @type = "email", id = "email", onkeyup = "validate();" })
-            <div id="emailMessage"></div>
+            @Html.TextBoxFor(m => m.Email, new { @class = "form-control", @type = "email" })
             @Html.ValidationMessageFor(m => m.Email)
         </div>
-        <div class="formItem col-12 mt5">
-            <div class="formItem col-6">
-                <div><label>@Localization.GetString("Password", @ResourceFile)</label></div>
-                @Html.TextBoxFor(m => m.Password, new { @class = "form-control", @id = "password", @type = "password", onkeyup = "handlePasswordValidation();" })
-                <span id="passwordValidationMessage"></span>
-            </div>
-            <div class="formItem col-6">
-                <div><label>@Localization.GetString("ConfirmPassword", @ResourceFile)</label></div>
-                @Html.TextBoxFor(m => m.ConfirmPassword, new { @id = "confirm_password", @type = "password", onkeyup = "validate();" })
-                <span id='message'></span>
-            </div>
+        <div class="formItem col-6">
+            <div><label>@Localization.GetString("Password", @ResourceFile)</label></div>
+            @Html.TextBoxFor(m => m.Password, new
+            {
+                @class = "form-control",
+                @id = "password",
+                @type = "password",
+            onkeyup = "handlePasswordValidation();"
+            })
+            <span id="passwordValidationMessage"></span>
+        </div>
+        <div class="formItem col-6">
+            <div><label>@Localization.GetString("ConfirmPassword", @ResourceFile)</label></div>
+            @Html.TextBoxFor(m => m.ConfirmPassword, new
+            {
+                @id = "confirm_password",
+                @type = "password",
+                onkeyup = "validatePassword();"
+            })
+            <span id='message'></span>
         </div>
         <div class="col-12 mt20" style="font-size: 16px;">
             <div class="col-3">
@@ -87,8 +95,6 @@
     var strong = '@DotNetNuke.Services.Localization.Localization.GetString("Strong.Text", @ResourceFile)';
     var passwordMatch = '@DotNetNuke.Services.Localization.Localization.GetString("PasswordMatch.Text", @ResourceFile)';
     var match = '@DotNetNuke.Services.Localization.Localization.GetString("Match.Text", @ResourceFile)';
-    var invalidEmailAddress = '@DotNetNuke.Services.Localization.Localization.GetString("InvalidEmailAddress.Text", @ResourceFile)';
-    var validEmailAddress = '@DotNetNuke.Services.Localization.Localization.GetString("ValidEmailAddress.Text", @ResourceFile)';
 
     function validatePassStrength(pass, minLength, minNumberOfSpecialChars, validationExpression) {
         var passwordElement = document.getElementById('password');
@@ -123,7 +129,6 @@
         if (messageElement) {
             messageElement.innerHTML = result;
         }
-        this.validate();
     }
     function hideAlert() {
         var alertDiv = document.getElementById('validationError');
@@ -132,55 +137,32 @@
         document.querySelector('#saveButton').classList.remove("disabled");
         document.querySelector('#saveButton').classList.add("primary");
     }
-    var emailInput = document.getElementById('email');
-    var emailMessage = document.getElementById('emailMessage');
-    var emailRegex = /^[a-zA-Z0-9._-]+@@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
-
-    function validateEmail() {
-        var email = emailInput.value;
-        if (emailRegex.test(email)) {
-            emailMessage.style.color = 'green';
-            emailMessage.innerHTML = validEmailAddress;
-            return true;
-        } else {
-            emailMessage.style.color = 'red';
-            emailMessage.innerHTML = invalidEmailAddress;
-            return false;
-        }
-    };
     function validatePassword() {
         var password = document.getElementById('password').value;
         var confirm_password = document.getElementById('confirm_password').value;
         var message = document.getElementById('message');
-        if (password == confirm_password && password != "") {
+        if (password == confirm_password) {
             message.style.color = 'green';
             message.innerHTML = match;
-            return true;
-        } else {
-            if (password != "") {
-                message.style.color = 'red';
-                message.innerHTML = passwordMatch;
-            }
-            return false;
-        }
-    };
-    function validate() {
-        var validatePassword = this.validatePassword();
-        var validateEmail = this.validateEmail();
-        if (validatePassword && validateEmail) {
             // Enabling a button again
             document.querySelector('#saveButton').classList.remove("disabled");
-            document.querySelector('#saveButton').classList.add("dnnPrimaryAction");
+            document.querySelector('#saveButton').classList.add("primary");
         } else {
+            message.style.color = 'red';
+            message.innerHTML = passwordMatch;
             // Disabling a button
-            document.querySelector('#saveButton').classList.remove("dnnPrimaryAction");
+            document.querySelector('#saveButton').classList.remove("primary");
             document.querySelector('#saveButton').classList.add("disabled");
         }
-    };
-     /*globals jQuery, window, Sys */
+    }
+    /*globals jQuery, window, Sys */
     (function ($, Sys) {
         $(function () {
             $('#cancelEdit').click(function () { dnnModal.closePopUp(false); });
+            dnnEditBasicSettings();
+            Sys.WebForms.PageRequestManager.getInstance().add_endRequest(function () {
+                dnnEditBasicSettings();
+            });
         });
     }(jQuery, window.Sys));
 </script>
