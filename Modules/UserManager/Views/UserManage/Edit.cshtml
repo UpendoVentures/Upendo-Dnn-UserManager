@@ -59,20 +59,20 @@
                 })
                 <span id='message'></span>
             </div>
-            <div class="formItem col-12">
-                <div class="dnnFormItem col-3">
+            <div class="col-12 mt20" style="font-size: 16px;">
+                <div class="col-3">
                     @Html.CheckBoxFor(m => m.IsSuperUser, new { @id = "chkIsSuperuser" })
                     <label for="chkIsSuperuser">@Localization.GetString("IsSuperUser", @ResourceFile)</label>
                 </div>
-                <div class="dnnFormItem col-3">
+                <div class="col-3">
                     @Html.CheckBoxFor(m => m.Approved, new { @id = "chkApproved" })
                     <label for="chkApproved">@Localization.GetString("Approved", @ResourceFile)</label>
                 </div>
-                <div class="dnnFormItem col-3">
+                <div class="col-3">
                     @Html.CheckBoxFor(m => m.IsDeleted, new { @id = "chkIsDeleted" })
                     <label for="chkIsDeleted">@Localization.GetString("IsDeleted", @ResourceFile)</label>
                 </div>
-                <div class="dnnFormItem col-6">
+                <div class="col-6">
                     @Html.CheckBoxFor(m => m.SendEmail, new { @id = "chkSendEmail" })
                     <label for="chkSendEmail">@Localization.GetString("SendEmailNewUser", @ResourceFile)</label>
                 </div>
@@ -109,7 +109,7 @@
     </div>
 </div>
 <div class="col-12 mt20">
-    <div class="buttomForm ">
+    <div class="buttomForm">
         <div class="center">
             <button type="submit" class="dnnPrimaryAction" id="saveButton">@Localization.GetString("Save", @ResourceFile)</button>
             <button id="cancelEdit" href="#" class="dnnSecondaryAction">@Localization.GetString("Cancel", @ResourceFile)</button>
