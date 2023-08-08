@@ -67,25 +67,27 @@
             })
             <span id='message'></span>
         </div>
-        <div class="col-12 mt20" style="font-size: 16px;">
-            <div class="col-3">
-                @Html.CheckBoxFor(m => m.IsSuperUser, new { @id = "chkIsSuperuser" })
-                <label for="chkIsSuperuser">@Localization.GetString("IsSuperUser", @ResourceFile)</label>
+        <div class="formItem col-12">
+            <div class="dnnFormItem col-3">
+                @Html.CheckBoxFor(m => m.IsSuperUser, new { @id = "checkbox" })
+                <label>@Localization.GetString("IsSuperUser", @ResourceFile)</label>
             </div>
-            <div class="col-3">
-                @Html.CheckBoxFor(m => m.Approved, new { @id = "chkApproved" })
-                <label for="chkApproved">@Localization.GetString("Approved", @ResourceFile)</label>
+            <div class="dnnFormItem col-3">
+                @Html.CheckBoxFor(m => m.Approved, new { @id = "checkbox" })
+                <label>@Localization.GetString("Approved", @ResourceFile)</label>
             </div>
-            <div class="col-4">
-                @Html.CheckBoxFor(m => m.SendEmail, new { @id = "chkSendEmail" })
-                <label for="chkSendEmail">@Localization.GetString("SendEmailNewUser", @ResourceFile)</label>
+            <div class="dnnFormItem col-4">
+                @Html.CheckBoxFor(m => m.SendEmail, new { @id = "checkbox" })
+                <label>@Localization.GetString("SendEmailNewUser", @ResourceFile)</label>
             </div>
         </div>
     </fieldset>
     <div class="buttomForm mt20">
         <div class="center">
             <button type="submit" class="disabled" id="saveButton">@Localization.GetString("Save", @ResourceFile)</button>
-            <button id="cancelEdit" href="#" class="dnnSecondaryAction">@Localization.GetString("Cancel", @ResourceFile)</button>
+            <a type="button" class="cancel-buttom" style="color: white;" href="@Url.Action("Index", "UserManage")">
+                @Localization.GetString("Cancel", @ResourceFile) 
+            </a>
         </div>
     </div>
 </div>
@@ -155,14 +157,4 @@
             document.querySelector('#saveButton').classList.add("disabled");
         }
     }
-    /*globals jQuery, window, Sys */
-    (function ($, Sys) {
-        $(function () {
-            $('#cancelEdit').click(function () { dnnModal.closePopUp(false); });
-            dnnEditBasicSettings();
-            Sys.WebForms.PageRequestManager.getInstance().add_endRequest(function () {
-                dnnEditBasicSettings();
-            });
-        });
-    }(jQuery, window.Sys));
 </script>
