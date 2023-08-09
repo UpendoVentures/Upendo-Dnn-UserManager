@@ -2,9 +2,9 @@
 
 This module allows you to delegate the ability of trusted people on your DNN website to **manage user accounts and security roles** for you. This allows you to expose this admin-level feature to people.  
 
-Ordinarily, you'd have to promote these people to be a full Administrator, when all you wanted was some help managing user accounts.  This has it's own downsides, and they are significant.  
+Ordinarily, you'd have to promote these people to be a full Administrator, when all you wanted was some help managing user accounts.  This has its own downsides, and they are significant.  
 
-Gone are the days of fixing issues created by people that never should have been promoted to being an Administrator!!  🥳 
+Gone are the days of fixing issues created by people that never should have been promoted to an Administrator!!  🥳 
 
 <hr />  
 
@@ -19,7 +19,9 @@ This solution is created and maintained by [Upendo Ventures](https://upendoventu
 <hr />  
 
 ## How to Use 💪🏽  
-All you need to do is [install this module](https://www.youtube.com/watch?v=MgLaV0J_eLk&list=PLojRGd54eWTiK-0y8o5EBYVcCY2yzhTZk&index=4&pp=gAQBiAQB), then add it to a page.  
+All you need to do is [download the latest release](https://github.com/UpendoVentures/Upendo-Dnn-UserManager/releases/latest), and [don't forget to unblock the installation package](https://hotcakescommerce.zendesk.com/hc/en-us/articles/10932095222157-How-to-Unblock-File-Downloads).  
+
+Next, [install this module](https://www.youtube.com/watch?v=MgLaV0J_eLk&list=PLojRGd54eWTiK-0y8o5EBYVcCY2yzhTZk&index=4&pp=gAQBiAQB) like you would at any other time, then add it to a page.  
 
 From there, it should all be self-explanatory and follow the same workflows you normally might use when managing modules on your DNN website.  
 
@@ -27,15 +29,15 @@ You simply assign view permissions to anyone you wish to see that page/module.  
 
 ### Features 🙌🏽  
 
-Once installed and permissions are applied as you desire, the priveleged end-users you just applied to this, will be able to:  
+Once installed and permissions are applied as you desire, the privileged end-users you just applied to this, will be able to:  
 
 - Create user accounts & roles  
 - Assign & manage roles to/from user accounts  
 - Edit/manage user accounts  
 - Delete unauthorized user accounts  
 - Delete soft-deleted user accounts  
-- Mark user account as deleted / not-deleted  
-- Mark user account as approved / no approved (authorized)  
+- Mark user accounts as deleted / not-deleted  
+- Mark user accounts as approved / not approved (authorized)  
 - Promote/demote superusers (superusers-only feature)  
 
 If someone attempts to view the module without the assigned permission, DNN will automatically step in and prevent access.  
