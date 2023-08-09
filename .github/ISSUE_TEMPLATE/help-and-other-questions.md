@@ -12,7 +12,7 @@ We manage a TON of DNN extensions... Look!
 https://upendoventures.com/What/CMS/DNN/Extensions  
 -->
 
-If this request requires additional support (e.g., such as direct email/phone/meeting/development), I have the following interest in helping to [sponsor the effot via GitHub Sponsors](https://github.com/sponsors/UpendoVentures):    
+If this request requires additional support (e.g., such as direct email/phone/meeting/development), I have the following interest in helping to [sponsor the effort via GitHub Sponsors](https://github.com/sponsors/UpendoVentures):    
 
 - [ ] None, please continute to work for me for free :P  
 - [ ] Absolutely, I get value out of this!  
