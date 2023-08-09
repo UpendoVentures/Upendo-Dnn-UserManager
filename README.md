@@ -12,7 +12,7 @@ Gone are the days of fixing issues created by people that never should have been
 
 > Yes, it's not real code. It's just supposed to be fun. :P
 
-This solution is created and maintained by [Upendo Ventures](https://upendoventures.com/What/CMS/DNN/Extensions) for the [DNN CMS Community](https://dnncommunity.org). Please consider [sponsoring us](https://github.com/sponsors/UpendoVentures) for this and the many other open-source efforts we do.  It's a lot.  :)  
+This solution is created and maintained by [Upendo Ventures](https://upendoventures.com/What/CMS/DNN) for the [DNN CMS Community](https://dnncommunity.org). Please consider [sponsoring us](https://github.com/sponsors/UpendoVentures) for this and [the many other open-source efforts we do](https://upendoventures.com/What/CMS/DNN/Extensions).  It's a lot.  :)  
 
 - [Sponsor Us](https://github.com/sponsors/UpendoVentures) (we're grateful at any level 🙏🏽)  
 
