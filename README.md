@@ -1,3 +1,56 @@
+# Upendo DNN User Manager  
+
+This module allows you to delegate the ability of trusted people on your DNN website to **manage user accounts and security roles** for you. This allows you to expose this admin-level feature to people.  
+
+Ordinarily, you'd have to promote these people to be a full Administrator, when all you wanted was some help managing user accounts.  This has it's own downsides, and they are significant.  
+
+Gone are the days of fixing issues created by people that never should have been promoted to being an Administrator!!  🥳 
+
+<hr />  
+
+## `Sponsors == (typeOf superHuman) Awesome;`  
+
+> Yes, it's not real code. It's just supposed to be fun. :P
+
+This solution is created and maintained by [Upendo Ventures](https://upendoventures.com/What/CMS/DNN/Extensions) for the [DNN CMS Community](https://dnncommunity.org). Please consider [sponsoring us](https://github.com/sponsors/UpendoVentures) for this and the many other open-source efforts we do.  It's a lot.  :)  
+
+- [Sponsor Us](https://github.com/sponsors/UpendoVentures) (we're grateful at any level 🙏🏽)  
+
+<hr />  
+
+## How to Use 💪🏽  
+All you need to do is [install this module](https://www.youtube.com/watch?v=MgLaV0J_eLk&list=PLojRGd54eWTiK-0y8o5EBYVcCY2yzhTZk&index=4&pp=gAQBiAQB), then add it to a page.  
+
+From there, it should all be self-explanatory and follow the same workflows you normally might use when managing modules on your DNN website.  
+
+You simply assign view permissions to anyone you wish to see that page/module.  They'll be able to manage user accounts and roles on your behalf.  
+
+### Features 🙌🏽  
+
+Once installed and permissions are applied as you desire, the priveleged end-users you just applied to this, will be able to:  
+
+- Create user accounts & roles  
+- Assign & manage roles to/from user accounts  
+- Edit/manage user accounts  
+- Delete unauthorized user accounts  
+- Delete soft-deleted user accounts  
+- Mark user account as deleted / not-deleted  
+- Mark user account as approved / no approved (authorized)  
+- Promote/demote superusers (superusers-only feature)  
+
+If someone attempts to view the module without the assigned permission, DNN will automatically step in and prevent access.  
+
+If someone attempts to promote themselves or others above their own permission level, they won't be able to.  For example, a non-admin can't create an administrator, and an administrator can't create a superuser.  
+
+# Developers Only 🤓  
+
+If you're not a developer, the rest of this README is not going to interest you. 😉  
+
+
+This solution was built using the [Upendo DNN Generator](https://github.com/UpendoVentures/generator-upendodnn#readme).  
+
+<hr />
+
 **A Special Note to ALL Developers...**  
 Please do not begin any development until you first read through and understand all of the notes in the README below.  
 
@@ -7,9 +60,9 @@ The previous version was not adhering to known best practices and as a result, i
 ## Solution  
 The solution currently expects to be in the following environment, but you can update that to be any version you'd like, provided all extensions will be compatible:  
 
-- DNN:  09.04.04  
-- Hotcakes Commerce:  03.02.03  
-- SQL:  2014+  
+- DNN:  09.09.00  
+- Hotcakes Commerce:  03.06.00  
+- SQL:  2017+  
 
 You should build and develop in a development environment that's separate from the local environment where you'd be testing.  The examples below help to illustrate this...  
 
@@ -181,6 +234,6 @@ The primary branches that are present and used may change over time.  Those pote
 # Support for this Project  
 This solution and the related materials are proudly created and provided by Upendo Ventures.  
 
-- [Visit Us](https://upendoventures.com/Support)  
+- [Visit Us](https://upendoventures.com/What/CMS/DNN)  
 - [E-Mail Us](mailto:solutions@upendoventures.com)  
 - [Other Ways to Contact Us](https://upendoventures.com/Contact-Us)  
