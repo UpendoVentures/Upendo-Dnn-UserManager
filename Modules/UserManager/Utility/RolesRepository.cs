@@ -22,6 +22,7 @@ using System.Linq;
 using Upendo.Modules.UserManager.Models.DnnModel;
 using Upendo.Modules.UserManager.ViewModels;
 using DotNetNuke.Security.Roles;
+using DotNetNuke.Services.Localization;
 
 namespace Upendo.Modules.UserManager.Utility
 {
@@ -83,13 +84,13 @@ namespace Upendo.Modules.UserManager.Utility
         }
         public static List<RoleGroups> GetRoleGroups(int portalId)
         {
-            var roleGroups= RoleController.GetRoleGroups(portalId).ToArray();
+            var roleGroups = RoleController.GetRoleGroups(portalId).ToArray();
             var groups = new List<RoleGroups>();
             foreach (RoleGroupInfo item in roleGroups)
             {
                 var rolGroup = new RoleGroups()
                 {
-                    RoleGroupId=item.RoleGroupID,
+                    RoleGroupId = item.RoleGroupID,
                     RoleGroupName = item.RoleGroupName,
                 };
                 groups.Add(rolGroup);
@@ -101,11 +102,12 @@ namespace Upendo.Modules.UserManager.Utility
             var rolInfo = new RoleInfo()
             {
                 RoleID = rol.RoleId,
-                RoleName= rol.RoleName,
+                RoleName = rol.RoleName,
                 AutoAssignment = rol.AutoAssignment,
-                IsPublic= rol.IsPublic,
+                IsPublic = rol.IsPublic,
                 Description = rol.Description,
-                RoleGroupID= rol.RoleGroupID,
+                RoleGroupID = rol.RoleGroupID,
+                Status = rol.Status,
             };
             RoleController.Instance.AddRole(rolInfo);
         }
@@ -119,15 +121,27 @@ namespace Upendo.Modules.UserManager.Utility
                 AutoAssignment = rol.AutoAssignment,
                 IsPublic = rol.IsPublic,
                 Description = rol.Description,
-                RoleGroupID= rol.RoleGroupID,
+                RoleGroupID = rol.RoleGroupID,
+                Status = rol.Status,
             };
             RoleController.Instance.UpdateRole(rolInfo);
         }
 
-        public static void DeleteRol(int itemId,int portalId)
+        public static void DeleteRol(int itemId, int portalId)
         {
             var u = RoleController.Instance.GetRoleById(portalId, itemId);
             RoleController.Instance.DeleteRole(u);
+        }
+        public static List<object> StatusList()
+        {
+            string ResourceFile = "~/DesktopModules/MVC/Upendo.Modules.UserManager/App_LocalResources/RolesManageController.resx";
+            var statusList= new List<object>
+            {
+               new { Status = -1, Name = Localization.GetString("Pending.Text", ResourceFile) },
+               new { Status = 0, Name = Localization.GetString("Disabled.Text", ResourceFile) },
+               new { Status = 1, Name = Localization.GetString("Approved.Text", ResourceFile) },
+            };
+            return statusList;  
         }
     }
 }
