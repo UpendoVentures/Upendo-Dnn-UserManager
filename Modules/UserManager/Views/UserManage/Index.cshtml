@@ -7,11 +7,12 @@
 
 @{
     string srcLogo = DotNetNuke.Entities.Tabs.TabController.CurrentPage.Title + "/DesktopModules/MVC/Upendo.Modules.UserManager/Images/Upendo-logo-trans.png";
-    var pageIndexMinus = (@Model.PageIndex - 1) <= 0 ? 0 : (@Model.PageIndex - 1);
-    var pageIndexPlus = @Model.PageIndex + 1;
-    double pageIndexPaginate = (@Model.PageIndex * @Model.Take) + 1;
+    var pageIndexMinus = (@Model.PageIndex - @Model.Take) <= 0 ? 0 : (@Model.PageIndex - @Model.Take);
+    var pageIndexPlus = @Model.PageIndex + @Model.Take;
+    double pageIndexPaginate = @Model.PageIndex + 1;
     var pageIndexTo = (pageIndexPaginate + @Model.Take) - 1;
-    double pageView = Model.PageIndex + 1;
+    var skipTo = @Model.PageIndex + @Model.Take;
+    double pageView = (skipTo / @Model.Take) == 0 ? 1 : (skipTo / @Model.Take);
     string ResourceFile = "~/DesktopModules/MVC/Upendo.Modules.UserManager/App_LocalResources/Index.resx";
     string SharedResourceFile = "~/DesktopModules/MVC/Upendo.Modules.UserManager/App_LocalResources/Shared.resx";
 
@@ -24,19 +25,19 @@
             </a>
             <span id="dialogs-DeleteUnauthorized" class="dnnActions" style="display: initial;">
                 <a type="button" class="confirm btn btn-warning" href="@Url.Action("DeleteUnauthorizedUsers", "UserManage", new {})" style="color: white;">
-                    <span class="glyphicon glyphicon-trash color-white" aria-hidden="true"></span> 
+                    <span class="glyphicon glyphicon-trash color-white" aria-hidden="true"></span>
                     @Localization.GetString("DeleteUnauthorizedUsers", @ResourceFile)
                 </a>
             </span>
             <span id="dialogs-RemoveDelete" class="dnnActions" style="display: initial;">
                 <a type="button" class="confirm btn btn-warning" href="@Url.Action("RemoveDeletedUsers", "UserManage", new {})" style="color: white;">
-                    <span class="glyphicon glyphicon-trash color-white" aria-hidden="true"></span> 
+                    <span class="glyphicon glyphicon-trash color-white" aria-hidden="true"></span>
                     @Localization.GetString("RemoveDeleteUsers", @ResourceFile)
                 </a>
             </span>
             <span class="dnnActions" style="display: initial;">
                 <a type="button" class="btn btn-info" href="@Url.Action("Index", "RolesManage", new {})" style="color: white;">
-                    <span class="glyphicon glyphicon-tasks color-white" aria-hidden="true"></span> 
+                    <span class="glyphicon glyphicon-tasks color-white" aria-hidden="true"></span>
                     @Localization.GetString("RolesList", @ResourceFile)
                 </a>
             </span>
@@ -97,30 +98,33 @@
                         </a>
                         <ul class="dropdown-menu">
                             <li>
-                                <a class="confirm page-link" href="@Url.Action("Index", "UserManage", new { take = @Model.Take, pageIndex = @Model.PageIndex, search=@Model.Search, filter = "8", orderBy=@Model.OrderBy , order=@Model.Order})">
+                                <a class="confirm page-link" href="@Url.Action("Index", "UserManage", new { take = @Model.Take, pageIndex = @Model.PageIndex, search=@Model.Search, filter = "All", orderBy=@Model.OrderBy , order=@Model.Order})">
                                     <span aria-hidden="true">@Localization.GetString("All", @SharedResourceFile)</span>
                                 </a>
                             </li>
                             <li>
-                                <a class="confirm page-link" href="@Url.Action("Index", "UserManage", new { take = @Model.Take, pageIndex = @Model.PageIndex, search=@Model.Search, filter = "0", orderBy=@Model.OrderBy , order=@Model.Order})">
+                                <a class="confirm page-link" href="@Url.Action("Index", "UserManage", new { take = @Model.Take, pageIndex = @Model.PageIndex, search=@Model.Search, filter = "Authorized", orderBy=@Model.OrderBy , order=@Model.Order})">
                                     <span aria-hidden="true">@Localization.GetString("Authorized", @SharedResourceFile)</span>
                                 </a>
                             </li>
                             <li>
-                                <a class="confirm page-link" href="@Url.Action("Index", "UserManage", new { take = @Model.Take, pageIndex = @Model.PageIndex, search=@Model.Search, filter = "1", orderBy=@Model.OrderBy , order=@Model.Order})">
+                                <a class="confirm page-link" href="@Url.Action("Index", "UserManage", new { take = @Model.Take, pageIndex = @Model.PageIndex, search=@Model.Search, filter = "Unauthorized", orderBy=@Model.OrderBy , order=@Model.Order})">
                                     <span aria-hidden="true">@Localization.GetString("Unauthorized", @SharedResourceFile)</span>
                                 </a>
                             </li>
                             <li>
-                                <a class="confirm page-link" href="@Url.Action("Index", "UserManage", new { take = @Model.Take, pageIndex = @Model.PageIndex, search=@Model.Search, filter = "2", orderBy=@Model.OrderBy , order=@Model.Order})">
+                                <a class="confirm page-link" href="@Url.Action("Index", "UserManage", new { take = @Model.Take, pageIndex = @Model.PageIndex, search=@Model.Search, filter = "Deleted", orderBy=@Model.OrderBy , order=@Model.Order})">
                                     <span aria-hidden="true">@Localization.GetString("Deleted", @SharedResourceFile)</span>
                                 </a>
                             </li>
-                            <li>
-                                <a class="confirm page-link" href="@Url.Action("Index", "UserManage", new { take = @Model.Take, pageIndex = @Model.PageIndex, search=@Model.Search, filter = "3", orderBy=@Model.OrderBy , order=@Model.Order})">
-                                    <span aria-hidden="true">@Localization.GetString("SuperUsers", @SharedResourceFile)</span>
-                                </a>
-                            </li>
+                            @if (ViewBag.IsCurrentUserSuperUser)
+                            {
+                                <li>
+                                    <a class="confirm page-link" href="@Url.Action("Index", "UserManage", new { take = @Model.Take, pageIndex = @Model.PageIndex, search = @Model.Search, filter = "SuperUsers", orderBy = @Model.OrderBy, order = @Model.Order })">
+                                        <span aria-hidden="true">@Localization.GetString("SuperUsers", @SharedResourceFile)</span>
+                                    </a>
+                                </li>
+                            }
                         </ul>
                     </li>
                     <li class="dropdown" style="margin: 0 10px !important;">
