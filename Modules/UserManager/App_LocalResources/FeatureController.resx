@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="EditUser.Text" xml:space="preserve">
-    <value>Edit User</value>
+    <value>Edit Users</value>
   </data>
   <data name="UpgradeSuccessful.Text" xml:space="preserve">
     <value>Upgrade IUpgradeable successful</value>
