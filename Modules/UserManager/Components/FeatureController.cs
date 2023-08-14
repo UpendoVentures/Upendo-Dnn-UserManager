@@ -20,11 +20,43 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 using System.Collections.Generic;
 using DotNetNuke.Entities.Modules;
 using DotNetNuke.Services.Search;
+using DotNetNuke.Entities.Modules.Definitions;
+using DotNetNuke.Security.Permissions;
+using DotNetNuke.Services.Localization;
 
 namespace Upendo.Modules.UserManager.Components
 {
-    public class UserManagerController 
+    public class UserManagerController : IUpgradeable
     {
+        private readonly string ResourceFile = "~/DesktopModules/MVC/Upendo.Modules.UserManager/App_LocalResources/FeatureController.resx";
 
+        public string UpgradeModule(string Version)
+        {
+            switch (Version)
+            {
+                case "01.00.00":
+                    InitModulePermissions();
+                    break;
+            }
+            return Localization.GetString("UpgradeSuccessful.Text", ResourceFile);
+        }
+        private void InitModulePermissions()
+        {
+            PermissionController permCtl = new PermissionController();
+            DesktopModuleInfo desktopInfo = DesktopModuleController.GetDesktopModuleByModuleName("Upendo DNN User Manager", 0);
+            ModuleDefinitionInfo modDefInfo = ModuleDefinitionController.GetModuleDefinitionByFriendlyName("Upendo DNN User Manager", desktopInfo.DesktopModuleID);
+            try
+            {
+                PermissionInfo pi = new PermissionInfo
+                {
+                    ModuleDefID = modDefInfo.ModuleDefID,
+                    PermissionCode = "SECURITY_MODULE",
+                    PermissionKey = "EDIT",
+                    PermissionName = Localization.GetString("EditUser.Text", ResourceFile)
+                };
+                permCtl.AddPermission(pi);
+            }
+            catch { }
+        }
     }
 }
