@@ -41,6 +41,7 @@ namespace Upendo.Modules.UserManager.Models.DnnModel
         public bool UpdatePassword { get; set; }
         public string LastIpaddress { get; set; }
         public bool IsDeleted { get; set; }
+        public bool Approved { get; set; }
         public int? CreatedByUserId { get; set; }
         public DateTime? CreatedOnDate { get; set; }
         public int? LastModifiedByUserId { get; set; }
