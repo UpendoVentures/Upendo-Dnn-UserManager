@@ -19,6 +19,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 using DotNetNuke.Entities.Users;
 using DotNetNuke.Framework.JavaScriptLibraries;
+using DotNetNuke.Security.Permissions;
 using DotNetNuke.Security.Roles;
 using DotNetNuke.Services.Localization;
 using DotNetNuke.Web.Mvc.Framework.ActionFilters;
@@ -36,45 +37,60 @@ namespace Upendo.Modules.UserManager.Controllers
         private readonly string ResourceFile = "~/DesktopModules/MVC/Upendo.Modules.UserManager/App_LocalResources/UserManageController.resx";
         private readonly string SharedResourceFile = "~/DesktopModules/MVC/Upendo.Modules.UserManager/App_LocalResources/Shared.resx";
 
+        public UserManageController()
+        {
+            DotNetNuke.Framework.JavaScriptLibraries.JavaScript.RequestRegistration(CommonJs.DnnPlugins);
+        }
         [ModuleAction(ControlKey = "Edit", TitleKey = "AddItem")]
         public ActionResult Index(double? take, int? pageIndex, string filter, int? goToPage, string search, string orderBy, string order)
         {
             // Check if the user is authenticated
             bool isAuthenticated = Request.IsAuthenticated;
 
-            if (!isAuthenticated)
+            // Check if the authenticated user has the required permission
+            var hasPermission = Functions.HasPermission(ModuleContext);
+
+            // Check if the user is authenticated and has the required permission
+            if (!isAuthenticated || !hasPermission)
             {
-                // User not authenticated, return error message
                 string errorMessage = Localization.GetString("NotPermissions.Text", ResourceFile);
                 ViewBag.ErrorMessage = errorMessage;
                 return View("Error");
             }
             else
             {
+                var currentUser = UserController.Instance.GetCurrentUserInfo();
+                // Pass the information of whether the current user is a SuperUser to the view
+                ViewBag.IsCurrentUserSuperUser = currentUser.IsSuperUser;
+
                 var takeValue = take ?? default;
                 var pageIndexValue = take == null ? default : pageIndex.Value;
                 var portalId = ModuleContext.PortalId;
-                var portalSettings = ModuleContext.PortalSettings;
-                string serverUrl = $"{Request.Url.Scheme}://{portalSettings.PortalAlias.HTTPAlias}";
                 switch (filter)
                 {
-                    case "8":
+                    case "All":
                         ViewBag.Filter = Localization.GetString("All", SharedResourceFile); ;
                         break;
-                    case "0":
+                    case "Authorized":
                         ViewBag.Filter = Localization.GetString("Authorized", SharedResourceFile);
                         break;
-                    case "1":
+                    case "Unauthorized":
                         ViewBag.Filter = Localization.GetString("Unauthorized", SharedResourceFile);
                         break;
-                    case "2":
+                    case "Deleted":
                         ViewBag.Filter = Localization.GetString("Deleted", SharedResourceFile);
                         break;
-                    case "3":
-                        ViewBag.Filter = Localization.GetString("SuperUsers", SharedResourceFile);
+                    case "SuperUsers":
+                        // Determine the appropriate filter value based on whether the current user is a SuperUser
+                        filter = currentUser.IsSuperUser ? "SuperUsers" : "Authorized";
+
+                        // Set the ViewBag.Filter message based on whether the current user is a SuperUser
+                        ViewBag.Filter = currentUser.IsSuperUser
+                            ? Localization.GetString("SuperUsers", SharedResourceFile)
+                            : Localization.GetString("Authorized", SharedResourceFile);
                         break;
                     default:
-                        filter = "0";
+                        filter = "Authorized";
                         ViewBag.Filter = Localization.GetString("Authorized", SharedResourceFile);
                         break;
                 }
@@ -88,9 +104,9 @@ namespace Upendo.Modules.UserManager.Controllers
                     Search = search,
                     OrderBy = orderBy,
                     Order = order,
-                    ServerUrl = serverUrl,
+                    ServerUrl = "",
                 };
-                var result = UserRepository.GetUsers(pagination);
+                var result = UserRepository.GetUsers(pagination, portalId);
                 return View(result);
             }
         }
@@ -104,6 +120,7 @@ namespace Upendo.Modules.UserManager.Controllers
         [HttpPost]
         public ActionResult Create(UserViewModel item)
         {
+            DotNetNuke.Framework.JavaScriptLibraries.JavaScript.RequestRegistration(CommonJs.DnnPlugins);
             var portalId = ModuleContext.PortalId;
             var user = UserController.GetUserByName(portalId, item.Username);
             ModelState.Remove("UserId");
@@ -113,7 +130,7 @@ namespace Upendo.Modules.UserManager.Controllers
                 ModelState.AddModelError(string.Empty, @errorMessage);
                 return View(item);
             }
-          
+
             if (!ModelState.IsValid)
             {
                 return View(item);
@@ -126,26 +143,36 @@ namespace Upendo.Modules.UserManager.Controllers
         {
             var portalId = ModuleContext.PortalId;
             var item = UserRepository.GetUser(portalId, itemId);
+
+            // Get the current authenticated user
+            var currentUser = UserController.Instance.GetCurrentUserInfo();
+            ViewBag.IsCurrentUserSuperUser = currentUser.IsSuperUser;
+            ViewBag.OwnProfile = currentUser.UserID != itemId ? false : currentUser.IsSuperUser ? false : true;
             return View(item);
         }
 
         [HttpPost]
         public ActionResult Edit(UserViewModel item)
         {
-            //int editedFor = User.UserID;
+            var currentUser = UserController.Instance.GetCurrentUserInfo();
             var portalId = ModuleContext.PortalId;
-            UserRepository.EditUser(portalId, item);
+            if (currentUser.UserID != item.UserId)
+            {
+                UserRepository.EditUser(portalId, item);
+            }
             return RedirectToDefaultRoute();
         }
         public ActionResult Details(int itemId)
         {
             DotNetNuke.Framework.JavaScriptLibraries.JavaScript.RequestRegistration(CommonJs.DnnPlugins);
+
             var portalId = ModuleContext.PortalId;
             var item = UserRepository.GetUser(portalId, itemId);
             return View(item);
         }
         public ActionResult Delete(int itemId)
         {
+            DotNetNuke.Framework.JavaScriptLibraries.JavaScript.RequestRegistration(CommonJs.DnnPlugins);
             var portalId = ModuleContext.PortalId;
             UserRepository.DeleteUser(portalId, itemId);
             return RedirectToDefaultRoute();
@@ -171,12 +198,14 @@ namespace Upendo.Modules.UserManager.Controllers
         }
         public ActionResult DeleteUnauthorizedUsers()
         {
+            DotNetNuke.Framework.JavaScriptLibraries.JavaScript.RequestRegistration(CommonJs.DnnPlugins);
             var portalId = ModuleContext.PortalId;
             UserController.DeleteUnauthorizedUsers(portalId);
             return RedirectToDefaultRoute();
         }
         public ActionResult RemoveDeletedUsers()
         {
+            DotNetNuke.Framework.JavaScriptLibraries.JavaScript.RequestRegistration(CommonJs.DnnPlugins);
             var portalId = ModuleContext.PortalId;
             UserController.RemoveDeletedUsers(portalId);
             return RedirectToDefaultRoute();
@@ -184,18 +213,27 @@ namespace Upendo.Modules.UserManager.Controllers
 
         public ActionResult UserRoles(double? take, int? pageIndex, int? goToPage, string search, int itemId, int? roleId, string actionView)
         {
-            // Check if the user is authenticated
             bool isAuthenticated = Request.IsAuthenticated;
+            // Check if the authenticated user has the required permission
+            var hasPermission = Functions.HasPermission(ModuleContext);
 
-            if (!isAuthenticated)
+            // Check if the user is authenticated and has the required permission
+            if (!isAuthenticated || !hasPermission)
             {
-                // User not authenticated, return error message
                 string errorMessage = Localization.GetString("NotPermissions.Text", ResourceFile);
                 ViewBag.ErrorMessage = errorMessage;
                 return View("Error");
             }
             else
             {
+                var currentUser = UserController.Instance.GetCurrentUserInfo();
+                var ownProfile = currentUser.UserID != itemId ? false : currentUser.IsSuperUser ? false : true;
+                // Check if it's the user's own profile. If not, or if the user is a superuser, set ownProfile to true.
+                if (ownProfile)
+                {
+                    // Redirect to the default route if it's the user's own profile or if the user is a superuser.
+                    return RedirectToDefaultRoute();
+                }
                 double takeValue = take == null ? default : take.Value;
                 int pageIndexValue = take == null ? default : pageIndex.Value;
                 int roleIdValue = roleId == null ? default : roleId.Value;
@@ -207,7 +245,6 @@ namespace Upendo.Modules.UserManager.Controllers
                     if (actionView == "Add")
                     {
                         RoleController.Instance.AddUserRole(portalId, itemId, roleIdValue, RoleStatus.Approved, false, DateTime.Now, DateTime.Now.AddDays(30));
-
                     }
                     else
                     {
