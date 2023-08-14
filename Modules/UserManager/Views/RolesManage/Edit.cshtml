@@ -22,6 +22,11 @@
             @Html.DropDownListFor(m => m.RoleGroupID, new SelectList(ViewBag.RoleGroups, "RoleGroupId",
             "RoleGroupName"))
         </div>
+        <div class="dnnFormItem">
+            <div><label>@Localization.GetString("Status", @ResourceFile)</label></div>
+            @Html.DropDownListFor(m => m.Status, new SelectList(ViewBag.StatusList, "Status",
+            "Name"))
+        </div>
         <div class="dnnFormItem col-3">
             @Html.CheckBoxFor(m => m.AutoAssignment, new { @id = "chkAutoAssign" })
             <label for="chkAutoAssign">@Localization.GetString("AutoAssignment", @ResourceFile)</label>

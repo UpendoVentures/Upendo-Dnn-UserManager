@@ -39,7 +39,7 @@ namespace Upendo.Modules.UserManager.Utility
         /// </summary>
         /// <param name="pagination"></param>
         /// <returns></returns>
-        public static DataTableResponse<Users> GetUsers(Pagination pagination)
+        public static DataTableResponse<Users> GetUsers(Pagination pagination, int portalId)
         {
             pagination.Take = pagination.Take == 0 ? 10 : pagination.Take;
             int goToPage = pagination.GoToPage ?? default;
@@ -51,27 +51,37 @@ namespace Upendo.Modules.UserManager.Utility
             {
                 pagination.PageIndex = 0;
             }
-            var result = new List<UserViewModel>();
-            var users = new List<Users>();
-            var usersTotal = 0.0;
-            var url = $"/API/PersonaBar/Users/GetUsers?searchText={pagination.Search}&filter={pagination.Filter}&pageIndex={pagination.PageIndex}&pageSize={pagination.Take}&sortColumn={pagination.OrderBy}&sortAscending={ (pagination.Order != "desc") }&resetIndex=true";
-            string apiUrl = pagination.ServerUrl + url;
-            ServicePointManager.ServerCertificateValidationCallback = delegate { return true; };
-            WebRequest request = WebRequest.Create(apiUrl);
-            request.Method = "GET";
-            request.Headers.Add(HttpRequestHeader.Cookie, Functions.DNNCookie());
-            using (WebResponse response = request.GetResponse())
-            using (Stream stream = response.GetResponseStream())
-            using (StreamReader reader = new StreamReader(stream))
+            var currentUser = UserController.Instance.GetCurrentUserInfo();
+            var totalRecords = 0;
+
+            switch (pagination.Filter)
             {
-                string jsonResponse = reader.ReadToEnd();
-                var deserializeObject = Newtonsoft.Json.JsonConvert.DeserializeObject<ResultJsonViewModel>(jsonResponse);
-                result = deserializeObject.Results;
-                users = (from UserViewModel u in result select Functions.MakeUserFromViewModel(u)).ToList();
-                usersTotal = deserializeObject.TotalResults;
+                case "Unauthorized":
+                    var getUsers = UserController.GetUnAuthorizedUsers(portalId).ToArray();
+                    return Functions.ListOfUsers(getUsers, pagination);
+
+                case "Deleted":
+                    getUsers = UserController.GetDeletedUsers(portalId).ToArray();
+                    return Functions.ListOfUsers(getUsers, pagination);
+
+                case "SuperUsers":
+                    var superUsers = currentUser.IsSuperUser ? UserController.GetUsers(-1, 1, int.MaxValue, ref totalRecords, false, true).ToArray()
+                                     : new Users[0];
+                    getUsers = superUsers;
+                    return Functions.ListOfUsers(getUsers, pagination);
+
+                case "All":
+                    getUsers = UserController.GetUsers(portalId).ToArray();
+                    var deletedUsers = UserController.GetDeletedUsers(portalId).ToArray();
+                    var super_Users = currentUser.IsSuperUser ? UserController.GetUsers(-1, 1, int.MaxValue, ref totalRecords, false, true).ToArray()
+                                 : new Users[0];
+                    getUsers = getUsers.Concat(deletedUsers).Concat(super_Users).ToArray();
+                    return Functions.ListOfUsers(getUsers, pagination);
+
+                default:
+                    getUsers = UserController.GetUsers(portalId).ToArray();
+                    return Functions.ListOfUsers(getUsers, pagination);
             }
-            var pagesTotal = Math.Ceiling(usersTotal / pagination.Take);
-            return new DataTableResponse<Users>() { Take = pagination.Take, PageIndex = pagination.PageIndex, PagesTotal = pagesTotal, RecordsTotal = usersTotal, GoToPage = goToPage, Search = pagination.Search, OrderBy = pagination.OrderBy, Order = pagination.Order, Data = users };
         }
 
         /// <summary>
@@ -210,6 +220,7 @@ namespace Upendo.Modules.UserManager.Utility
         /// <param name="user"></param>
         public static void EditUser(int portalId, UserViewModel user)
         {
+            var currentUser = UserController.Instance.GetCurrentUserInfo();
             var userInfo = UserController.GetUserById(portalId, user.UserId);
             if (userInfo == null) return;
             userInfo.FirstName = user.FirstName;
@@ -217,8 +228,8 @@ namespace Upendo.Modules.UserManager.Utility
             userInfo.Email = user.Email;
             userInfo.Username = user.Username;
             userInfo.PortalID = portalId;
-            userInfo.IsSuperUser = user.IsSuperUser;
-            userInfo.IsDeleted = user.IsDeleted;
+            userInfo.IsSuperUser = currentUser.IsSuperUser ? user.IsSuperUser : false;
+            userInfo.IsDeleted = currentUser.IsSuperUser ? user.IsDeleted : false;
             userInfo.Membership.Approved = user.Approved;
             userInfo.Membership.LockedOut = user.LockedOut;
             if (!string.IsNullOrEmpty(user.Password) && user.Password != " ")

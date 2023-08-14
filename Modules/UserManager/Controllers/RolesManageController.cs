@@ -21,6 +21,7 @@ using DotNetNuke.Framework.JavaScriptLibraries;
 using DotNetNuke.Services.Localization;
 using DotNetNuke.Web.Mvc.Framework.ActionFilters;
 using DotNetNuke.Web.Mvc.Framework.Controllers;
+using System.Collections.Generic;
 using System.Web.Mvc;
 using Upendo.Modules.UserManager.Utility;
 using Upendo.Modules.UserManager.ViewModels;
@@ -32,15 +33,22 @@ namespace Upendo.Modules.UserManager.Controllers
     {
         private readonly string ResourceFile = "~/DesktopModules/MVC/Upendo.Modules.UserManager/App_LocalResources/UserManageController.resx";
 
+        public RolesManageController()
+        {
+            DotNetNuke.Framework.JavaScriptLibraries.JavaScript.RequestRegistration(CommonJs.DnnPlugins);
+        }
+
         [ModuleAction(ControlKey = "Edit", TitleKey = "AddItem")]
         public ActionResult Index(double? take, int? pageIndex, string filter, int? goToPage, string search, string orderBy, string order)
         {
             // Check if the user is authenticated
             bool isAuthenticated = Request.IsAuthenticated;
+            // Check if the authenticated user has the required permission
+            var hasPermission = Functions.HasPermission(ModuleContext);
 
-            if (!isAuthenticated)
+            // Check if the user is authenticated and has the required permission
+            if (!isAuthenticated || !hasPermission)
             {
-                // User not authenticated, return error message
                 string errorMessage = Localization.GetString("NotPermissions.Text", ResourceFile);
                 ViewBag.ErrorMessage = errorMessage;
                 return View("Error");
@@ -62,6 +70,7 @@ namespace Upendo.Modules.UserManager.Controllers
             DotNetNuke.Framework.JavaScriptLibraries.JavaScript.RequestRegistration(CommonJs.DnnPlugins);
             var portalId = ModuleContext.PortalId;
             ViewBag.RoleGroups = RolesRepository.GetRoleGroups(portalId);
+            ViewBag.StatusList = RolesRepository.StatusList();
             return View();
         }
 
@@ -76,6 +85,7 @@ namespace Upendo.Modules.UserManager.Controllers
         {
             var portalId = ModuleContext.PortalId;
             ViewBag.RoleGroups = RolesRepository.GetRoleGroups(portalId);
+            ViewBag.StatusList = RolesRepository.StatusList();
             var item = RolesRepository.GetRole(portalId, itemId);
             return View(item);
         }
@@ -88,12 +98,14 @@ namespace Upendo.Modules.UserManager.Controllers
         }
         public ActionResult Details(int itemId)
         {
+            DotNetNuke.Framework.JavaScriptLibraries.JavaScript.RequestRegistration(CommonJs.DnnPlugins);
             var portalId = ModuleContext.PortalId;
             var item = RolesRepository.GetRole(portalId, itemId);
             return View(item);
         }
         public ActionResult Delete(int itemId)
         {
+            DotNetNuke.Framework.JavaScriptLibraries.JavaScript.RequestRegistration(CommonJs.DnnPlugins);
             var portalId = ModuleContext.PortalId;
             RolesRepository.DeleteRol(itemId, portalId);
             return RedirectToAction("Index");

@@ -135,4 +135,7 @@
   <data name="Save.Text" xml:space="preserve">
     <value>Save</value>
   </data>
+  <data name="Status.Text" xml:space="preserve">
+    <value>Status</value>
+  </data>
 </root>

@@ -147,7 +147,9 @@
     <Content Include="App_LocalResources\UserManageController.resx" />
     <Content Include="App_LocalResources\UserRoles.resx" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="App_LocalResources\FeatureController.resx" />
+  </ItemGroup>
   <ItemGroup>
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -167,6 +169,9 @@
     <Content Include="Views\UserManage\Index.cshtml" />
     <Content Include="Views\UserManage\UserRoles.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_LocalResources\RolesManageController.resx" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">14.0</VisualStudioVersion>

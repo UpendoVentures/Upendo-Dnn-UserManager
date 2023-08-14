@@ -55,13 +55,13 @@
                 {
                     @id = "confirm_password",
                     @type = "password",
-                    onkeyup ="validatePassword();"
+                    onkeyup = "validatePassword();"
                 })
                 <span id='message'></span>
             </div>
             <div class="col-12 mt20" style="font-size: 16px;">
-                <div class="col-3">
-                    @Html.CheckBoxFor(m => m.IsSuperUser, new { @id = "chkIsSuperuser" })
+                <div class="col-6">
+                    @Html.CheckBoxFor(m => m.IsSuperUser, new { @id = "chkIsSuperuser", @class = "superuser-checkbox" })
                     <label for="chkIsSuperuser">@Localization.GetString("IsSuperUser", @ResourceFile)</label>
                 </div>
                 <div class="col-3">
@@ -80,7 +80,7 @@
             </div>
         </fieldset>
         <div class="col-12 mt5">
-            <a class="btn btn-info btn-sm" href="@Url.Action("UserRoles", "UserManage", new {itemId = @Model.UserId})">
+            <a class="btn btn-info btn-sm" id="userRolManagement" href="@Url.Action("UserRoles", "UserManage", new {itemId = @Model.UserId})">
                 <span class="color-white">@Localization.GetString("UserRoleManagement", @ResourceFile)</span>
             </a>
         </div>
@@ -196,4 +196,32 @@
             });
         });
     }(jQuery, window.Sys));
+     document.addEventListener("DOMContentLoaded", function() {
+        var isCurrentUserSuperUser = @Json.Encode(ViewBag.IsCurrentUserSuperUser);
+        var superuserCheckbox = document.getElementById("chkIsSuperuser");
+
+        if (superuserCheckbox) {
+            superuserCheckbox.disabled = !isCurrentUserSuperUser;
+        }
+     });
+document.addEventListener("DOMContentLoaded", function() {
+    var ownProfile = @Json.Encode(ViewBag.OwnProfile);
+    var userRoleManagementButton = document.getElementById("userRolManagement");
+
+    if (ownProfile) {
+        var formElements = document.querySelectorAll('#saveButton, input[type="text"], input[type="email"], input[type="password"], #chkIsSuperuser, #chkApproved, #chkIsDeleted, #chkSendEmail');
+
+        for (var i = 0; i < formElements.length; i++) {
+            formElements[i].disabled = true;
+            formElements[i].classList.add("disabled-field");
+        }
+        if (userRoleManagementButton) {
+            userRoleManagementButton.classList.add("disabled-field");
+            userRoleManagementButton.onclick = function(event) {
+                event.preventDefault();
+            };
+        }
+    }
+});
+
 </script>
