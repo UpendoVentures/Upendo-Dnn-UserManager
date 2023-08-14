@@ -24,6 +24,7 @@ using DotNetNuke.Entities.Users;
 using Upendo.Modules.UserManager.ViewModels;
 using System;
 using System.Web;
+using DotNetNuke.Security.Permissions;
 
 namespace Upendo.Modules.UserManager.Utility
 {
@@ -41,9 +42,11 @@ namespace Upendo.Modules.UserManager.Utility
                 Email = u.Email,
                 IsSuperUser = u.IsSuperUser,
                 IsDeleted = u.IsDeleted,
+                Approved = u.Membership.Approved,
             };
             return user;
-        }public static Users MakeUserFromViewModel(UserViewModel u)
+        }
+        public static Users MakeUserFromViewModel(UserViewModel u)
         {
             var user = new Users()
             {
@@ -58,9 +61,58 @@ namespace Upendo.Modules.UserManager.Utility
             };
             return user;
         }
+        public static DataTableResponse<Users> ListOfUsers(object[] getUsers, Pagination pagination)
+        {
+            var users = new List<Users>();
+            foreach (UserInfo u in getUsers)
+            {
+                users.Add(MakeUser(u));
+            }
+            users = users.OrderBy(x => x.UserId).ToList();
+            if (pagination.Filter == "Authorized")
+            {
+                users = users.Where(u => u.Approved).ToList();
+            }
+            var usersTotal = users.Count();
+            double pagesTotal = usersTotal / pagination.Take;
+            if (!string.IsNullOrEmpty(pagination.Search) && pagination.Search != " ")
+            {
+                string searchTerm = pagination.Search.Trim().ToLower();
+                users = users
+                    .Where(e =>
+                        (e.FirstName?.ToLower()?.Contains(searchTerm) ?? false) ||
+                        (e.DisplayName?.ToLower()?.Contains(searchTerm) ?? false) ||
+                        (e.Email?.ToLower()?.Contains(searchTerm) ?? false) ||
+                        (e.Username?.ToLower()?.Contains(searchTerm) ?? false)
+                    )
+                    .ToList();
+                if (users.Count < 10)
+                {
+                    pagination.PageIndex = 0;
+                }
+            }
+            users = users.Skip(pagination.PageIndex).Take((int)pagination.Take).ToList();
+            pagesTotal = Math.Ceiling(Math.Max(pagesTotal, 2)) == 0 ? 1 : Math.Ceiling(Math.Max(pagesTotal, 2));
+            if (!string.IsNullOrEmpty(pagination.OrderBy))
+            {
+                switch (pagination.OrderBy)
+                {
+                    case "Username":
+                        users = pagination.Order == "desc" ? users.OrderByDescending(x => x.Username).ToList() : users.OrderBy(x => x.Username).ToList();
+                        break;
+                    case "DisplayName":
+                        users = pagination.Order == "desc" ? users.OrderByDescending(x => x.DisplayName).ToList() : users.OrderBy(x => x.DisplayName).ToList();
+                        break;
+                    case "Email":
+                        users = pagination.Order == "desc" ? users.OrderByDescending(x => x.Email).ToList() : users.OrderBy(x => x.Email).ToList();
+                        break;
+                }
+            }
+            return new DataTableResponse<Users>() { Take = pagination.Take, PageIndex = pagination.PageIndex, PagesTotal = pagesTotal, RecordsTotal = usersTotal, Search = pagination.Search, OrderBy = pagination.OrderBy, Order = pagination.Order, Data = users };
+        }
         public static DataTableResponse<RolesViewModel> ListOfRoles(List<RolesViewModel> roles, int rolesTotal, double take, int pageIndex, int goToPageValue, string search, string orderBy, string order)
         {
-            if (!string.IsNullOrEmpty(search)&& search!=" ")
+            if (!string.IsNullOrEmpty(search) && search != " ")
             {
                 roles = roles.Where(e => string.Concat(e.RoleName.ToLower()).Contains(search.Trim().ToLower())).ToList();
                 rolesTotal = roles.Count();
@@ -91,6 +143,13 @@ namespace Upendo.Modules.UserManager.Utility
             string dotNetNukeCookie = currentRequest.Cookies[".DOTNETNUKE"]?.Value;
             var result = $".ASPXANONYMOUS={aspxAnonymousCookie}; dnn_IsMobile={dnnIsMobileCookie}; language={languageCookie}; __RequestVerificationToken={requestVerificationTokenCookie}; authentication={authenticationCookie}; .DOTNETNUKE={dotNetNukeCookie}";
             return result;
+        }
+        public static bool HasPermission(DotNetNuke.UI.Modules.ModuleInstanceContext ModuleContext)
+        {
+            int moduleId = ModuleContext.ModuleId;
+            int tabId = ModuleContext.TabId; 
+            ModulePermissionCollection permissions = ModulePermissionController.GetModulePermissions(moduleId, tabId);
+            return ModulePermissionController.HasModulePermission(permissions, "EDIT");
         }
     }
 }
