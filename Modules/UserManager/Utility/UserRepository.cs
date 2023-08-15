@@ -94,16 +94,18 @@ namespace Upendo.Modules.UserManager.Utility
         /// <param name="search"></param>
         /// <param name="itemId"></param>
         /// <returns></returns>
-        public static DataTableResponse<RolesViewModel> GetRolesByUser(double take, int pageIndex, int? goToPage, int
-            portalId, string search, int itemId)
+        public static DataTableResponse<RolesViewModel> GetRolesByUser(double take, int pageIndex, int? goToPage, int portalId, string search, int itemId)
         {
             var roles = RoleController.Instance.GetRoles(portalId);
             var rolesViewModel = new List<RolesViewModel>();
             var userInfo = UserController.GetUserById(portalId, itemId);
+            UserInfo currentUser = UserController.Instance.GetCurrentUserInfo();
+            bool isAdminOrSuperUser = currentUser.IsSuperUser || currentUser.IsInRole("Administrators");
 
             foreach (var item in roles)
             {
                 if (item.Status != RoleStatus.Approved) continue;
+                if (item.RoleName == "Administrators" && !isAdminOrSuperUser) continue;
                 var rolViewModel = new RolesViewModel()
                 {
                     RoleId = item.RoleID,
