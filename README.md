@@ -1,4 +1,4 @@
-# Upendo DNN User Manager  
+# Upendo DNN User Manager 👥  
 
 This module allows you to delegate the ability of trusted people on your DNN website to **manage user accounts and security roles** for you. This allows you to expose this admin-level feature to people.  
 
