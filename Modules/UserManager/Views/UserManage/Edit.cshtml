@@ -1,0 +1,227 @@
+@inherits DotNetNuke.Web.Mvc.Framework.DnnWebViewPage<Upendo.Modules.UserManager.ViewModels.UserViewModel>
+
+@using System.Collections.Generic
+@using DotNetNuke.Web.Mvc.Helpers
+@using DotNetNuke.Services.Localization;
+
+@{
+    string defaultUserPicture = "/DesktopModules/MVC/Upendo.Modules.UserManager/Images/defaultUserPicture.jpg";
+    string ResourceFile = "~/DesktopModules/MVC/Upendo.Modules.UserManager/App_LocalResources/AddEdit.resx";
+}
+<div class="col-7">
+    <div class="accountSettings">
+        <h4 class="center" id="title">@Localization.GetString("AccountSettings", @ResourceFile)</h4>
+        @if (!ViewData.ModelState.IsValid)
+        {
+            <div class="alert alert-danger">
+                @Html.ValidationSummary(false, "", new { @class = "" })
+            </div>
+        }
+        <fieldset>
+            <div class="formItem col-6">
+                <div><label>@Localization.GetString("FirstName", @ResourceFile)</label></div>
+                @Html.TextBoxFor(m => m.FirstName)
+                @Html.ValidationMessageFor(m => m.FirstName)
+            </div>
+            <div class="formItem col-6">
+                <div><label>@Localization.GetString("LastName", @ResourceFile)</label></div>
+                @Html.TextBoxFor(m => m.LastName)
+                @Html.ValidationMessageFor(m => m.LastName)
+            </div>
+            <div class="formItem col-6">
+                <div><label>@Localization.GetString("Username", @ResourceFile)</label></div>
+                @Html.TextBoxFor(m => m.Username)
+                @Html.ValidationMessageFor(m => m.Username)
+            </div>
+            <div class="formItem col-6">
+                <div><label>@Localization.GetString("Email", @ResourceFile)</label></div>
+                @Html.TextBoxFor(m => m.Email, new { @class = "form-control", @type = "email" })
+                @Html.ValidationMessageFor(m => m.Email)
+            </div>
+            <div class="formItem col-6">
+                <div><label>@Localization.GetString("Password", @ResourceFile)</label></div>
+                @Html.TextBoxFor(m => m.Password, new
+                {
+                    @class = "form-control",
+                    @id = "password",
+                    @type = "password",
+                onkeyup = "handlePasswordValidation();"
+                })
+                <span id="passwordValidationMessage"></span>
+            </div>
+            <div class="formItem col-6">
+                <div><label>@Localization.GetString("ConfirmPassword", @ResourceFile)</label></div>
+                @Html.TextBoxFor(m => m.ConfirmPassword, new
+                {
+                    @id = "confirm_password",
+                    @type = "password",
+                    onkeyup = "validatePassword();"
+                })
+                <span id='message'></span>
+            </div>
+            <div class="col-12 mt20" style="font-size: 16px;">
+                <div class="col-6">
+                    @Html.CheckBoxFor(m => m.IsSuperUser, new { @id = "chkIsSuperuser", @class = "superuser-checkbox" })
+                    <label for="chkIsSuperuser">@Localization.GetString("IsSuperUser", @ResourceFile)</label>
+                </div>
+                <div class="col-3">
+                    @Html.CheckBoxFor(m => m.Approved, new { @id = "chkApproved" })
+                    <label for="chkApproved">@Localization.GetString("Approved", @ResourceFile)</label>
+                </div>
+                <div class="col-3">
+                    @Html.CheckBoxFor(m => m.IsDeleted, new { @id = "chkIsDeleted" })
+                    <label for="chkIsDeleted">@Localization.GetString("IsDeleted", @ResourceFile)</label>
+                </div>
+                <div class="col-6">
+                    @Html.CheckBoxFor(m => m.SendEmail, new { @id = "chkSendEmail" })
+                    <label for="chkSendEmail">@Localization.GetString("SendEmailNewUser", @ResourceFile)</label>
+                </div>
+                @Html.HiddenFor(m => m.UserId)
+            </div>
+        </fieldset>
+        <div class="col-12 mt5">
+            <a class="btn btn-info btn-sm" id="userRolManagement" href="@Url.Action("UserRoles", "UserManage", new {itemId = @Model.UserId})">
+                <span class="color-white">@Localization.GetString("UserRoleManagement", @ResourceFile)</span>
+            </a>
+        </div>
+    </div>
+</div>
+<div class="col-5">
+    <h4 class="center" id="title">@Localization.GetString("AccountData", @ResourceFile)</h4>
+    <div class="accountData">
+        <div>
+            <img src=@defaultUserPicture alt="User" width="200" height="200" class="float-right">
+        </div>
+        <p>@Localization.GetString("UserId", @ResourceFile) @Model.UserId</p>
+        <p>@Localization.GetString("DisplayName", @ResourceFile) @Model.DisplayName</p>
+        <p>@Localization.GetString("CreatedOnDate", @ResourceFile) @Model.CreatedOnDate</p>
+        <p>@Localization.GetString("LastModifiedOnDate", @ResourceFile) @Model.LastModifiedOnDate</p>
+        <p>@Localization.GetString("UpdatePassword", @ResourceFile) @Model.UpdatePassword</p>
+        <h4 id="subtitle">@Localization.GetString("UserRoles", @ResourceFile)</h4>
+        <ul>
+            @{
+                foreach (var item in Model.UserRoles)
+                {
+                    <li> @item</li>
+                }
+            }
+        </ul>
+    </div>
+</div>
+<div class="col-12 mt20">
+    <div class="buttomForm">
+        <div class="center">
+            <button type="submit" class="dnnPrimaryAction" id="saveButton">@Localization.GetString("Save", @ResourceFile)</button>
+            <button id="cancelEdit" href="#" class="dnnSecondaryAction">@Localization.GetString("Cancel", @ResourceFile)</button>
+        </div>
+    </div>
+</div>
+<script>
+
+</script>
+<script type="text/javascript">
+     var weak = '@DotNetNuke.Services.Localization.Localization.GetString("Weak.Text", @ResourceFile)';
+    var fair = '@DotNetNuke.Services.Localization.Localization.GetString("Fair.Text", @ResourceFile)';
+    var strong = '@DotNetNuke.Services.Localization.Localization.GetString("Strong.Text", @ResourceFile)';
+    var passwordMatch = '@DotNetNuke.Services.Localization.Localization.GetString("PasswordMatch.Text", @ResourceFile)';
+    var match = '@DotNetNuke.Services.Localization.Localization.GetString("Match.Text", @ResourceFile)';
+
+    function validatePassStrength(pass, minLength, minNumberOfSpecialChars, validationExpression) {
+        var passwordElement = document.getElementById('password');
+        var passwordValidationMessage = document.getElementById('passwordValidationMessage');
+        if (pass.length < minLength) {
+            passwordElement.style.color = "red";
+            passwordValidationMessage.style.color = "red";
+            return weak;
+        }
+        var specialChars = pass.match(/[!@@#$%^&*(),.?":{}|<>+\-]/g);
+        if (specialChars === null || specialChars.length < minNumberOfSpecialChars) {
+            passwordElement.style.color = "#f6d500";
+            passwordValidationMessage.style.color = "#f6d500";
+            return fair;
+        }
+        if (validationExpression !== "" && !new RegExp(validationExpression).test(pass)) {
+            passwordElement.style.color = "#f6d500";
+            passwordValidationMessage.style.color = "#f6d500";
+            return fair;
+        }
+        passwordElement.style.color = "green";
+        passwordValidationMessage.style.color = "green";
+        return strong;
+    }
+    function handlePasswordValidation() {
+        var password = document.getElementById('password').value;
+        var minLength = 7;
+        var minNumberOfSpecialChars = 0;
+        var validationExpression = "";
+        var result = validatePassStrength(password, minLength, minNumberOfSpecialChars, validationExpression);
+        var messageElement = document.getElementById('passwordValidationMessage');
+        if (messageElement) {
+            messageElement.innerHTML = result;
+        }
+    }
+    function validatePassword() {
+        var password = document.getElementById('password').value;
+        var confirm_password = document.getElementById('confirm_password').value;
+        var message = document.getElementById('message');
+        if (password == confirm_password) {
+            message.style.color = 'green';
+            message.innerHTML = Match;
+            // Enabling a button again
+            document.querySelector('#saveButton').classList.remove("disabled");
+            document.querySelector('#saveButton').classList.add("primary");
+        } else {
+            message.style.color = 'red';
+            message.innerHTML = passwordMatch;
+            // Disabling a button
+            document.querySelector('#saveButton').classList.remove("primary");
+            document.querySelector('#saveButton').classList.add("disabled");
+        }
+    }
+    /*globals jQuery, window, Sys */
+    (function ($, Sys) {
+        function dnnEditBasicSettings() {
+            $('#dnnEditBasicSettings').dnnPanels();
+            $('#dnnEditBasicSettings .dnnFormExpandContent a').dnnExpandAll({
+                expandText: '@Dnn.LocalizeString("ExpandAll")',
+                collapseText: '@Dnn.LocalizeString("CollapseAll")',
+                targetArea: '#dnnEditBasicSettings'
+            });
+        };
+        $(function () {
+            $('#cancelEdit').click(function () { dnnModal.closePopUp(false); });
+            dnnEditBasicSettings();
+            Sys.WebForms.PageRequestManager.getInstance().add_endRequest(function () {
+                dnnEditBasicSettings();
+            });
+        });
+    }(jQuery, window.Sys));
+     document.addEventListener("DOMContentLoaded", function() {
+        var isCurrentUserSuperUser = @Json.Encode(ViewBag.IsCurrentUserSuperUser);
+        var superuserCheckbox = document.getElementById("chkIsSuperuser");
+
+        if (superuserCheckbox) {
+            superuserCheckbox.disabled = !isCurrentUserSuperUser;
+        }
+     });
+document.addEventListener("DOMContentLoaded", function() {
+    var ownProfile = @Json.Encode(ViewBag.OwnProfile);
+    var userRoleManagementButton = document.getElementById("userRolManagement");
+
+    if (ownProfile) {
+        var formElements = document.querySelectorAll('#saveButton, input[type="text"], input[type="email"], input[type="password"], #chkIsSuperuser, #chkApproved, #chkIsDeleted, #chkSendEmail');
+
+        for (var i = 0; i < formElements.length; i++) {
+            formElements[i].disabled = true;
+            formElements[i].classList.add("disabled-field");
+        }
+        if (userRoleManagementButton) {
+            userRoleManagementButton.classList.add("disabled-field");
+            userRoleManagementButton.onclick = function(event) {
+                event.preventDefault();
+            };
+        }
+    }
+});
+
+</script>
