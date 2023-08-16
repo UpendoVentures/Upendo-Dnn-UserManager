@@ -240,6 +240,16 @@ namespace Upendo.Modules.UserManager.Controllers
 
                 var portalId = ModuleContext.PortalId;
 
+                bool isAdminOrSuperUser = currentUser.IsSuperUser || currentUser.IsInRole("Administrators");
+                var role = RolesRepository.GetRole(portalId, roleIdValue);
+                // Check if the role is "Administrators" and the user is not an administrator or superuser
+                if (role.RoleName == "Administrators" && !isAdminOrSuperUser)
+                {
+                    ViewBag.User = UserRepository.GetUser(portalId, itemId);
+                    var result1 = UserRepository.GetRolesByUser(takeValue, pageIndexValue, goToPage, portalId, search, itemId);
+                    return View(result1);
+                }
+
                 if (roleId != null)
                 {
                     if (actionView == "Add")
