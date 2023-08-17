@@ -8,6 +8,12 @@
 }
 
 <div class="dnnDialog">
+    @if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
+    {
+        <div class="dnnFormMessage dnnFormError">
+            <p>@ViewBag.ErrorMessage</p>
+        </div>
+    }
     <fieldset>
         <div class="dnnFormItem">
             <div><label>@Localization.GetString("RoleName", @ResourceFile)</label></div>

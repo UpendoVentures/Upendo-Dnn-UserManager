@@ -86,9 +86,19 @@ namespace Upendo.Modules.UserManager.Utility
         {
             var roleGroups = RoleController.GetRoleGroups(portalId).ToArray();
             var groups = new List<RoleGroups>();
+
+            string ResourceFile = "~/DesktopModules/MVC/Upendo.Modules.UserManager/App_LocalResources/RolesManageController.resx";
+            // Add global roles to the groups list
+            var rolGroup = new RoleGroups()
+            {
+                RoleGroupId = -1,
+                RoleGroupName = Localization.GetString("GlobalRoles.Text", ResourceFile),
+            };
+            groups.Add(rolGroup);
+
             foreach (RoleGroupInfo item in roleGroups)
             {
-                var rolGroup = new RoleGroups()
+                rolGroup = new RoleGroups()
                 {
                     RoleGroupId = item.RoleGroupID,
                     RoleGroupName = item.RoleGroupName,
@@ -135,13 +145,13 @@ namespace Upendo.Modules.UserManager.Utility
         public static List<object> StatusList()
         {
             string ResourceFile = "~/DesktopModules/MVC/Upendo.Modules.UserManager/App_LocalResources/RolesManageController.resx";
-            var statusList= new List<object>
+            var statusList = new List<object>
             {
+               new { Status = 1, Name = Localization.GetString("Approved.Text", ResourceFile) },
                new { Status = -1, Name = Localization.GetString("Pending.Text", ResourceFile) },
                new { Status = 0, Name = Localization.GetString("Disabled.Text", ResourceFile) },
-               new { Status = 1, Name = Localization.GetString("Approved.Text", ResourceFile) },
             };
-            return statusList;  
+            return statusList;
         }
     }
 }

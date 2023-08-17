@@ -123,7 +123,13 @@
   <data name="Disabled.Text" xml:space="preserve">
     <value>Disabled</value>
   </data>
+  <data name="GlobalRoles.Text" xml:space="preserve">
+    <value>Global Roles</value>
+  </data>
   <data name="Pending.Text" xml:space="preserve">
     <value>Pending</value>
+  </data>
+  <data name="RoleNameExists.Text" xml:space="preserve">
+    <value>A role with that name already exists</value>
   </data>
 </root>

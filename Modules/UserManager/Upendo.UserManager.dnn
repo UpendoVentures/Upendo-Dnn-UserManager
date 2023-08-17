@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <dotnetnuke type="Package" version="6.0">
   <packages>
-    <package name="Upendo.Modules.UserManager" type="Module" version="01.00.00">
+    <package name="Upendo.Modules.UserManager" type="Module" version="01.00.01">
       <friendlyName>Upendo DNN User Manager</friendlyName>
       <description>
         <![CDATA[<p>The Upendo DNN User Manager empowers authorized end-users in your DNN website to be able to manage user accounts and their assigned security roles.</p>]]>
@@ -73,7 +73,7 @@
             <assembly>
               <name>Upendo.Modules.UserManager.dll</name>
               <path>bin</path>
-              <version>01.00.00</version>
+              <version>01.00.01</version>
             </assembly>
           </assemblies>
         </component>
