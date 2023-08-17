@@ -177,6 +177,9 @@
   <data name="PasswordMatch.Text" xml:space="preserve">
     <value>Password and Confirmation Password must match.</value>
   </data>
+  <data name="PasswordResetLink.Text" xml:space="preserve">
+    <value>Password Reset Link</value>
+  </data>
   <data name="Save.Text" xml:space="preserve">
     <value>Save</value>
   </data>
