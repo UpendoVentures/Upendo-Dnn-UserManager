@@ -22,8 +22,14 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
+using DotNetNuke.Entities.Host;
+using DotNetNuke.Entities.Portals;
 using DotNetNuke.Entities.Users;
+using DotNetNuke.Instrumentation;
+using DotNetNuke.Security.Membership;
 using DotNetNuke.Security.Roles;
+using DotNetNuke.Services.Localization;
+using DotNetNuke.Services.Mail;
 using Upendo.Modules.UserManager.Models.DnnModel;
 using Upendo.Modules.UserManager.ViewModels;
 
@@ -270,6 +276,43 @@ namespace Upendo.Modules.UserManager.Utility
             if (user != null)
             {
                 UserController.ResetAndChangePassword(user, newPassword);
+            }
+        }
+        public static string SendPasswordResetLink(int portalId, int itemId, PortalSettings portalSettings)
+        {
+           string ResourceFile = "~/DesktopModules/MVC/Upendo.Modules.UserManager/App_LocalResources/UserRepository.resx";
+            try
+            {
+                var user = UserController.GetUserById(portalId, itemId);
+                if (user == null)
+                {
+                   return Localization.GetString("UserNotFound.Text", ResourceFile);
+                }
+
+                var errorMessage = string.Empty;
+                // Check if question and answer is required
+                if (MembershipProviderConfig.RequiresQuestionAndAnswer)
+                {
+                    errorMessage = Localization.GetString("OptionNotAvailable.Text", ResourceFile);
+                }
+                else
+                {
+                    // Create a password reset token
+                    UserController.ResetPasswordToken(user, Host.AdminMembershipResetLinkValidity);
+
+                    // Send password reminder email
+                    var canSend = Mail.SendMail(user, MessageType.PasswordReminder, portalSettings) == string.Empty;
+                    errorMessage = !canSend ? Localization.GetString("OptionNotAvailable.Text", ResourceFile) : Localization.GetString("ResetLinkSentSuccessfully.Text", ResourceFile); ;
+                }
+                // Return the error or success message
+                return errorMessage;
+            }
+            catch (Exception ex)
+            {
+                // Log the exception
+                LoggerSource.Instance.GetLogger(typeof(UserRepository)).Error(ex);
+                // Return a generic error message
+                return Localization.GetString("AnErrorOccurred.Text", ResourceFile);
             }
         }
     }
