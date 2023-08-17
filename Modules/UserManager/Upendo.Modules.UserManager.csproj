@@ -173,6 +173,9 @@
   <ItemGroup>
     <Content Include="App_LocalResources\RolesManageController.resx" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_LocalResources\UserRepository.resx" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">14.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">
