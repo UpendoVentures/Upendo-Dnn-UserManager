@@ -18,10 +18,10 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
 using DotNetNuke.Framework.JavaScriptLibraries;
+using DotNetNuke.Security.Roles;
 using DotNetNuke.Services.Localization;
 using DotNetNuke.Web.Mvc.Framework.ActionFilters;
 using DotNetNuke.Web.Mvc.Framework.Controllers;
-using System.Collections.Generic;
 using System.Web.Mvc;
 using Upendo.Modules.UserManager.Utility;
 using Upendo.Modules.UserManager.ViewModels;
@@ -32,6 +32,7 @@ namespace Upendo.Modules.UserManager.Controllers
     public class RolesManageController : DnnController
     {
         private readonly string ResourceFile = "~/DesktopModules/MVC/Upendo.Modules.UserManager/App_LocalResources/UserManageController.resx";
+        private readonly string RolesResourceFile = "~/DesktopModules/MVC/Upendo.Modules.UserManager/App_LocalResources/RolesManageController.resx";
 
         public RolesManageController()
         {
@@ -77,6 +78,18 @@ namespace Upendo.Modules.UserManager.Controllers
         [HttpPost]
         public ActionResult Create(RolesViewModel item)
         {
+            // Check if the RoleName is already in use
+            var portalId = ModuleContext.PortalId;
+            var rol = RoleController.Instance.GetRoleByName(portalId, item.RoleName);
+            if (rol != null)
+            {
+                ViewBag.RoleGroups = RolesRepository.GetRoleGroups(portalId);
+                ViewBag.StatusList = RolesRepository.StatusList();
+                ViewBag.ErrorMessage = Localization.GetString("RoleNameExists.Text", RolesResourceFile);
+                return View(item);
+            }
+
+            // If no validation issue, create the role
             RolesRepository.CreateRol(item);
             return RedirectToAction("Index");
         }
@@ -93,6 +106,19 @@ namespace Upendo.Modules.UserManager.Controllers
         [HttpPost]
         public ActionResult Edit(RolesViewModel item)
         {
+            // Check if the name has changed and if the new name is already in use
+            var portalId = ModuleContext.PortalId;
+            var originalRole = RoleController.Instance.GetRoleById(portalId, item.RoleId);
+            var existingRole = RoleController.Instance.GetRoleByName(portalId, item.RoleName);
+            if (originalRole != null && originalRole.RoleName != item.RoleName && existingRole != null)
+            {
+                ViewBag.RoleGroups = RolesRepository.GetRoleGroups(portalId);
+                ViewBag.StatusList = RolesRepository.StatusList();
+                ViewBag.ErrorMessage = Localization.GetString("RoleNameExists.Text", RolesResourceFile);
+                return View(item);
+            }
+
+            // If no validation issue, proceed with editing the role
             RolesRepository.EditRol(item);
             return RedirectToAction("Index");
         }
