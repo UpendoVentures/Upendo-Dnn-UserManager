@@ -266,5 +266,12 @@ namespace Upendo.Modules.UserManager.Controllers
                 return View(result);
             }
         }
+        public ActionResult PasswordResetLink(int itemId)
+        {
+            var portalId = ModuleContext.PortalId;
+            var portalSettings = PortalSettings;
+            TempData["Message"] = UserRepository.SendPasswordResetLink(portalId, itemId, portalSettings);
+            return RedirectToAction("Index");
+        }
     }
 }
