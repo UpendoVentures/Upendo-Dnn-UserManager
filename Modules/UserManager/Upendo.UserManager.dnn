@@ -1,11 +1,9 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <dotnetnuke type="Package" version="6.0">
   <packages>
-    <package name="Upendo.Modules.UserManager" type="Module" version="01.00.01">
+    <package name="Upendo.Modules.UserManager" type="Module" version="01.01.00">
       <friendlyName>Upendo DNN User Manager</friendlyName>
-      <description>
-        <![CDATA[<p>The Upendo DNN User Manager empowers authorized end-users in your DNN website to be able to manage user accounts and their assigned security roles.</p>]]>
-      </description>
+      <description><![CDATA[<p>The Upendo DNN User Manager empowers authorized end-users in your DNN website to be able to manage user accounts and their assigned security roles.</p>]]></description>
       <iconFile>DesktopModules/MVC/Upendo.Modules.UserManager/Images/logo.png</iconFile>
       <owner>
         <name>Will Strohl</name>
@@ -20,7 +18,6 @@
         <dependency type="coreversion">09.09.00</dependency>
       </dependencies>
       <components>
-
         <component type="Module">
           <desktopModule>
             <moduleName>Upendo DNN User Manager</moduleName>
@@ -63,21 +60,19 @@
             <attributes>
               <businessControllerClass>Upendo.Modules.UserManager.Components.UserManagerController, Upendo.Modules.UserManager</businessControllerClass>
               <desktopModuleID>[DESKTOPMODULEID]</desktopModuleID>
-              <upgradeVersionsList>01.00.00</upgradeVersionsList>
+              <upgradeVersionsList>01.00.00,01.01.00</upgradeVersionsList>
             </attributes>
           </eventMessage>
         </component>
-
         <component type="Assembly">
           <assemblies>
             <assembly>
               <name>Upendo.Modules.UserManager.dll</name>
               <path>bin</path>
-              <version>01.00.01</version>
+              <version>01.01.00</version>
             </assembly>
           </assemblies>
         </component>
-
         <component type="ResourceFile">
           <resourceFiles>
             <basePath>DesktopModules/MVC/Upendo.Modules.UserManager</basePath>
@@ -86,7 +81,6 @@
             </resourceFile>
           </resourceFiles>
         </component>
-
       </components>
     </package>
   </packages>

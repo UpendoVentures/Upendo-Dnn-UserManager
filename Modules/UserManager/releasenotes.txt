@@ -16,9 +16,9 @@
 	<ul>
 		<li>David Poindexter, <a href="https://nvisionative.com/" target="_blank">nvisionative</a></li>
 		<li>Dan Rice, <a href="https://www.puresystems.co.uk/" target="_blank">Pure Systems</a></li>
-		<li>Matt Rutledge, <a href="https://beleivekids.com/" target="_blank">Believe Kids</a></li>
+		<li>Matt Rutledge, <a href="https://believekids.com/" target="_blank">Believe Kids</a></li>
 		<li>Adam Bernstein, <a href="https://practicewise.com/" target="_blank">PracticeWise</a></li>
-		<li><a href="https://www.intouch.org/" target="_blank">In Touch Ministries</a></li>
+		<li>(<em>and two anonymous sponsors</em>)</li>
 	</ul>
 	
 	<h3>Contributors</h3>
@@ -33,6 +33,28 @@
 	<ul>
 		<li><strong>SI:</strong> Support Inquiry - This issue was reported by a <a href="https://upendoventures.com/Support" target="_blank">support customer</a> and, as such, was prioritized above all other tasks.</li>
 	</ul>
+
+	<h2>Release Notes: 01.01.00</h2>
+	
+	<h3><strong>Enhancements</strong></h3>
+	<ul>
+		<li><strong>Removed Password Change When Editing User Accounts</strong> - We replaced the two password fields in the edit view with a password reset link button. (<a href="https://github.com/UpendoVentures/Upendo-Dnn-UserManager/issues/49" target="_blank">Issue 49</a>), Thanks <a href="https://github.com/alejoroman0605" target="_blank">@alejoroman0605</a></li>
+		<!--
+		<li><strong></strong> - . (<a href="https://github.com/UpendoVentures/Upendo-Dnn-UserManager/issues/" target="_blank">Issue </a>), Thanks <a href="https://github.com/" target="_blank">@</a></li>
+		<li>None at this time.</li>
+		-->
+	</ul>
+	
+	<h3><strong>Maintenance Updates</strong></h3>
+	<ul>
+		<li><a href="https://github.com/UpendoVentures/Upendo-Dnn-UserManager/issues/44" target="_blank">Issue 44</a> - Resolved usability issues with password validation when creating a user account. Thanks <a href="https://github.com/alejoroman0605" target="_blank">@alejoroman0605</a></li>
+		<li>(no issue) - Updated the build process. Thanks, <a href="https://github.com/WillStrohl" target="_blank">@WillStrohl</a>!</li>
+		<!--
+		<li><a href="https://github.com/UpendoVentures/Upendo-Dnn-UserManager/issues/" target="_blank">Issue </a> - . Thanks <a href="https://github.com/" target="_blank">@</a></li>
+		<li>(no issue) - .</li>
+		-->
+	</ul>
+	<hr />
 
 	<h2>Release Notes: 01.00.01</h2>
 	
@@ -53,6 +75,7 @@
 		<li>(no issue) - .</li>
 		-->
 	</ul>
+	<hr />
 
 	<h2>Release Notes: 01.00.00</h2>
 	
