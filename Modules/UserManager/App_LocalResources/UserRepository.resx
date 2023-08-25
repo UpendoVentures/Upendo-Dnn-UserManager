@@ -117,97 +117,16 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AccountData.Text" xml:space="preserve">
-    <value>ACCOUNT DATA</value>
+  <data name="AnErrorOccurred.Text" xml:space="preserve">
+    <value>An error occurred. Please refer to the log for more information.</value>
   </data>
-  <data name="AccountSettings.Text" xml:space="preserve">
-    <value>ACCOUNT SETTINGS</value>
+  <data name="OptionNotAvailable.Text" xml:space="preserve">
+    <value>Option is not available</value>
   </data>
-  <data name="Approved.Text" xml:space="preserve">
-    <value>Approved</value>
+  <data name="ResetLinkSentSuccessfully.Text" xml:space="preserve">
+    <value>Password reset link sent successfully.</value>
   </data>
-  <data name="Cancel.Text" xml:space="preserve">
-    <value>Cancel</value>
-  </data>
-  <data name="ConfirmPassword.Text" xml:space="preserve">
-    <value>Confirm Password</value>
-  </data>
-  <data name="CreatedOnDate.Text" xml:space="preserve">
-    <value>Created Date:</value>
-  </data>
-  <data name="CreateUser.Text" xml:space="preserve">
-    <value>Create User</value>
-  </data>
-  <data name="DisplayName.Text" xml:space="preserve">
-    <value>Display Name:</value>
-  </data>
-  <data name="Email.Text" xml:space="preserve">
-    <value>Email</value>
-  </data>
-  <data name="Fair.Text" xml:space="preserve">
-    <value>fair</value>
-  </data>
-  <data name="FirstName.Text" xml:space="preserve">
-    <value>First Name</value>
-  </data>
-  <data name="InvalidEmailAddress.Text" xml:space="preserve">
-    <value>Invalid email address.</value>
-  </data>
-  <data name="IsDeleted.Text" xml:space="preserve">
-    <value>IsDeleted</value>
-  </data>
-  <data name="IsSuperUser.Text" xml:space="preserve">
-    <value>IsSuperUser</value>
-  </data>
-  <data name="LastModifiedOnDate.Text" xml:space="preserve">
-    <value>Last Activity Date:</value>
-  </data>
-  <data name="LastName.Text" xml:space="preserve">
-    <value>Last Name</value>
-  </data>
-  <data name="Match.Text" xml:space="preserve">
-    <value>Match</value>
-  </data>
-  <data name="NewPassword.Text" xml:space="preserve">
-    <value>New Password</value>
-  </data>
-  <data name="Password.Text" xml:space="preserve">
-    <value>Password</value>
-  </data>
-  <data name="PasswordMatch.Text" xml:space="preserve">
-    <value>Password and Confirmation Password must match.</value>
-  </data>
-  <data name="PasswordResetLink.Text" xml:space="preserve">
-    <value>Password Reset Link</value>
-  </data>
-  <data name="Save.Text" xml:space="preserve">
-    <value>Save</value>
-  </data>
-  <data name="SendEmailNewUser.Text" xml:space="preserve">
-    <value>Send An Email To New User</value>
-  </data>
-  <data name="Strong.Text" xml:space="preserve">
-    <value>strong</value>
-  </data>
-  <data name="UpdatePassword.Text" xml:space="preserve">
-    <value>Update Password:</value>
-  </data>
-  <data name="UserId.Text" xml:space="preserve">
-    <value>User ID:</value>
-  </data>
-  <data name="Username.Text" xml:space="preserve">
-    <value>Username</value>
-  </data>
-  <data name="UserRoleManagement.Text" xml:space="preserve">
-    <value>User Role Management</value>
-  </data>
-  <data name="UserRoles.Text" xml:space="preserve">
-    <value>User Roles</value>
-  </data>
-  <data name="ValidEmailAddress.Text" xml:space="preserve">
-    <value>Valid email address.</value>
-  </data>
-  <data name="Weak.Text" xml:space="preserve">
-    <value>weak</value>
+  <data name="UserNotFound.Text" xml:space="preserve">
+    <value>User not found.</value>
   </data>
 </root>
