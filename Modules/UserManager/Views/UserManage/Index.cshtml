@@ -7,15 +7,16 @@
 
 @{
     string srcLogo = DotNetNuke.Entities.Tabs.TabController.CurrentPage.Title + "/DesktopModules/MVC/Upendo.Modules.UserManager/Images/Upendo-logo-trans.png";
-    var pageIndexMinus = (@Model.PageIndex - @Model.Take) <= 0 ? 0 : (@Model.PageIndex - @Model.Take);
-    var pageIndexPlus = @Model.PageIndex + @Model.Take;
-    double pageIndexPaginate = @Model.PageIndex + 1;
-    var pageIndexTo = (pageIndexPaginate + @Model.Take) - 1;
-    var skipTo = @Model.PageIndex + @Model.Take;
-    double pageView = (skipTo / @Model.Take) == 0 ? 1 : (skipTo / @Model.Take);
     string ResourceFile = "~/DesktopModules/MVC/Upendo.Modules.UserManager/App_LocalResources/Index.resx";
     string SharedResourceFile = "~/DesktopModules/MVC/Upendo.Modules.UserManager/App_LocalResources/Shared.resx";
 
+    double PageIndex = Model.PageIndex == 0 ? 1 : Model.PageIndex;
+    var pageIndexMinus = (PageIndex - 1) <= 0 ? 0 : (Model.PageIndex - 1);
+    var pageIndexPlus = PageIndex + 1;
+    var pageIndexPaginate = (Model.PageIndex * Model.Take) + 1;
+    var pageView = PageIndex;
+    var pageIndexTo = (pageIndexPaginate + Model.Take) - 1;
+    var skipTo = Model.PageIndex + Model.Take;
 }
 <div id="Items-@Dnn.ModuleContext.ModuleId" style="margin: 2%!important;">
     <div class="col-md-12" style="margin-bottom: 20px;">
