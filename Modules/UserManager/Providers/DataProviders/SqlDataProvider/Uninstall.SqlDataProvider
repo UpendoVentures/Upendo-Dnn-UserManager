@@ -1,0 +1,9 @@
+﻿/************************************************************/
+/*****          Delete Stored Procedures                *****/
+/************************************************************/
+
+
+IF EXISTS (SELECT 1 FROM sys.objects WHERE type = 'P' AND name = 'UUM_GetUsers')
+BEGIN
+    DROP PROCEDURE UUM_GetUsers;
+END
