@@ -3,7 +3,7 @@
 /************************************************************/
 
 
-IF EXISTS (SELECT 1 FROM sys.objects WHERE type = 'P' AND name = 'UUM_GetUsers')
+IF OBJECT_ID('{databaseOwner}{objectQualifier}UUM_GetUsers', 'P') IS NOT NULL
 BEGIN
-    DROP PROCEDURE UUM_GetUsers;
+    EXEC('DROP PROCEDURE ' + '{databaseOwner}{objectQualifier}UUM_GetUsers');
 END
