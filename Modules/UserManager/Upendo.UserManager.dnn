@@ -1,93 +1,107 @@
 <?xml version="1.0" encoding="utf-8"?>
 <dotnetnuke type="Package" version="6.0">
-  <packages>
-    <package name="Upendo.Modules.UserManager" type="Module" version="01.00.01">
-      <friendlyName>Upendo DNN User Manager</friendlyName>
-      <description>
-        <![CDATA[<p>The Upendo DNN User Manager empowers authorized end-users in your DNN website to be able to manage user accounts and their assigned security roles.</p>]]>
-      </description>
-      <iconFile>DesktopModules/MVC/Upendo.Modules.UserManager/Images/logo.png</iconFile>
-      <owner>
-        <name>Will Strohl</name>
-        <organization>Upendo Ventures, LLC</organization>
-        <url><![CDATA[<a href="https://upendoventures.com/What/CMS/DNN" target="_blank">https://upendoventures.com/What/CMS/DNN</a>]]></url>
-        <email><![CDATA[<a href="mailto:support@upendoventures.com" target="_blank">solutuions@upendoventures.com</a>]]></email>
-      </owner>
-      <license src="License.txt" />
-      <releaseNotes src="ReleaseNotes.txt" />
-      <azureCompatible>true</azureCompatible>
-      <dependencies>
-        <dependency type="coreversion">09.09.00</dependency>
-      </dependencies>
-      <components>
+	<packages>
+		<package name="Upendo.Modules.UserManager" type="Module" version="01.00.01">
+			<friendlyName>Upendo DNN User Manager</friendlyName>
+			<description>
+				<![CDATA[<p>The Upendo DNN User Manager empowers authorized end-users in your DNN website to be able to manage user accounts and their assigned security roles.</p>]]>
+			</description>
+			<iconFile>DesktopModules/MVC/Upendo.Modules.UserManager/Images/logo.png</iconFile>
+			<owner>
+				<name>Will Strohl</name>
+				<organization>Upendo Ventures, LLC</organization>
+				<url><![CDATA[<a href="https://upendoventures.com/What/CMS/DNN" target="_blank">https://upendoventures.com/What/CMS/DNN</a>]]></url>
+				<email><![CDATA[<a href="mailto:support@upendoventures.com" target="_blank">solutuions@upendoventures.com</a>]]></email>
+			</owner>
+			<license src="License.txt" />
+			<releaseNotes src="ReleaseNotes.txt" />
+			<azureCompatible>true</azureCompatible>
+			<dependencies>
+				<dependency type="coreversion">09.09.00</dependency>
+			</dependencies>
+			<components>
 
-        <component type="Module">
-          <desktopModule>
-            <moduleName>Upendo DNN User Manager</moduleName>
-            <foldername>Upendo.Modules.UserManager</foldername>
-            <businessControllerClass>Upendo.Modules.UserManager.Components.UserManagerController, Upendo.Modules.UserManager</businessControllerClass>
-            <supportedFeatures />
-            <moduleDefinitions>
-              <moduleDefinition>
-                <friendlyName>Upendo DNN User Manager</friendlyName>
-                <defaultCacheTime>0</defaultCacheTime>
-                <moduleControls>
-                  <moduleControl>
-                    <controlKey />
-                    <controlSrc>Upendo.Modules.UserManager.Controllers/UserManage/Index.mvc</controlSrc>
-                    <supportsPartialRendering>False</supportsPartialRendering>
-                    <controlTitle />
-                    <controlType>View</controlType>
-                    <iconFile />
-                    <helpUrl />
-                    <viewOrder>0</viewOrder>
-                  </moduleControl>
-                  <moduleControl>
-                    <controlKey>Edit</controlKey>
-                    <controlSrc>Upendo.Modules.UserManager.Controllers/UserManage/Edit.mvc</controlSrc>
-                    <supportsPartialRendering>False</supportsPartialRendering>
-                    <controlTitle>Edit UserManager Content</controlTitle>
-                    <controlType>Edit</controlType>
-                    <iconFile />
-                    <helpUrl />
-                    <viewOrder>0</viewOrder>
-                    <supportsPopUps>True</supportsPopUps>
-                  </moduleControl>
-                </moduleControls>
-              </moduleDefinition>
-            </moduleDefinitions>
-          </desktopModule>
-          <eventMessage>
-            <processorType>DotNetNuke.Entities.Modules.EventMessageProcessor, DotNetNuke</processorType>
-            <processorCommand>UpgradeModule</processorCommand>
-            <attributes>
-              <businessControllerClass>Upendo.Modules.UserManager.Components.UserManagerController, Upendo.Modules.UserManager</businessControllerClass>
-              <desktopModuleID>[DESKTOPMODULEID]</desktopModuleID>
-              <upgradeVersionsList>01.00.00</upgradeVersionsList>
-            </attributes>
-          </eventMessage>
-        </component>
+				<component type="Module">
+					<desktopModule>
+						<moduleName>Upendo DNN User Manager</moduleName>
+						<foldername>Upendo.Modules.UserManager</foldername>
+						<businessControllerClass>Upendo.Modules.UserManager.Components.UserManagerController, Upendo.Modules.UserManager</businessControllerClass>
+						<supportedFeatures />
+						<moduleDefinitions>
+							<moduleDefinition>
+								<friendlyName>Upendo DNN User Manager</friendlyName>
+								<defaultCacheTime>0</defaultCacheTime>
+								<moduleControls>
+									<moduleControl>
+										<controlKey />
+										<controlSrc>Upendo.Modules.UserManager.Controllers/UserManage/Index.mvc</controlSrc>
+										<supportsPartialRendering>False</supportsPartialRendering>
+										<controlTitle />
+										<controlType>View</controlType>
+										<iconFile />
+										<helpUrl />
+										<viewOrder>0</viewOrder>
+									</moduleControl>
+									<moduleControl>
+										<controlKey>Edit</controlKey>
+										<controlSrc>Upendo.Modules.UserManager.Controllers/UserManage/Edit.mvc</controlSrc>
+										<supportsPartialRendering>False</supportsPartialRendering>
+										<controlTitle>Edit UserManager Content</controlTitle>
+										<controlType>Edit</controlType>
+										<iconFile />
+										<helpUrl />
+										<viewOrder>0</viewOrder>
+										<supportsPopUps>True</supportsPopUps>
+									</moduleControl>
+								</moduleControls>
+							</moduleDefinition>
+						</moduleDefinitions>
+					</desktopModule>
+					<eventMessage>
+						<processorType>DotNetNuke.Entities.Modules.EventMessageProcessor, DotNetNuke</processorType>
+						<processorCommand>UpgradeModule</processorCommand>
+						<attributes>
+							<businessControllerClass>Upendo.Modules.UserManager.Components.UserManagerController, Upendo.Modules.UserManager</businessControllerClass>
+							<desktopModuleID>[DESKTOPMODULEID]</desktopModuleID>
+							<upgradeVersionsList>01.00.00</upgradeVersionsList>
+						</attributes>
+					</eventMessage>
+				</component>
 
-        <component type="Assembly">
-          <assemblies>
-            <assembly>
-              <name>Upendo.Modules.UserManager.dll</name>
-              <path>bin</path>
-              <version>01.00.01</version>
-            </assembly>
-          </assemblies>
-        </component>
+				<component type="Assembly">
+					<assemblies>
+						<assembly>
+							<name>Upendo.Modules.UserManager.dll</name>
+							<path>bin</path>
+							<version>01.00.01</version>
+						</assembly>
+					</assemblies>
+				</component>
 
-        <component type="ResourceFile">
-          <resourceFiles>
-            <basePath>DesktopModules/MVC/Upendo.Modules.UserManager</basePath>
-            <resourceFile>
-              <name>Resources.zip</name>
-            </resourceFile>
-          </resourceFiles>
-        </component>
-
-      </components>
-    </package>
-  </packages>
+				<component type="ResourceFile">
+					<resourceFiles>
+						<basePath>DesktopModules/MVC/Upendo.Modules.UserManager</basePath>
+						<resourceFile>
+							<name>Resources.zip</name>
+						</resourceFile>
+					</resourceFiles>
+				</component>
+				<component type="Script">
+					<scripts>
+						<basePath>DesktopModules\MVC\Upendo.Modules.UserManager</basePath>
+						<script type="Install">
+							<path>Providers\DataProviders\SqlDataProvider</path>
+							<name>01.00.01.SqlDataProvider</name>
+							<version>01.00.01</version>
+						</script>
+						<script type="UnInstall">
+							<path>Providers\DataProviders\SqlDataProvider</path>
+							<name>Uninstall.SqlDataProvider</name>
+							<version>01.00.01</version>
+						</script>
+					</scripts>
+				</component>
+			</components>
+		</package>
+	</packages>
 </dotnetnuke>
