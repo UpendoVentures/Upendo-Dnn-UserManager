@@ -18,10 +18,14 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
 using System.Net;
+using DotNetNuke.Data;
 using DotNetNuke.Entities.Host;
 using DotNetNuke.Entities.Portals;
 using DotNetNuke.Entities.Users;
@@ -47,6 +51,7 @@ namespace Upendo.Modules.UserManager.Utility
         /// <returns></returns>
         public static DataTableResponse<Users> GetUsers(Pagination pagination, int portalId)
         {
+            var currentUser = UserController.Instance.GetCurrentUserInfo();
             pagination.Take = pagination.Take == 0 ? 10 : pagination.Take;
             int goToPage = pagination.GoToPage ?? default;
             if (goToPage != 0)
@@ -57,36 +62,62 @@ namespace Upendo.Modules.UserManager.Utility
             {
                 pagination.PageIndex = 0;
             }
-            var currentUser = UserController.Instance.GetCurrentUserInfo();
-            var totalRecords = 0;
-
             switch (pagination.Filter)
             {
                 case "Unauthorized":
-                    var getUsers = UserController.GetUnAuthorizedUsers(portalId).ToArray();
-                    return Functions.ListOfUsers(getUsers, pagination);
+                    var parameters = new
+                    {
+                        IsSuperUser = (int?)null,
+                        Authorised = (int?)0,
+                        AllUsers = 0,
+                        Deleted = (int?)0,
+                        PortalId = portalId
+                    };
+                    return Functions.GetUsersProcedure(pagination, parameters);
 
                 case "Deleted":
-                    getUsers = UserController.GetDeletedUsers(portalId).ToArray();
-                    return Functions.ListOfUsers(getUsers, pagination);
+                    parameters = new
+                    {
+                        IsSuperUser = (int?)null,
+                        Authorised = (int?)null,
+                        AllUsers = 0,
+                        Deleted = (int?)1,
+                        PortalId = portalId
+                    };
+                    return Functions.GetUsersProcedure(pagination, parameters);
 
                 case "SuperUsers":
-                    var superUsers = currentUser.IsSuperUser ? UserController.GetUsers(-1, 1, int.MaxValue, ref totalRecords, false, true).ToArray()
-                                     : new Users[0];
-                    getUsers = superUsers;
-                    return Functions.ListOfUsers(getUsers, pagination);
+                    parameters = new
+                    {
+                        IsSuperUser = currentUser.IsSuperUser ? (int?)1 : 0,
+                        Authorised = (int?)null,
+                        AllUsers = 0,
+                        Deleted = (int?)null,
+                        PortalId = portalId
+                    };
+                    return Functions.GetUsersProcedure(pagination, parameters);
 
                 case "All":
-                    getUsers = UserController.GetUsers(portalId).ToArray();
-                    var deletedUsers = UserController.GetDeletedUsers(portalId).ToArray();
-                    var super_Users = currentUser.IsSuperUser ? UserController.GetUsers(-1, 1, int.MaxValue, ref totalRecords, false, true).ToArray()
-                                 : new Users[0];
-                    getUsers = getUsers.Concat(deletedUsers).Concat(super_Users).ToArray();
-                    return Functions.ListOfUsers(getUsers, pagination);
+                    parameters = new
+                    {
+                        IsSuperUser = currentUser.IsSuperUser ? (int?)null : 0,
+                        Authorised = (int?)null,
+                        AllUsers = 1,
+                        Deleted = (int?)null,
+                        PortalId = portalId
+                    };
+                    return Functions.GetUsersProcedure(pagination, parameters);
 
                 default:
-                    getUsers = UserController.GetUsers(portalId).ToArray();
-                    return Functions.ListOfUsers(getUsers, pagination);
+                    parameters = new
+                    {
+                        IsSuperUser = (int?)0,
+                        Authorised = (int?)1,
+                        AllUsers = 0,
+                        Deleted = (int?)null,
+                        PortalId = portalId
+                    };
+                    return Functions.GetUsersProcedure(pagination, parameters);
             }
         }
 
@@ -280,13 +311,13 @@ namespace Upendo.Modules.UserManager.Utility
         }
         public static string SendPasswordResetLink(int portalId, int itemId, PortalSettings portalSettings)
         {
-           string ResourceFile = "~/DesktopModules/MVC/Upendo.Modules.UserManager/App_LocalResources/UserRepository.resx";
+            string ResourceFile = "~/DesktopModules/MVC/Upendo.Modules.UserManager/App_LocalResources/UserRepository.resx";
             try
             {
                 var user = UserController.GetUserById(portalId, itemId);
                 if (user == null)
                 {
-                   return Localization.GetString("UserNotFound.Text", ResourceFile);
+                    return Localization.GetString("UserNotFound.Text", ResourceFile);
                 }
 
                 var errorMessage = string.Empty;
