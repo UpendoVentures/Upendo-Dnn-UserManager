@@ -5,6 +5,7 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build Files", "Build Files", "{F84D698C-3163-472D-95E9-EC36712D597B}"
 	ProjectSection(SolutionItems) = preProject
 		Build\HccViewsetPackage.targets = Build\HccViewsetPackage.targets
+		Build\Helpers.targets = Build\Helpers.targets
 		Build\LibraryPackage.targets = Build\LibraryPackage.targets
 		Build\ModulePackage.targets = Build\ModulePackage.targets
 		Build\SkinPackage.targets = Build\SkinPackage.targets
