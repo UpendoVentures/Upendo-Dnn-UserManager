@@ -25,6 +25,9 @@ using Upendo.Modules.UserManager.ViewModels;
 using System;
 using System.Web;
 using DotNetNuke.Security.Permissions;
+using System.Collections;
+using System.Data.SqlClient;
+using System.Data;
 
 namespace Upendo.Modules.UserManager.Utility
 {
@@ -110,6 +113,101 @@ namespace Upendo.Modules.UserManager.Utility
             }
             return new DataTableResponse<Users>() { Take = pagination.Take, PageIndex = pagination.PageIndex, PagesTotal = pagesTotal, RecordsTotal = usersTotal, Search = pagination.Search, OrderBy = pagination.OrderBy, Order = pagination.Order, Data = users };
         }
+        
+        public static DataTableResponse<Users> GetUsersProcedure(Pagination pagination, object parameters)
+        {
+            var results = new List<Users>();
+            var totalRecords = 0;
+            var connectionString = DotNetNuke.Common.Utilities.Config.GetConnectionString();
+            using (var connection = new SqlConnection(connectionString))
+            {
+                var pageIndex = pagination.PageIndex == 0 ? 1 : pagination.PageIndex;
+                var search = string.IsNullOrWhiteSpace(pagination.Search) ? "" : pagination.Search;
+                var totalRecordsParameter = new SqlParameter("@TotalRecords", SqlDbType.Int);
+                totalRecordsParameter.Direction = ParameterDirection.Output;
+                var command = new SqlCommand("UUM_GetUsers", connection);
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.AddWithValue("@PageIndex", pageIndex);
+                command.Parameters.AddWithValue("@PageSize", pagination.Take);
+                command.Parameters.AddWithValue("@SearchTerm", search);
+                command.Parameters.AddWithValue("@SortColumn", pagination.OrderBy);
+                command.Parameters.AddWithValue("@SortOrder", pagination.Order);
+                // Set parameters from the anonymous object
+                var paramProperties = parameters.GetType().GetProperties();
+                foreach (var prop in paramProperties)
+                {
+                    command.Parameters.AddWithValue("@" + prop.Name, prop.GetValue(parameters));
+                }
+                command.Parameters.Add(totalRecordsParameter);
+
+                connection.Open();
+                using (var reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        var user = new Users
+                        {
+                            UserId = Convert.ToInt32(reader["UserID"]),
+                            Username = reader["Username"].ToString(),
+                            FirstName = reader["FirstName"].ToString(),
+                            Email = reader["Email"].ToString(),
+                            DisplayName = reader["DisplayName"].ToString(),
+                            IsSuperUser = Convert.ToBoolean(reader["IsSuperUser"]),
+                        };
+                        results.Add(user);
+                    }
+                }
+                totalRecords = (int)totalRecordsParameter.Value;
+            }
+            var pagesTotal = totalRecords / pagination.Take;
+            pagesTotal = Math.Ceiling(Math.Max(pagesTotal, 2)) == 0 ? 1 : Math.Ceiling(Math.Max(pagesTotal, 2));
+            return new DataTableResponse<Users>() { Take = pagination.Take, PageIndex = pagination.PageIndex, PagesTotal = pagesTotal, RecordsTotal = totalRecords, Search = pagination.Search, OrderBy = pagination.OrderBy, Order = pagination.Order, Data = results };
+        }
+        public static ArrayList SearchUsers(int portalId, string searchTerm, int pageIndex, int pageSize, ref int totalRecords)
+        {
+            var searchResults = new ArrayList();
+
+            // Define search fields in priority order
+            string[] searchFields = { "Username", "Email", "FirstName", "DisplayName" };
+
+            foreach (string field in searchFields)
+            {
+                searchResults = GetSearchResults(portalId, field, searchTerm, pageIndex, pageSize, ref totalRecords);
+
+                if (searchResults.Count > 0)
+                {
+                    break; // Stop the search if results are found in this field
+                }
+            }
+            return searchResults;
+        }
+
+        private static ArrayList GetSearchResults(int portalId, string fieldName, string searchTerm, int pageIndex, int pageSize, ref int totalRecords)
+        {
+            ArrayList results = new ArrayList();
+
+            switch (fieldName)
+            {
+                case "FirstName":
+                    results.AddRange(UserController.GetUsersByProfileProperty(portalId, "FirstName", searchTerm, pageIndex, pageSize, ref totalRecords));
+                    break;
+
+                case "DisplayName":
+                    results.AddRange(UserController.GetUsersByDisplayName(portalId, searchTerm, pageIndex, pageSize, ref totalRecords, false, false));
+                    break;
+
+                case "Email":
+                    results.AddRange(UserController.GetUsersByEmail(portalId, searchTerm, pageIndex, pageSize, ref totalRecords));
+                    break;
+
+                case "Username":
+                    results.AddRange(UserController.GetUsersByUserName(portalId, searchTerm, pageIndex, pageSize, ref totalRecords));
+                    break;
+            }
+
+            return results;
+        }
+
         public static DataTableResponse<RolesViewModel> ListOfRoles(List<RolesViewModel> roles, int rolesTotal, double take, int pageIndex, int goToPageValue, string search, string orderBy, string order)
         {
             if (!string.IsNullOrEmpty(search) && search != " ")
@@ -147,7 +245,7 @@ namespace Upendo.Modules.UserManager.Utility
         public static bool HasPermission(DotNetNuke.UI.Modules.ModuleInstanceContext ModuleContext)
         {
             int moduleId = ModuleContext.ModuleId;
-            int tabId = ModuleContext.TabId; 
+            int tabId = ModuleContext.TabId;
             ModulePermissionCollection permissions = ModulePermissionController.GetModulePermissions(moduleId, tabId);
             return ModulePermissionController.HasModulePermission(permissions, "EDIT");
         }

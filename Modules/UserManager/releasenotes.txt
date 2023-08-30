@@ -34,11 +34,11 @@
 		<li><strong>SI:</strong> Support Inquiry - This issue was reported by a <a href="https://upendoventures.com/Support" target="_blank">support customer</a> and, as such, was prioritized above all other tasks.</li>
 	</ul>
 
-	<h2>Release Notes: 01.01.00</h2>
+	<h2>Release Notes: 01.01.01</h2>
 	
 	<h3><strong>Enhancements</strong></h3>
 	<ul>
-		<li><strong>Removed Password Change When Editing User Accounts</strong> - We replaced the two password fields in the edit view with a password reset link button. (<a href="https://github.com/UpendoVentures/Upendo-Dnn-UserManager/issues/49" target="_blank">Issue 49</a>), Thanks <a href="https://github.com/alejoroman0605" target="_blank">@alejoroman0605</a></li>
+		<li><strong>Improved Performance for Sites w/ Tens of Thousands of Visitors</strong> - We updated the way we find and display user accounts. (<a href="https://github.com/UpendoVentures/Upendo-Dnn-UserManager/issues/69" target="_blank">Issue 69</a>), Thanks <a href="https://github.com/alejoroman0605" target="_blank">@alejoroman0605</a></li>
 		<!--
 		<li><strong></strong> - . (<a href="https://github.com/UpendoVentures/Upendo-Dnn-UserManager/issues/" target="_blank">Issue </a>), Thanks <a href="https://github.com/" target="_blank">@</a></li>
 		<li>None at this time.</li>
@@ -47,12 +47,25 @@
 	
 	<h3><strong>Maintenance Updates</strong></h3>
 	<ul>
-		<li><a href="https://github.com/UpendoVentures/Upendo-Dnn-UserManager/issues/44" target="_blank">Issue 44</a> - Resolved usability issues with password validation when creating a user account. Thanks <a href="https://github.com/alejoroman0605" target="_blank">@alejoroman0605</a></li>
-		<li>(no issue) - Updated the build process. Thanks, <a href="https://github.com/WillStrohl" target="_blank">@WillStrohl</a>!</li>
+		<li><a href="https://github.com/UpendoVentures/Upendo-Dnn-UserManager/issues/73" target="_blank">Issue 73</a> - Removed the last remaining Upendo logo from the UI. Thanks <a href="https://github.com/willstrohl" target="_blank">@WillStrohl</a></li>
 		<!--
 		<li><a href="https://github.com/UpendoVentures/Upendo-Dnn-UserManager/issues/" target="_blank">Issue </a> - . Thanks <a href="https://github.com/" target="_blank">@</a></li>
 		<li>(no issue) - .</li>
 		-->
+	</ul>
+	<hr />
+
+	<h2>Release Notes: 01.01.00</h2>
+	
+	<h3><strong>Enhancements</strong></h3>
+	<ul>
+		<li><strong>Removed Password Change When Editing User Accounts</strong> - We replaced the two password fields in the edit view with a password reset link button. (<a href="https://github.com/UpendoVentures/Upendo-Dnn-UserManager/issues/49" target="_blank">Issue 49</a>), Thanks <a href="https://github.com/alejoroman0605" target="_blank">@alejoroman0605</a></li>
+	</ul>
+	
+	<h3><strong>Maintenance Updates</strong></h3>
+	<ul>
+		<li><a href="https://github.com/UpendoVentures/Upendo-Dnn-UserManager/issues/44" target="_blank">Issue 44</a> - Resolved usability issues with password validation when creating a user account. Thanks <a href="https://github.com/alejoroman0605" target="_blank">@alejoroman0605</a></li>
+		<li>(no issue) - Updated the build process. Thanks, <a href="https://github.com/WillStrohl" target="_blank">@WillStrohl</a>!</li>
 	</ul>
 	<hr />
 

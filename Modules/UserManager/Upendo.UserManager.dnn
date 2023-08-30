@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <dotnetnuke type="Package" version="6.0">
   <packages>
-    <package name="Upendo.Modules.UserManager" type="Module" version="01.01.00">
+    <package name="Upendo.Modules.UserManager" type="Module" version="01.01.01">
       <friendlyName>Upendo DNN User Manager</friendlyName>
       <description><![CDATA[<p>The Upendo DNN User Manager empowers authorized end-users in your DNN website to be able to manage user accounts and their assigned security roles.</p>]]></description>
       <iconFile>DesktopModules/MVC/Upendo.Modules.UserManager/Images/logo.png</iconFile>
@@ -60,7 +60,7 @@
             <attributes>
               <businessControllerClass>Upendo.Modules.UserManager.Components.UserManagerController, Upendo.Modules.UserManager</businessControllerClass>
               <desktopModuleID>[DESKTOPMODULEID]</desktopModuleID>
-              <upgradeVersionsList>01.00.00,01.01.00</upgradeVersionsList>
+              <upgradeVersionsList>01.00.00,01.01.00,01.01.01</upgradeVersionsList>
             </attributes>
           </eventMessage>
         </component>
@@ -69,7 +69,7 @@
             <assembly>
               <name>Upendo.Modules.UserManager.dll</name>
               <path>bin</path>
-              <version>01.01.00</version>
+              <version>01.01.01</version>
             </assembly>
           </assemblies>
         </component>
@@ -80,6 +80,21 @@
               <name>Resources.zip</name>
             </resourceFile>
           </resourceFiles>
+        </component>
+        <component type="Script">
+          <scripts>
+            <basePath>DesktopModules\MVC\Upendo.Modules.UserManager</basePath>
+            <script type="Install">
+              <path>Providers\DataProviders\SqlDataProvider</path>
+              <name>01.01.01.SqlDataProvider</name>
+              <version>01.01.01</version>
+            </script>
+            <script type="UnInstall">
+              <path>Providers\DataProviders\SqlDataProvider</path>
+              <name>Uninstall.SqlDataProvider</name>
+              <version>01.01.01</version>
+            </script>
+          </scripts>
         </component>
       </components>
     </package>
