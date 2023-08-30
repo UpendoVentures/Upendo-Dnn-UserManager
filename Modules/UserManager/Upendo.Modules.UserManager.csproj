@@ -169,7 +169,7 @@
     <Content Include="Views\UserManage\Index.cshtml" />
     <Content Include="Views\UserManage\UserRoles.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
-    <Content Include="Providers\DataProviders\SqlDataProvider\01.00.01.SqlDataProvider" />
+    <Content Include="Providers\DataProviders\SqlDataProvider\01.01.01.SqlDataProvider" />
     <Content Include="Providers\DataProviders\SqlDataProvider\Uninstall.SqlDataProvider" />
   </ItemGroup>
   <ItemGroup>
