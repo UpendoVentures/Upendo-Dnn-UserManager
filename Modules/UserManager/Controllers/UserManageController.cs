@@ -19,6 +19,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 using DotNetNuke.Entities.Users;
 using DotNetNuke.Framework.JavaScriptLibraries;
+using DotNetNuke.Security.Membership;
 using DotNetNuke.Security.Permissions;
 using DotNetNuke.Security.Roles;
 using DotNetNuke.Services.Localization;
@@ -135,8 +136,18 @@ namespace Upendo.Modules.UserManager.Controllers
             {
                 return View(item);
             }
-            UserRepository.CreateUser(item, portalId);
-            return RedirectToAction("Index");
+            var userCreateStatus = UserRepository.CreateUser(item, portalId);
+            if (userCreateStatus == UserCreateStatus.Success)
+            { 
+              return RedirectToAction("Index");
+            }
+            else
+            {
+              // TODO get localized versions of UserCreateStatus messages
+              // string errorMessage = Localization.GetString("NotPermissions.Text", ResourceFile);
+              ViewBag.ErrorMessage = $"Create User Failed with Error: {userCreateStatus}";
+              return View("Error");
+            }
         }
 
         public ActionResult Edit(int itemId)
