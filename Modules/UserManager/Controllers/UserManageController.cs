@@ -143,10 +143,14 @@ namespace Upendo.Modules.UserManager.Controllers
             }
             else
             {
-              // TODO get localized versions of UserCreateStatus messages
-              // string errorMessage = Localization.GetString("NotPermissions.Text", ResourceFile);
-              ViewBag.ErrorMessage = $"Create User Failed with Error: {userCreateStatus}";
-              return View("Error");
+              // expand this (using switch/case?) and handle all current DNN UserCreateStatus enums; e.g. UsernameALreadyExists, InvalidDisplayName, etc.
+              if (userCreateStatus == UserCreateStatus.DuplicateEmail)
+              {
+                ModelState.AddModelError("Email", "A user already exists with this email address");
+              }
+              string errorMessage = $"Attempt to Save Failed with DNN Error: UserCreateStatus={userCreateStatus}";
+              ModelState.AddModelError(string.Empty, errorMessage);
+              return View(item);
             }
         }
 
