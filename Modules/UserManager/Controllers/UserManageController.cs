@@ -123,15 +123,7 @@ namespace Upendo.Modules.UserManager.Controllers
         {
             DotNetNuke.Framework.JavaScriptLibraries.JavaScript.RequestRegistration(CommonJs.DnnPlugins);
             var portalId = ModuleContext.PortalId;
-            var user = UserController.GetUserByName(portalId, item.Username);
             ModelState.Remove("UserId");
-            if (user != null)
-            {
-                string errorMessage = Localization.GetString("UsernameInUse.Text", ResourceFile);
-                ModelState.AddModelError(string.Empty, @errorMessage);
-                return View(item);
-            }
-
             if (!ModelState.IsValid)
             {
                 return View(item);
@@ -143,12 +135,33 @@ namespace Upendo.Modules.UserManager.Controllers
             }
             else
             {
-              // expand this (using switch/case?) and handle all current DNN UserCreateStatus enums; e.g. UsernameALreadyExists, InvalidDisplayName, etc.
-              if (userCreateStatus == UserCreateStatus.DuplicateEmail)
+              switch (userCreateStatus)
               {
-                ModelState.AddModelError("Email", "A user already exists with this email address");
+                case UserCreateStatus.DuplicateEmail:
+                  ModelState.AddModelError("Email", "Duplicate; Email Address already in use on another User Account");
+                  break;
+                case UserCreateStatus.InvalidEmail:
+                  ModelState.AddModelError("Email", "Invalid; Email Address did not pass validation");
+                  break;
+                case UserCreateStatus.InvalidPassword:
+                  ModelState.AddModelError("Password", "Invalid; Password requirements were not met");
+                  break;
+                case UserCreateStatus.BannedPasswordUsed:
+                  ModelState.AddModelError("Password", "Invalid; Password is banned");
+                  break;
+                case UserCreateStatus.DuplicateUserName:
+                case UserCreateStatus.UserAlreadyRegistered:
+                case UserCreateStatus.UsernameAlreadyExists:
+                  ModelState.AddModelError("Username", "Duplicate; Username already in use on another User Account");
+                  break;
+                case UserCreateStatus.InvalidUserName:
+                  ModelState.AddModelError("Username", "Invalid; Username does not meet requirements");
+                  break;
+                default:
+                  ModelState.AddModelError(string.Empty, $"Create User Failed. Unhandled or Unknown UserCreateStatus: {userCreateStatus}");
+                  break;
               }
-              string errorMessage = $"Attempt to Save Failed with DNN Error: UserCreateStatus={userCreateStatus}";
+              string errorMessage = UserController.GetUserCreateStatus(userCreateStatus);
               ModelState.AddModelError(string.Empty, errorMessage);
               return View(item);
             }
