@@ -337,3 +337,9 @@
 .color-black {
     color: black !important;
 }
+
+/* version 1.01.02 additions */
+.field-validation-error {
+  color: darkred;
+  font-size: small;
+}

@@ -120,7 +120,4 @@
   <data name="NotPermissions.Text" xml:space="preserve">
     <value>You do not have the necessary security permissions to use this application.</value>
   </data>
-  <data name="UsernameInUse.Text" xml:space="preserve">
-    <value>The username is already in use.</value>
-  </data>
 </root>

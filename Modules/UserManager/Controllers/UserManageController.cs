@@ -19,6 +19,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 using DotNetNuke.Entities.Users;
 using DotNetNuke.Framework.JavaScriptLibraries;
+using DotNetNuke.Security.Membership;
 using DotNetNuke.Security.Permissions;
 using DotNetNuke.Security.Roles;
 using DotNetNuke.Services.Localization;
@@ -122,21 +123,48 @@ namespace Upendo.Modules.UserManager.Controllers
         {
             DotNetNuke.Framework.JavaScriptLibraries.JavaScript.RequestRegistration(CommonJs.DnnPlugins);
             var portalId = ModuleContext.PortalId;
-            var user = UserController.GetUserByName(portalId, item.Username);
             ModelState.Remove("UserId");
-            if (user != null)
-            {
-                string errorMessage = Localization.GetString("UsernameInUse.Text", ResourceFile);
-                ModelState.AddModelError(string.Empty, @errorMessage);
-                return View(item);
-            }
-
             if (!ModelState.IsValid)
             {
                 return View(item);
             }
-            UserRepository.CreateUser(item, portalId);
-            return RedirectToAction("Index");
+            var userCreateStatus = UserRepository.CreateUser(item, portalId);
+            if (userCreateStatus == UserCreateStatus.Success)
+            { 
+              return RedirectToAction("Index");
+            }
+            else
+            {
+              switch (userCreateStatus)
+              {
+                case UserCreateStatus.DuplicateEmail:
+                  ModelState.AddModelError("Email", "Duplicate; Email Address already in use on another User Account");
+                  break;
+                case UserCreateStatus.InvalidEmail:
+                  ModelState.AddModelError("Email", "Invalid; Email Address did not pass validation");
+                  break;
+                case UserCreateStatus.InvalidPassword:
+                  ModelState.AddModelError("Password", "Invalid; Password requirements were not met");
+                  break;
+                case UserCreateStatus.BannedPasswordUsed:
+                  ModelState.AddModelError("Password", "Invalid; Password is banned");
+                  break;
+                case UserCreateStatus.DuplicateUserName:
+                case UserCreateStatus.UserAlreadyRegistered:
+                case UserCreateStatus.UsernameAlreadyExists:
+                  ModelState.AddModelError("Username", "Duplicate; Username already in use on another User Account");
+                  break;
+                case UserCreateStatus.InvalidUserName:
+                  ModelState.AddModelError("Username", "Invalid; Username does not meet requirements");
+                  break;
+                default:
+                  ModelState.AddModelError(string.Empty, $"Create User Failed. Unhandled or Unknown UserCreateStatus: {userCreateStatus}");
+                  break;
+              }
+              string errorMessage = UserController.GetUserCreateStatus(userCreateStatus);
+              ModelState.AddModelError(string.Empty, errorMessage);
+              return View(item);
+            }
         }
 
         public ActionResult Edit(int itemId)
