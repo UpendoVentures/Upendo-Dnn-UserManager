@@ -1,0 +1,42 @@
+<style>
+	div.uv-install-wrapper h3, div.uv-install-wrapper h4, div.uv-install-wrapper p, div.uv-install-wrapper hr, div.uv-install-wrapper ul { margin-bottom: 0.5em; }
+	div.uv-install-wrapper ul { padding-left: 2em; }
+	.muy-importante { color:red;font-weight:bold; }
+</style>
+<div class="uv-install-wrapper">
+
+	<h1>Upendo DNN User Manager Module for DNN</h1>
+
+	<h2>Release Notes: 01.01.02</h2>
+	
+	<h3><strong>Enhancements</strong></h3>
+	<ul>
+		<li><strong>Create User now shows DNN Errors</strong> - If clicking Save results in an error on the backend when DNN attempts 
+		  to Create the new user and display that error in the popup Create User form. This prevents confusion (there was no indication
+		  the user was NOT created) and allows for correcting the problem without starting over. 
+		  (<a href="https://github.com/UpendoVentures/Upendo-Dnn-UserManager/issues/81" target="_blank">Issue 81</a>)</li>
+		<li>Removed code checking for duplicate Username and allowed it to happen on the backend (since we wired up the associated CreateUser error reporting)</li>
+		<li>Removed the no longer used resource item; UsernameInUse</li>
+		<li>Added CSS to style the per-field brief error messages (small, dark red)</li>
+		<li>Cleaned up the JS @Localizations (added using)</li>
+		<li>Client-side JavaScript was using hard-coded defaults for both password minLength and minNumberOfSpecialChars. Added calls to 
+		  DNN's MembershipProviderConfig so these are now using the values from web.config (also tested this with JS disabled and CreateUser() 
+		  properly catches this on the backend too)</li>
+		<li></li>
+		<!--
+		<li><strong></strong> - . (<a href="https://github.com/UpendoVentures/Upendo-Dnn-UserManager/issues/" target="_blank">Issue </a>), Thanks <a href="https://github.com/" target="_blank">@</a></li>
+		<li>None at this time.</li>
+		-->
+	</ul>
+	
+	<h3><strong>Maintenance Updates</strong></h3>
+	<ul>
+		<li>n/a</li>
+		<!--
+		<li><a href="https://github.com/UpendoVentures/Upendo-Dnn-UserManager/issues/" target="_blank">Issue </a> - . Thanks <a href="https://github.com/" target="_blank">@</a></li>
+		<li>(no issue) - .</li>
+		-->
+	</ul>
+	<hr />
+
+</div>

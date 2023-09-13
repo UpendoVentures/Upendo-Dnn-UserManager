@@ -222,12 +222,13 @@ namespace Upendo.Modules.UserManager.Utility
             };
             return user;
         }
+
         /// <summary>
         /// Create User
         /// </summary>
         /// <param name="user"></param>
         /// <param name="portalId"></param>
-        public static void CreateUser(UserViewModel user, int portalId)
+        public static UserCreateStatus CreateUser(UserViewModel user, int portalId)
         {
             var userInfo = new UserInfo
             {
@@ -249,7 +250,7 @@ namespace Upendo.Modules.UserManager.Utility
             {
                 userInfo.Roles.Append(item.RoleName);
             }
-            UserController.CreateUser(ref userInfo, user.SendEmail);
+            return UserController.CreateUser(ref userInfo, user.SendEmail);
         }
 
         /// <summary>
