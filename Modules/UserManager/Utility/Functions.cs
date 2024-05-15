@@ -30,6 +30,8 @@ using System.Data.SqlClient;
 using System.Data;
 using DotNetNuke.Instrumentation;
 using DotNetNuke.Services.Localization;
+using static Telerik.Web.UI.OrgChartStyles;
+using DotNetNuke.Security.Roles;
 
 namespace Upendo.Modules.UserManager.Utility
 {
@@ -252,13 +254,16 @@ namespace Upendo.Modules.UserManager.Utility
             return ModulePermissionController.HasModulePermission(permissions, "EDIT");
         }
 
-        public static bool UpdateUserRoleDates(int userId, int roleId, DateTime? effectiveDate, DateTime? expiryDate)
+        public static bool UpdateUserRoleDates(int portalId, int userId, int roleId, DateTime? effectiveDate, DateTime? expiryDate)
         {
             try
             {
-                var dataEffectiveDate = effectiveDate == null ? (object)DBNull.Value : effectiveDate;
-                var dataExpiryDate = expiryDate == null ? (object)DBNull.Value : expiryDate;
+                var user = UserController.GetUserById(portalId, userId);
+                var userRoleDates = GetUserRoleDates(portalId, userId, roleId);
 
+                var dataEffectiveDate = effectiveDate == null ? (userRoleDates.EffectiveDate == DateTime.MinValue ? (object)DBNull.Value : userRoleDates.EffectiveDate) : effectiveDate;
+                var dataExpiryDate = expiryDate == null ? (userRoleDates.ExpiryDate == DateTime.MinValue ? (object)DBNull.Value : userRoleDates.ExpiryDate) : expiryDate;
+                                
                 var connectionString = DotNetNuke.Common.Utilities.Config.GetConnectionString();
                 using (var connection = new SqlConnection(connectionString))
                 {
@@ -266,8 +271,8 @@ namespace Upendo.Modules.UserManager.Utility
                     command.CommandType = CommandType.StoredProcedure;
                     command.Parameters.AddWithValue("@UserID", userId);
                     command.Parameters.AddWithValue("@RoleID", roleId);
-                    command.Parameters.AddWithValue("@EffectiveDate", dataEffectiveDate);                  
-                    command.Parameters.AddWithValue("@ExpiryDate", dataExpiryDate);                   
+                    command.Parameters.AddWithValue("@EffectiveDate", dataEffectiveDate);
+                    command.Parameters.AddWithValue("@ExpiryDate", dataExpiryDate);
 
                     connection.Open();
                     int rowsAffected = command.ExecuteNonQuery();
@@ -280,6 +285,34 @@ namespace Upendo.Modules.UserManager.Utility
                 LoggerSource.Instance.GetLogger(typeof(UserRepository)).Error(ex);
                 return false;
             }
+        }
+
+        public static UserRoleDates GetUserRoleDates(int portalId, int userId, int roleId)
+        {
+            var userRoleDates = new UserRoleDates();
+
+            try
+            {
+                // Get the user
+                UserInfo user = UserController.GetUserById(portalId, userId);
+                // Get the RoleController instance
+                RoleController roleController = new RoleController();
+
+                // Get the user role
+                UserRoleInfo userRole = roleController.GetUserRole(portalId, userId, roleId);
+                userRoleDates = new UserRoleDates
+                {
+                    EffectiveDate = userRole.EffectiveDate,
+                    ExpiryDate = userRole.ExpiryDate
+                };
+            }
+            catch (Exception ex)
+            {
+                LoggerSource.Instance.GetLogger(typeof(UserRepository)).Error(ex);
+            }
+           
+            // Return EffectiveDate and ExpiryDate
+            return userRoleDates;
         }
     }
 }
