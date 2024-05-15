@@ -102,3 +102,24 @@ BEGIN
     FROM @Results
     WHERE RowNumber BETWEEN (@Offset + 1) AND (@Offset + @PageSize);
 END;
+
+
+IF OBJECT_ID('{databaseOwner}{objectQualifier}UUM_UpdateUserRoleDates', 'P') IS NOT NULL
+BEGIN
+    EXEC('DROP PROCEDURE ' + '{databaseOwner}{objectQualifier}UUM_UpdateUserRoleDates');
+END
+GO
+
+CREATE PROCEDURE UUM_UpdateUserRoleDates
+    @UserID INT,
+    @RoleID INT,
+    @EffectiveDate DATETIME,
+    @ExpiryDate DATETIME
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    UPDATE [dbo].[UserRoles]
+    SET [ExpiryDate] = @ExpiryDate, [EffectiveDate] = @EffectiveDate
+    WHERE [UserID] = @UserID AND [RoleID] = @RoleID;
+END;
