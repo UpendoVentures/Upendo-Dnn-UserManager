@@ -114,7 +114,7 @@
                         <td class="centerInTable">
                             <a class="btn btn-sm" id="startSubmitButton" href="#">
                                 <div class="input-group date startPicker" data-role-id="@item.RoleId">
-                                    <input id="startDateInput" type="text" class="form-control">
+                                    <input id="startDateInput" type="text" class="form-control" value="@(item.EffectiveDate.HasValue && item.EffectiveDate.Value != DateTime.MinValue ? item.EffectiveDate.Value.ToString("yyyy-MM-dd") : "")">
                                     <span class="input-group-addon">
                                         <i class="glyphicon glyphicon-calendar"></i>
                                     </span>
@@ -124,7 +124,7 @@
                         <td class="centerInTable">
                             <a class="btn btn-sm" id="expiresSubmitButton">
                                 <div class="input-group date expiresPicker" data-role-id="@item.RoleId">
-                                    <input id="expiresDateInput" type="text" class="form-control">
+                                    <input id="expiresDateInput" type="text" class="form-control" value="@(item.ExpiryDate.HasValue && item.ExpiryDate.Value != DateTime.MinValue ? item.ExpiryDate.Value.ToString("yyyy-MM-dd") : "")">
                                     <span class="input-group-addon">
                                         <i class="glyphicon glyphicon-calendar"></i>
                                     </span>
