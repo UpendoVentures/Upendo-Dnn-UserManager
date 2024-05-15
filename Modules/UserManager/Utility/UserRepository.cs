@@ -25,6 +25,7 @@ using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Web.Security;
 using DotNetNuke.Data;
 using DotNetNuke.Entities.Host;
 using DotNetNuke.Entities.Portals;
@@ -145,6 +146,8 @@ namespace Upendo.Modules.UserManager.Utility
             {
                 if (item.Status != RoleStatus.Approved) continue;
                 if (item.RoleName == "Administrators" && !isAdminOrSuperUser) continue;
+                var userRoleDates = Functions.GetUserRoleDates(portalId, userInfo.UserID, item.RoleID);
+
                 var rolViewModel = new RolesViewModel()
                 {
                     RoleId = item.RoleID,
@@ -152,6 +155,8 @@ namespace Upendo.Modules.UserManager.Utility
                     PortalId = item.PortalID,
                     HasRole = false,
                     Index = 1,
+                    ExpiryDate= userRoleDates.ExpiryDate,
+                    EffectiveDate = userRoleDates.EffectiveDate
                 };
                 if (userInfo.Roles.FirstOrDefault(r => r == item.RoleName) != null)
                 {
