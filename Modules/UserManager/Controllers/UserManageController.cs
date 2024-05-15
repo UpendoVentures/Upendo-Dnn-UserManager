@@ -301,7 +301,9 @@ namespace Upendo.Modules.UserManager.Controllers
         {
             try
             {
-                UserRepository.UpdateDateTimeUserRole(itemId, roleId, effectiveDate, expiryDate);
+                var portalId = ModuleContext.PortalId;
+
+                UserRepository.UpdateDateTimeUserRole(portalId,itemId, roleId, effectiveDate, expiryDate);
             }
             catch (Exception ex)
             {
