@@ -252,10 +252,13 @@ namespace Upendo.Modules.UserManager.Utility
             return ModulePermissionController.HasModulePermission(permissions, "EDIT");
         }
 
-        public static bool UpdateUserRoleDates(int userId, int roleId, DateTime effectiveDate, DateTime expiryDate)
+        public static bool UpdateUserRoleDates(int userId, int roleId, DateTime? effectiveDate, DateTime? expiryDate)
         {
             try
             {
+                var dataEffectiveDate = effectiveDate == null ? (object)DBNull.Value : effectiveDate;
+                var dataExpiryDate = expiryDate == null ? (object)DBNull.Value : expiryDate;
+
                 var connectionString = DotNetNuke.Common.Utilities.Config.GetConnectionString();
                 using (var connection = new SqlConnection(connectionString))
                 {
@@ -263,15 +266,8 @@ namespace Upendo.Modules.UserManager.Utility
                     command.CommandType = CommandType.StoredProcedure;
                     command.Parameters.AddWithValue("@UserID", userId);
                     command.Parameters.AddWithValue("@RoleID", roleId);
-
-                    if (effectiveDate!=null)
-                    {
-                        command.Parameters.AddWithValue("@EffectiveDate", effectiveDate);
-                    }
-                    if (expiryDate != null)
-                    {
-                        command.Parameters.AddWithValue("@ExpiryDate", expiryDate);
-                    }
+                    command.Parameters.AddWithValue("@EffectiveDate", dataEffectiveDate);                  
+                    command.Parameters.AddWithValue("@ExpiryDate", dataExpiryDate);                   
 
                     connection.Open();
                     int rowsAffected = command.ExecuteNonQuery();
