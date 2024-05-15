@@ -23,7 +23,7 @@
 
     <h2 id="title">@Localization.GetString("RoleList", @ResourceFile) <span class="lead">@name (@userId)</span></h2>
 
-    <hr/>
+    <hr />
     <div class="col-md-7">
         <ul class="nav navbar-nav navbar-left" style="margin-right: 20px;">
             <li class="dropdown">
@@ -63,7 +63,7 @@
         <div class="input-group">
             <span class="input-group-btn">
                 <button class="btn btn-primary box-shadow" type="submit">
-                    <span class="glyphicon glyphicon-search color-white" aria-hidden="true"></span> 
+                    <span class="glyphicon glyphicon-search color-white" aria-hidden="true"></span>
                     @Localization.GetString("Search", @SharedResourceFile)
                 </button>
             </span>
@@ -73,61 +73,83 @@
     <div class="col-md-5">
         <ul class="nav navbar-nav navbar-right">
             <a type="button" class="btn btn-warning" href="@Url.Action("Index", "UserManage", new { })" style="color: white;">
-                <span class="glyphicon glyphicon-chevron-left color-white" aria-hidden="true"></span>  
+                <span class="glyphicon glyphicon-chevron-left color-white" aria-hidden="true"></span>
                 @Localization.GetString("UserList", @ResourceFile)
             </a>
         </ul>
     </div>
     <table class="table table-striped table-bordered table-hover">
         <thead>
-        <tr style="background-color: #6d5a2c; color: #FFFFFF">
-            <th hidden></th>
-            <th>@Localization.GetString("Role", @ResourceFile)</th>
-            <th style="text-align: center">@Localization.GetString("Actions", @ResourceFile)</th>
-        </tr>
+            <tr style="background-color: #6d5a2c; color: #FFFFFF">
+                <th hidden></th>
+                <th>@Localization.GetString("Role", @ResourceFile)</th>
+                <th class="centerInTable">START</th>
+                <th class="centerInTable">EXPIRES</th>
+                <th class="centerInTable">@Localization.GetString("Actions", @ResourceFile)</th>
+            </tr>
         </thead>
         <tbody>
-        @if (Model.PagesTotal == 0)
-        {
-            <tr>
-                <td colspan="6">
-                    <div class="center">
-                        <h1>@Localization.GetString("NoRolesFounds", @ResourceFile)</h1>
-                        <h2>@Localization.GetString("SearchCriteria", @ResourceFile)</h2>
-                    </div>
-                </td>
-            </tr>
-        }
-        else
-        {
-            foreach (var item in Model.Data)
+            @if (Model.PagesTotal == 0)
             {
                 <tr>
-                    <td hidden>
-                        @item.Index
-                    </td>
-                    <td>
-                        @item.RoleName
-                    </td>
-                    <td style="text-align: center">
-                        @if (@item.HasRole == true)
-                        {
-                            <a class="btn btn-danger btn-sm edit hint--top hint--" href="@Url.Action("UserRoles", "UserManage", new { take = @Model.Take, pageIndex = @Model.PageIndex, search = @Model.Search, itemId = @userId, roleId = item.RoleId, userId = @userId, actionView = "Remove" })"
-                               data-toggle="tooltip" data-placement="top" title="@Localization.GetString("Delete", @ResourceFile)">
-                                <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
-                            </a>
-                        }
-                        else
-                        {
-                            <a class="btn btn-primary btn-sm edit hint--top hint--" href="@Url.Action("UserRoles", "UserManage", new { take = @Model.Take, pageIndex = @Model.PageIndex, search = @Model.Search, itemId = @userId, roleId = item.RoleId, userId = @userId, actionView = "Add" })"
-                               data-toggle="tooltip" data-placement="top" title="@Localization.GetString("AddRole", @ResourceFile)">
-                                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-                            </a>
-                        }
+                    <td colspan="6">
+                        <div class="centerInTable">
+                            <h1>@Localization.GetString("NoRolesFounds", @ResourceFile)</h1>
+                            <h2>@Localization.GetString("SearchCriteria", @ResourceFile)</h2>
+                        </div>
                     </td>
                 </tr>
             }
-        }
+            else
+            {
+                foreach (var item in Model.Data)
+                {
+                    <tr>
+                        <td hidden>
+                            @item.Index
+                        </td>
+                        <td>
+                            @item.RoleName
+                        </td>
+                        <td class="centerInTable">
+                            <a class="btn btn-sm" href="#">
+                                <div class="input-group date startPicker">
+                                    <input type="text" class="form-control">
+                                    <span class="input-group-addon">
+                                        <i class="glyphicon glyphicon-calendar"></i>
+                                    </span>
+                                </div>
+                            </a>
+                        </td>
+                        <td class="centerInTable">
+                            <a class="btn btn-sm " href="#">
+                                <div class="input-group date expiresPicker">
+                                    <input type="text" class="form-control">
+                                    <span class="input-group-addon">
+                                        <i class="glyphicon glyphicon-calendar"></i>
+                                    </span>
+                                </div>
+                            </a>
+                        </td>
+                        <td class="centerInTable">
+                            @if (@item.HasRole == true)
+                            {
+                                <a class="btn btn-danger btn-sm edit hint--top hint--" href="@Url.Action("UserRoles", "UserManage", new { take = @Model.Take, pageIndex = @Model.PageIndex, search = @Model.Search, itemId = @userId, roleId = item.RoleId, userId = @userId, actionView = "Remove" })"
+                                   data-toggle="tooltip" data-placement="top" title="@Localization.GetString("Delete", @ResourceFile)">
+                                    <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                                </a>
+                            }
+                            else
+                            {
+                                <a class="btn btn-primary btn-sm edit hint--top hint--" href="@Url.Action("UserRoles", "UserManage", new { take = @Model.Take, pageIndex = @Model.PageIndex, search = @Model.Search, itemId = @userId, roleId = item.RoleId, userId = @userId, actionView = "Add" })"
+                                   data-toggle="tooltip" data-placement="top" title="@Localization.GetString("AddRole", @ResourceFile)">
+                                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                                </a>
+                            }
+                        </td>
+                    </tr>
+                }
+            }
         </tbody>
     </table>
     <div class="data-footer">
@@ -152,6 +174,38 @@
     </div>
 </div>
 
+<script>
+    $(document).ready(function () {
+        var startPicker = $('.startPicker').datepicker({
+            todayBtn: "linked",
+            autoclose: true,
+            todayHighlight: true,
+        }).on('changeDate', function(e) {
+           
+            $.ajax({
+                url: '@Url.Action("UpdateDateTimeUserRole", "UserManage")',
+                type: 'POST', 
+                data: { 
+                    itemId: @userId,
+                    roleId: item.RoleId,
+                    effectiveDate: e.date, 
+                    expiryDate: e.date 
+                },
+                success: function(response) {
+                   console.log(response);
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                }
+            });
+        });
+
+        var expiresPicker = $('.expiresPicker').datepicker({
+            todayBtn: "linked",
+            autoclose: true,
+            todayHighlight: true,
+        });
+    });
+</script>
 <script>
     $(function () {
         $('.dropdown-toggle').dropdown()
