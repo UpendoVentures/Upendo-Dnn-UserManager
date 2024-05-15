@@ -44,6 +44,8 @@ namespace Upendo.Modules.UserManager.Utility
     /// </summary>
     public class UserRepository
     {
+        private static readonly string ResourceFile = "~/DesktopModules/MVC/Upendo.Modules.UserManager/App_LocalResources/UserRepository.resx";
+
         /// <summary>
         /// Get all users by param
         /// </summary>
@@ -312,7 +314,6 @@ namespace Upendo.Modules.UserManager.Utility
         }
         public static string SendPasswordResetLink(int portalId, int itemId, PortalSettings portalSettings)
         {
-            string ResourceFile = "~/DesktopModules/MVC/Upendo.Modules.UserManager/App_LocalResources/UserRepository.resx";
             try
             {
                 var user = UserController.GetUserById(portalId, itemId);
@@ -345,6 +346,20 @@ namespace Upendo.Modules.UserManager.Utility
                 LoggerSource.Instance.GetLogger(typeof(UserRepository)).Error(ex);
                 // Return a generic error message
                 return Localization.GetString("AnErrorOccurred.Text", ResourceFile);
+            }
+        }
+    
+        public static bool UpdateDateTimeUserRole(int itemId, int roleId, DateTime effectiveDate, DateTime expiryDate)
+        {
+            try
+            {
+                return Functions.UpdateUserRoleDates( itemId, roleId, effectiveDate, expiryDate);
+            }
+            catch (Exception ex)
+            {
+                // Log the exception
+                LoggerSource.Instance.GetLogger(typeof(UserRepository)).Error(ex);
+                return false;
             }
         }
     }
