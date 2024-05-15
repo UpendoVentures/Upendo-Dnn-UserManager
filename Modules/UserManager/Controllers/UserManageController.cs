@@ -297,7 +297,7 @@ namespace Upendo.Modules.UserManager.Controllers
             }
         }
 
-        public ActionResult UpdateDateTimeUserRole(int itemId, int roleId,DateTime effectiveDate, DateTime expiryDate)
+        public ActionResult UpdateDateTimeUserRole(int itemId, int roleId,DateTime? effectiveDate, DateTime? expiryDate)
         {
             try
             {
