@@ -112,9 +112,9 @@
                             @item.RoleName
                         </td>
                         <td class="centerInTable">
-                            <a class="btn btn-sm" href="#">
+                            <a class="btn btn-sm" id="startSubmitButton" href="#">
                                 <div class="input-group date startPicker" data-role-id="@item.RoleId">
-                                    <input type="text" class="form-control">
+                                    <input id="startDateInput" type="text" class="form-control">
                                     <span class="input-group-addon">
                                         <i class="glyphicon glyphicon-calendar"></i>
                                     </span>
@@ -122,9 +122,9 @@
                             </a>
                         </td>
                         <td class="centerInTable">
-                            <a class="btn btn-sm " href="#">
+                            <a class="btn btn-sm" id="expiresSubmitButton">
                                 <div class="input-group date expiresPicker" data-role-id="@item.RoleId">
-                                    <input type="text" class="form-control">
+                                    <input id="expiresDateInput" type="text" class="form-control">
                                     <span class="input-group-addon">
                                         <i class="glyphicon glyphicon-calendar"></i>
                                     </span>
@@ -175,55 +175,45 @@
 </div>
 
 <script>
-    $(document).ready(function () {
-        var startPicker = $('.startPicker').datepicker({
-            todayBtn: "linked",
-            autoclose: true,
-            todayHighlight: true,
-        }).on('changeDate', function(e) {
-            var roleId = $(this).data('role-id');
+  $(document).ready(function () {
+    var startPicker = $('.startPicker').datepicker({
+        todayBtn: "linked",
+        autoclose: true,
+        todayHighlight: true,
+    }).on('changeDate', function(e) {
+        var date = $('#startDateInput').val(); // Get the date from the input field
+        var roleId = $(this).data('role-id');
+        var itemId = @userId; // Get the itemId from the Razor variable
 
-            $.ajax({
-                url: '@Url.Action("UpdateDateTimeUserRole", "UserManage")',
-                type: 'POST',
-                data: {
-                    itemId: @userId,
-                    roleId: roleId,
-                    effectiveDate: e.date,
-                    expiryDate: e.date
-                },
-                success: function(response) {
-                   console.log(response);
-                },
-                error: function(jqXHR, textStatus, errorThrown) {
-                }
-            });
-        });
+        // Generate the base URL
+        var baseUrl = '@Url.Action("UpdateDateTimeUserRole", "UserManage")';
 
-        var expiresPicker = $('.expiresPicker').datepicker({
-            todayBtn: "linked",
-            autoclose: true,
-            todayHighlight: true,
-        }).on('changeDate', function(e) {
-            var roleId = $(this).data('role-id');
+        // Append the parameters to the URL
+        var url = baseUrl + '?itemId=' + itemId + '&roleId=' + roleId + '&effectiveDate=' + date;
 
-            $.ajax({
-                url: '@Url.Action("UpdateDateTimeUserRole", "UserManage")',
-                type: 'POST',
-                data: {
-                    itemId: @userId,
-                    roleId: roleId,
-                    effectiveDate: e.date,
-                    expiryDate: e.date
-                },
-                success: function(response) {
-                   console.log(response);
-                },
-                error: function(jqXHR, textStatus, errorThrown) {
-                }
-            });
-        });
+        // Update the href attribute of the link
+        $('#startSubmitButton').attr('href', url);
     });
+
+    var expiresPicker = $('.expiresPicker').datepicker({
+        todayBtn: "linked",
+        autoclose: true,
+        todayHighlight: true,
+    }).on('changeDate', function(e) {
+        var date = $('#expiresDateInput').val(); // Get the date from the input field
+        var roleId = $(this).data('role-id');
+        var itemId = @userId; // Get the itemId from the Razor variable
+
+        // Generate the base URL
+        var baseUrl = '@Url.Action("UpdateDateTimeUserRole", "UserManage")';
+
+        // Append the parameters to the URL
+        var url = baseUrl + '?itemId=' + itemId + '&roleId=' + roleId + '&expiryDate=' + date;
+
+        // Update the href attribute of the link
+        $('#expiresSubmitButton').attr('href', url);
+    });
+});
 </script>
 <script>
     $(function () {
