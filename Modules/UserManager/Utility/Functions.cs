@@ -28,6 +28,8 @@ using DotNetNuke.Security.Permissions;
 using System.Collections;
 using System.Data.SqlClient;
 using System.Data;
+using DotNetNuke.Instrumentation;
+using DotNetNuke.Services.Localization;
 
 namespace Upendo.Modules.UserManager.Utility
 {
@@ -113,7 +115,7 @@ namespace Upendo.Modules.UserManager.Utility
             }
             return new DataTableResponse<Users>() { Take = pagination.Take, PageIndex = pagination.PageIndex, PagesTotal = pagesTotal, RecordsTotal = usersTotal, Search = pagination.Search, OrderBy = pagination.OrderBy, Order = pagination.Order, Data = users };
         }
-        
+
         public static DataTableResponse<Users> GetUsersProcedure(Pagination pagination, object parameters)
         {
             var results = new List<Users>();
@@ -248,6 +250,40 @@ namespace Upendo.Modules.UserManager.Utility
             int tabId = ModuleContext.TabId;
             ModulePermissionCollection permissions = ModulePermissionController.GetModulePermissions(moduleId, tabId);
             return ModulePermissionController.HasModulePermission(permissions, "EDIT");
+        }
+
+        public static bool UpdateUserRoleDates(int userId, int roleId, DateTime effectiveDate, DateTime expiryDate)
+        {
+            try
+            {
+                var connectionString = DotNetNuke.Common.Utilities.Config.GetConnectionString();
+                using (var connection = new SqlConnection(connectionString))
+                {
+                    var command = new SqlCommand("UUM_UpdateUserRoleDates", connection);
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("@UserID", userId);
+                    command.Parameters.AddWithValue("@RoleID", roleId);
+
+                    if (effectiveDate!=null)
+                    {
+                        command.Parameters.AddWithValue("@EffectiveDate", effectiveDate);
+                    }
+                    if (expiryDate != null)
+                    {
+                        command.Parameters.AddWithValue("@ExpiryDate", expiryDate);
+                    }
+
+                    connection.Open();
+                    int rowsAffected = command.ExecuteNonQuery();
+                    return rowsAffected > 0;
+                }
+            }
+            catch (Exception ex)
+            {
+                // Log the exception
+                LoggerSource.Instance.GetLogger(typeof(UserRepository)).Error(ex);
+                return false;
+            }
         }
     }
 }
