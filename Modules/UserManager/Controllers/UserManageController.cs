@@ -19,6 +19,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 using DotNetNuke.Entities.Users;
 using DotNetNuke.Framework.JavaScriptLibraries;
+using DotNetNuke.Instrumentation;
 using DotNetNuke.Security.Membership;
 using DotNetNuke.Security.Permissions;
 using DotNetNuke.Security.Roles;
@@ -29,6 +30,7 @@ using System;
 using System.Web.Mvc;
 using Upendo.Modules.UserManager.Utility;
 using Upendo.Modules.UserManager.ViewModels;
+using static Telerik.Web.UI.OrgChartStyles;
 
 namespace Upendo.Modules.UserManager.Controllers
 {
@@ -294,6 +296,21 @@ namespace Upendo.Modules.UserManager.Controllers
                 return View(result);
             }
         }
+
+        public ActionResult UpdateDateTimeUserRole(int itemId, int roleId,DateTime effectiveDate, DateTime expiryDate)
+        {
+            try
+            {
+                UserRepository.UpdateDateTimeUserRole(itemId, roleId, effectiveDate, expiryDate);
+            }
+            catch (Exception ex)
+            {
+                // Log the exception
+                LoggerSource.Instance.GetLogger(typeof(UserRepository)).Error(ex);
+            }
+            return RedirectToDefaultRoute();
+        }
+
         public ActionResult PasswordResetLink(int itemId)
         {
             var portalId = ModuleContext.PortalId;
