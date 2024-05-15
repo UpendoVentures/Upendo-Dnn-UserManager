@@ -349,7 +349,7 @@ namespace Upendo.Modules.UserManager.Utility
             }
         }
     
-        public static bool UpdateDateTimeUserRole(int itemId, int roleId, DateTime effectiveDate, DateTime expiryDate)
+        public static bool UpdateDateTimeUserRole(int itemId, int roleId, DateTime? effectiveDate, DateTime? expiryDate)
         {
             try
             {
