@@ -46,6 +46,7 @@ namespace Upendo.Modules.UserManager.Utility
     public class UserRepository
     {
         private static readonly string ResourceFile = "~/DesktopModules/MVC/Upendo.Modules.UserManager/App_LocalResources/UserRepository.resx";
+        private static readonly RoleController RoleController = new RoleController();
 
         /// <summary>
         /// Get all users by param
@@ -146,7 +147,7 @@ namespace Upendo.Modules.UserManager.Utility
             {
                 if (item.Status != RoleStatus.Approved) continue;
                 if (item.RoleName == "Administrators" && !isAdminOrSuperUser) continue;
-                var userRoleDates = Functions.GetUserRoleDates(portalId, userInfo.UserID, item.RoleID);
+                UserRoleInfo userRole = RoleController.GetUserRole(portalId, userInfo.UserID, item.RoleID);
 
                 var rolViewModel = new RolesViewModel()
                 {
@@ -155,8 +156,8 @@ namespace Upendo.Modules.UserManager.Utility
                     PortalId = item.PortalID,
                     HasRole = false,
                     Index = 1,
-                    ExpiryDate= userRoleDates.ExpiryDate,
-                    EffectiveDate = userRoleDates.EffectiveDate
+                    ExpiryDate = userRole?.ExpiryDate,
+                    EffectiveDate = userRole?.EffectiveDate
                 };
                 if (userInfo.Roles.FirstOrDefault(r => r == item.RoleName) != null)
                 {
@@ -353,12 +354,28 @@ namespace Upendo.Modules.UserManager.Utility
                 return Localization.GetString("AnErrorOccurred.Text", ResourceFile);
             }
         }
-    
+
         public static bool UpdateDateTimeUserRole(int portalId, int itemId, int roleId, DateTime? effectiveDate, DateTime? expiryDate)
         {
+
             try
             {
-                return Functions.UpdateUserRoleDates(portalId, itemId, roleId, effectiveDate, expiryDate);
+                var user = UserController.GetUserById(portalId, itemId);
+                UserRoleInfo userRole = RoleController.GetUserRole(portalId, itemId, roleId);
+
+                var dataEffectiveDate = effectiveDate == null ? (userRole.EffectiveDate == DateTime.MinValue ? (object)DBNull.Value : userRole.EffectiveDate) : effectiveDate;
+                var dataExpiryDate = expiryDate == null ? (userRole.ExpiryDate == DateTime.MinValue ? (object)DBNull.Value : userRole.ExpiryDate) : expiryDate;
+
+                if (dataEffectiveDate != DBNull.Value)
+                {
+                    userRole.EffectiveDate = (DateTime)dataEffectiveDate;
+                }
+                if (dataExpiryDate != DBNull.Value)
+                {
+                    userRole.ExpiryDate = (DateTime)dataExpiryDate;
+                }
+                RoleController.AddUserRole(portalId, itemId, roleId, userRole.EffectiveDate, userRole.ExpiryDate);
+                return true;
             }
             catch (Exception ex)
             {
