@@ -37,6 +37,8 @@ namespace Upendo.Modules.UserManager.Utility
 {
     public class Functions
     {
+        private static readonly RoleController RoleController = new RoleController();
+
         public static Users MakeUser(UserInfo u)
         {
             var user = new Users()
@@ -252,67 +254,6 @@ namespace Upendo.Modules.UserManager.Utility
             int tabId = ModuleContext.TabId;
             ModulePermissionCollection permissions = ModulePermissionController.GetModulePermissions(moduleId, tabId);
             return ModulePermissionController.HasModulePermission(permissions, "EDIT");
-        }
-
-        public static bool UpdateUserRoleDates(int portalId, int userId, int roleId, DateTime? effectiveDate, DateTime? expiryDate)
-        {
-            try
-            {
-                var user = UserController.GetUserById(portalId, userId);
-                var userRoleDates = GetUserRoleDates(portalId, userId, roleId);
-
-                var dataEffectiveDate = effectiveDate == null ? (userRoleDates.EffectiveDate == DateTime.MinValue ? (object)DBNull.Value : userRoleDates.EffectiveDate) : effectiveDate;
-                var dataExpiryDate = expiryDate == null ? (userRoleDates.ExpiryDate == DateTime.MinValue ? (object)DBNull.Value : userRoleDates.ExpiryDate) : expiryDate;
-                                
-                var connectionString = DotNetNuke.Common.Utilities.Config.GetConnectionString();
-                using (var connection = new SqlConnection(connectionString))
-                {
-                    var command = new SqlCommand("UUM_UpdateUserRoleDates", connection);
-                    command.CommandType = CommandType.StoredProcedure;
-                    command.Parameters.AddWithValue("@UserID", userId);
-                    command.Parameters.AddWithValue("@RoleID", roleId);
-                    command.Parameters.AddWithValue("@EffectiveDate", dataEffectiveDate);
-                    command.Parameters.AddWithValue("@ExpiryDate", dataExpiryDate);
-
-                    connection.Open();
-                    int rowsAffected = command.ExecuteNonQuery();
-                    return rowsAffected > 0;
-                }
-            }
-            catch (Exception ex)
-            {
-                // Log the exception
-                LoggerSource.Instance.GetLogger(typeof(UserRepository)).Error(ex);
-                return false;
-            }
-        }
-
-        public static UserRoleDates GetUserRoleDates(int portalId, int userId, int roleId)
-        {
-            var userRoleDates = new UserRoleDates();
-
-            try
-            {
-                // Get the user
-                UserInfo user = UserController.GetUserById(portalId, userId);
-                // Get the RoleController instance
-                RoleController roleController = new RoleController();
-
-                // Get the user role
-                UserRoleInfo userRole = roleController.GetUserRole(portalId, userId, roleId);
-                userRoleDates = new UserRoleDates
-                {
-                    EffectiveDate = userRole.EffectiveDate,
-                    ExpiryDate = userRole.ExpiryDate
-                };
-            }
-            catch (Exception ex)
-            {
-                LoggerSource.Instance.GetLogger(typeof(UserRepository)).Error(ex);
-            }
-           
-            // Return EffectiveDate and ExpiryDate
-            return userRoleDates;
         }
     }
 }
