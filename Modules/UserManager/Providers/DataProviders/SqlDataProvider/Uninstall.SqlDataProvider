@@ -7,10 +7,3 @@ IF OBJECT_ID('{databaseOwner}{objectQualifier}UUM_GetUsers', 'P') IS NOT NULL
 BEGIN
     EXEC('DROP PROCEDURE ' + '{databaseOwner}{objectQualifier}UUM_GetUsers');
 END
-
-
-IF OBJECT_ID('{databaseOwner}{objectQualifier}UUM_UpdateUserRoleDates', 'P') IS NOT NULL
-BEGIN
-    EXEC('DROP PROCEDURE ' + '{databaseOwner}{objectQualifier}UUM_UpdateUserRoleDates');
-END
-
