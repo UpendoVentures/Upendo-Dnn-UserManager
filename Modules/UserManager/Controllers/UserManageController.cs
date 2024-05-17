@@ -297,12 +297,12 @@ namespace Upendo.Modules.UserManager.Controllers
             }
         }
 
+        [HttpPost]
         public ActionResult UpdateDateTimeUserRole(int itemId, int roleId,DateTime? effectiveDate, DateTime? expiryDate)
         {
             try
             {
                 var portalId = ModuleContext.PortalId;
-
                 UserRepository.UpdateDateTimeUserRole(portalId,itemId, roleId, effectiveDate, expiryDate);
             }
             catch (Exception ex)
@@ -310,7 +310,7 @@ namespace Upendo.Modules.UserManager.Controllers
                 // Log the exception
                 LoggerSource.Instance.GetLogger(typeof(UserRepository)).Error(ex);
             }
-            return RedirectToDefaultRoute();
+            return Content("");
         }
 
         public ActionResult PasswordResetLink(int itemId)
