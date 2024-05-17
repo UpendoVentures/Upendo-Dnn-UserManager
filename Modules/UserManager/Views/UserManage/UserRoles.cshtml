@@ -112,26 +112,33 @@
                             @item.RoleName
                         </td>
                         <td class="centerInTable">
-                            <a class="btn btn-sm" id="startSubmitButton" href="#">
+                            <p>
+                                @(item.EffectiveDate.HasValue && item.EffectiveDate.Value != DateTime.MinValue ? item.EffectiveDate.Value.ToString("yyyy-MM-dd") : "")
+                            </p>
+                        </td>
+                        <td class="centerInTable">
+                            <p>
+                                @(item.ExpiryDate.HasValue && item.ExpiryDate.Value != DateTime.MinValue ? item.ExpiryDate.Value.ToString("yyyy-MM-dd") : "")
+                            </p>
+                        </td>
+                        <td class="centerInTable">
+                            <a class="btn btn-sm expiresSubmitButton" data-toggle="tooltip" data-placement="top" title="Start date">
                                 <div class="input-group date startPicker" data-role-id="@item.RoleId">
-                                    <input id="startDateInput" type="text" class="form-control" value="@(item.EffectiveDate.HasValue && item.EffectiveDate.Value != DateTime.MinValue ? item.EffectiveDate.Value.ToString("yyyy-MM-dd") : "")">
+                                    <input class="startDateInput hidden" type="text" value="@(item.EffectiveDate.HasValue && item.EffectiveDate.Value != DateTime.MinValue ? item.EffectiveDate.Value.ToString("yyyy-MM-dd") : "")">
                                     <span class="input-group-addon">
                                         <i class="glyphicon glyphicon-calendar"></i>
                                     </span>
                                 </div>
                             </a>
-                        </td>
-                        <td class="centerInTable">
-                            <a class="btn btn-sm" id="expiresSubmitButton">
+                            <a class="btn btn-sm expiresSubmitButton" data-toggle="tooltip" data-placement="top" title="Expires date">
                                 <div class="input-group date expiresPicker" data-role-id="@item.RoleId">
-                                    <input id="expiresDateInput" type="text" class="form-control" value="@(item.ExpiryDate.HasValue && item.ExpiryDate.Value != DateTime.MinValue ? item.ExpiryDate.Value.ToString("yyyy-MM-dd") : "")">
+                                    <input class="expiresDateInput hidden" type="text" value="@(item.ExpiryDate.HasValue && item.ExpiryDate.Value != DateTime.MinValue ? item.ExpiryDate.Value.ToString("yyyy-MM-dd") : "")">
                                     <span class="input-group-addon">
                                         <i class="glyphicon glyphicon-calendar"></i>
                                     </span>
                                 </div>
                             </a>
-                        </td>
-                        <td class="centerInTable">
+
                             @if (@item.HasRole == true)
                             {
                                 <a class="btn btn-danger btn-sm edit hint--top hint--" href="@Url.Action("UserRoles", "UserManage", new { take = @Model.Take, pageIndex = @Model.PageIndex, search = @Model.Search, itemId = @userId, roleId = item.RoleId, userId = @userId, actionView = "Remove" })"
@@ -175,43 +182,91 @@
 </div>
 
 <script>
-  $(document).ready(function () {
-    var startPicker = $('.startPicker').datepicker({
-        todayBtn: "linked",
-        autoclose: true,
-        todayHighlight: true,
-    }).on('changeDate', function(e) {
-        var date = $('#startDateInput').val(); // Get the date from the input field
-        var roleId = $(this).data('role-id');
-        var itemId = @userId; // Get the itemId from the Razor variable
+$(document).ready(function () {
+    $('.startPicker').each(function() {
+        var startDateInput = $(this).find('.startDateInput');
+        var startDate = new Date(startDateInput.val());
+        var minExpiresDate = new Date(startDate);
+        minExpiresDate.setDate(minExpiresDate.getDate() + 1); // Add one day to the start date
 
-        // Generate the base URL
-        var baseUrl = '@Url.Action("UpdateDateTimeUserRole", "UserManage")';
+        $(this).datepicker({
+            todayBtn: "linked",
+            autoclose: true,
+            todayHighlight: true,
+            format: 'yyyy-mm-dd',
+        }).on('changeDate', function(e) {
+            var date = $(this).find('input').val(); // Get the date from the input field
+            var roleId = $(this).data('role-id');
+            var itemId = @userId; // Get the itemId from the Razor variable
+            // Generate the base URL
+            var baseUrl = '@Url.Action("UpdateDateTimeUserRole", "UserManage")';
+            // Append the parameters to the URL
+            var url = baseUrl + '?itemId=' + itemId + '&roleId=' + roleId;
+            // Check if it's startPicker or expiresPicker
+            if ($(this).hasClass('startPicker')) {
+                url += '&effectiveDate=' + date;
+            }
+            // Send the AJAX request
+            $.ajax({
+                url: url,
+                type: 'POST',
+                success: function(response) {
+                    // Show a success message
+                    alert('Success: Editado correctamente');
+                    location.reload();
+                },
+                error: function(error) {
+                    // Show an error message
+                    alert('Error: a ocurrido un error');
+                }
+            });
 
-        // Append the parameters to the URL
-        var url = baseUrl + '?itemId=' + itemId + '&roleId=' + roleId + '&effectiveDate=' + date;
-
-        // Update the href attribute of the link
-        $('#startSubmitButton').attr('href', url);
+            // Update the minimum selectable date of the expiresPicker
+            var newDate = new Date(e.date);
+            newDate.setDate(newDate.getDate() + 1); // Add one day to the selected date
+            $(this).closest('tr').find('.expiresPicker').datepicker('setStartDate', newDate);
+        });
     });
 
-    var expiresPicker = $('.expiresPicker').datepicker({
-        todayBtn: "linked",
-        autoclose: true,
-        todayHighlight: true,
-    }).on('changeDate', function(e) {
-        var date = $('#expiresDateInput').val(); // Get the date from the input field
-        var roleId = $(this).data('role-id');
-        var itemId = @userId; // Get the itemId from the Razor variable
+    $('.expiresPicker').each(function() {
+        var expiresDateInput = $(this).find('.expiresDateInput');
+        var expiresDate = new Date(expiresDateInput.val());
+        var minExpiresDate = new Date(expiresDate);
+        minExpiresDate.setDate(minExpiresDate.getDate() + 1); // Add one day to the expires date
 
-        // Generate the base URL
-        var baseUrl = '@Url.Action("UpdateDateTimeUserRole", "UserManage")';
-
-        // Append the parameters to the URL
-        var url = baseUrl + '?itemId=' + itemId + '&roleId=' + roleId + '&expiryDate=' + date;
-
-        // Update the href attribute of the link
-        $('#expiresSubmitButton').attr('href', url);
+        $(this).datepicker({
+            todayBtn: "linked",
+            autoclose: true,
+            todayHighlight: true,
+            format: 'yyyy-mm-dd',
+            startDate: minExpiresDate,
+        }).on('changeDate', function(e) {
+            var date = $(this).find('input').val(); // Get the date from the input field
+            var roleId = $(this).data('role-id');
+            var itemId = @userId; // Get the itemId from the Razor variable
+            // Generate the base URL
+            var baseUrl = '@Url.Action("UpdateDateTimeUserRole", "UserManage")';
+            // Append the parameters to the URL
+            var url = baseUrl + '?itemId=' + itemId + '&roleId=' + roleId;
+            // Check if it's startPicker or expiresPicker
+            if ($(this).hasClass('expiresPicker')) {
+                url += '&expiryDate=' + date;
+            }
+            // Send the AJAX request
+            $.ajax({
+                url: url,
+                type: 'POST',
+                success: function(response) {
+                    // Show a success message
+                    alert('Success: Editado correctamente');
+                    location.reload();
+                },
+                error: function(error) {
+                    // Show an error message
+                    alert('Error: a ocurrido un error');
+                }
+            });
+        });
     });
 });
 </script>
