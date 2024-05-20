@@ -83,9 +83,9 @@
             <tr style="background-color: #6d5a2c; color: #FFFFFF">
                 <th hidden></th>
                 <th>@Localization.GetString("Role", @ResourceFile)</th>
-                <th class="centerInTable">START</th>
-                <th class="centerInTable">EXPIRES</th>
-                <th class="centerInTable">@Localization.GetString("Actions", @ResourceFile)</th>
+                <th>@Localization.GetString("Start", @ResourceFile)</th>
+                <th>@Localization.GetString("Expires", @ResourceFile)</th>
+                <th>@Localization.GetString("Actions", @ResourceFile)</th>
             </tr>
         </thead>
         <tbody>
@@ -111,18 +111,18 @@
                         <td>
                             @item.RoleName
                         </td>
-                        <td class="centerInTable">
+                        <td>
                             <p>
                                 @(item.EffectiveDate.HasValue && item.EffectiveDate.Value != DateTime.MinValue ? item.EffectiveDate.Value.ToString("yyyy-MM-dd") : "")
                             </p>
                         </td>
-                        <td class="centerInTable">
+                        <td>
                             <p>
                                 @(item.ExpiryDate.HasValue && item.ExpiryDate.Value != DateTime.MinValue ? item.ExpiryDate.Value.ToString("yyyy-MM-dd") : "")
                             </p>
                         </td>
                         <td class="centerInTable">
-                            <a class="btn btn-sm expiresSubmitButton" data-toggle="tooltip" data-placement="top" title="Start date">
+                            <a class="btn btn-sm expiresSubmitButton" data-toggle="tooltip" data-placement="top" title="@Localization.GetString("StartDate", @ResourceFile)">
                                 <div class="input-group date startPicker" data-role-id="@item.RoleId">
                                     <input class="startDateInput hidden" type="text" value="@(item.EffectiveDate.HasValue && item.EffectiveDate.Value != DateTime.MinValue ? item.EffectiveDate.Value.ToString("yyyy-MM-dd") : "")">
                                     <span class="input-group-addon">
@@ -130,7 +130,7 @@
                                     </span>
                                 </div>
                             </a>
-                            <a class="btn btn-sm expiresSubmitButton" data-toggle="tooltip" data-placement="top" title="Expires date">
+                            <a class="btn btn-sm expiresSubmitButton" data-toggle="tooltip" data-placement="top" title="@Localization.GetString("ExpiresDate", @ResourceFile)">
                                 <div class="input-group date expiresPicker" data-role-id="@item.RoleId">
                                     <input class="expiresDateInput hidden" type="text" value="@(item.ExpiryDate.HasValue && item.ExpiryDate.Value != DateTime.MinValue ? item.ExpiryDate.Value.ToString("yyyy-MM-dd") : "")">
                                     <span class="input-group-addon">
@@ -138,19 +138,23 @@
                                     </span>
                                 </div>
                             </a>
-
+                            <a class="deleteButton btn btn-sm expiresSubmitButton" data-toggle="tooltip" data-placement="top" title="@Localization.GetString("ClearDates", @ResourceFile)" data-role-id="@item.RoleId">
+                                <span class="input-group-addon">
+                                    <i class="glyphicon glyphicon-remove"></i>
+                                </span>
+                            </a>
                             @if (@item.HasRole == true)
                             {
                                 <a class="btn btn-danger btn-sm edit hint--top hint--" href="@Url.Action("UserRoles", "UserManage", new { take = @Model.Take, pageIndex = @Model.PageIndex, search = @Model.Search, itemId = @userId, roleId = item.RoleId, userId = @userId, actionView = "Remove" })"
                                    data-toggle="tooltip" data-placement="top" title="@Localization.GetString("Delete", @ResourceFile)">
-                                    <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                                    <span class="glyphicon glyphicon-trash color-white" aria-hidden="true"></span>
                                 </a>
                             }
                             else
                             {
                                 <a class="btn btn-primary btn-sm edit hint--top hint--" href="@Url.Action("UserRoles", "UserManage", new { take = @Model.Take, pageIndex = @Model.PageIndex, search = @Model.Search, itemId = @userId, roleId = item.RoleId, userId = @userId, actionView = "Add" })"
                                    data-toggle="tooltip" data-placement="top" title="@Localization.GetString("AddRole", @ResourceFile)">
-                                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                                    <span class="glyphicon glyphicon-plus color-white" aria-hidden="true"></span>
                                 </a>
                             }
                         </td>
@@ -159,6 +163,22 @@
             }
         </tbody>
     </table>
+    <div id="confirmModal" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Confirm Delete</h5>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to delete these data?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" id="confirmDelete">Delete</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="data-footer">
         <span class="text-align-left">@Localization.GetString("Page", @SharedResourceFile) @pageView @Localization.GetString("Of", @SharedResourceFile) @Model.PagesTotal @Localization.GetString("Pages", @SharedResourceFile)</span>
         <div class="input-group ml10">
@@ -183,12 +203,10 @@
 
 <script>
 $(document).ready(function () {
-    $('.startPicker').each(function() {
-        var startDateInput = $(this).find('.startDateInput');
-        var startDate = new Date(startDateInput.val());
-        var minExpiresDate = new Date(startDate);
-        minExpiresDate.setDate(minExpiresDate.getDate() + 1); // Add one day to the start date
+    var correctlyEdited = '@DotNetNuke.Services.Localization.Localization.GetString("CorrectlyEdited.Text", "~/DesktopModules/MVC/Upendo.Modules.UserManager/App_LocalResources/UserRoles.resx")';
+    var errorOccurred = '@DotNetNuke.Services.Localization.Localization.GetString("ErrorOccurred.Text", "~/DesktopModules/MVC/Upendo.Modules.UserManager/App_LocalResources/UserRoles.resx")';
 
+    $('.startPicker').each(function() {
         $(this).datepicker({
             todayBtn: "linked",
             autoclose: true,
@@ -198,9 +216,7 @@ $(document).ready(function () {
             var date = $(this).find('input').val(); // Get the date from the input field
             var roleId = $(this).data('role-id');
             var itemId = @userId; // Get the itemId from the Razor variable
-            // Generate the base URL
             var baseUrl = '@Url.Action("UpdateDateTimeUserRole", "UserManage")';
-            // Append the parameters to the URL
             var url = baseUrl + '?itemId=' + itemId + '&roleId=' + roleId;
             // Check if it's startPicker or expiresPicker
             if ($(this).hasClass('startPicker')) {
@@ -212,12 +228,12 @@ $(document).ready(function () {
                 type: 'POST',
                 success: function(response) {
                     // Show a success message
-                    alert('Success: Editado correctamente');
+                    alert(correctlyEdited);
                     location.reload();
                 },
                 error: function(error) {
                     // Show an error message
-                    alert('Error: a ocurrido un error');
+                    alert(errorOccurred);
                 }
             });
 
@@ -230,10 +246,10 @@ $(document).ready(function () {
 
     $('.expiresPicker').each(function() {
         var expiresDateInput = $(this).find('.expiresDateInput');
-        var expiresDate = new Date(expiresDateInput.val());
+        var expiresDate = expiresDateInput.val() ? new Date(expiresDateInput.val()) : new Date();
         var minExpiresDate = new Date(expiresDate);
-        minExpiresDate.setDate(minExpiresDate.getDate() + 1); // Add one day to the expires date
 
+        minExpiresDate.setDate(minExpiresDate.getDate() + 1); // Add one day to the expires date
         $(this).datepicker({
             todayBtn: "linked",
             autoclose: true,
@@ -244,9 +260,7 @@ $(document).ready(function () {
             var date = $(this).find('input').val(); // Get the date from the input field
             var roleId = $(this).data('role-id');
             var itemId = @userId; // Get the itemId from the Razor variable
-            // Generate the base URL
             var baseUrl = '@Url.Action("UpdateDateTimeUserRole", "UserManage")';
-            // Append the parameters to the URL
             var url = baseUrl + '?itemId=' + itemId + '&roleId=' + roleId;
             // Check if it's startPicker or expiresPicker
             if ($(this).hasClass('expiresPicker')) {
@@ -258,14 +272,44 @@ $(document).ready(function () {
                 type: 'POST',
                 success: function(response) {
                     // Show a success message
-                    alert('Success: Editado correctamente');
+                    alert(correctlyEdited);
                     location.reload();
                 },
                 error: function(error) {
                     // Show an error message
-                    alert('Error: a ocurrido un error');
+                    alert(errorOccurred);
                 }
             });
+        });
+    });
+
+    var roleId; // Define roleId in a scope accessible to both event handlers
+
+    $('.deleteButton').click(function(e) {
+        e.preventDefault();
+        roleId = $(this).data('role-id'); // Assign the roleId from the clicked button to the outer roleId variable
+        console.log(roleId);
+        $('#confirmModal').modal('show');
+    });
+
+    $('#confirmDelete').click(function() {
+        $('#confirmModal').modal('hide');
+        var itemId = @userId; // Get the itemId from the Razor variable
+        var baseUrl = '@Url.Action("SetDateTimeUserRoleNull", "UserManage")';
+        var url = baseUrl + '?itemId=' + itemId + '&roleId=' + roleId;
+        console.log(url);
+        $.ajax({
+            url: url,
+            type: 'POST',
+            success: function(response) {
+                // Show a success message
+                alert(correctlyEdited);
+                location.reload();
+            },
+            error: function(error) {
+                // Show an error message
+                alert(errorOccurred);
+            }
         });
     });
 });
@@ -274,4 +318,15 @@ $(document).ready(function () {
     $(function () {
         $('.dropdown-toggle').dropdown()
     });
+
+    $(function () {
+    var deleteText = '@DotNetNuke.Services.Localization.Localization.GetString("DeleteConfirmation.Text", "~/DesktopModules/MVC/Upendo.Modules.UserManager/App_LocalResources/Index.resx")';
+    $('#dialogs-delete .confirm').dnnConfirm({
+        title: "",
+        yesText: "Delete",
+        noText: "Cancel",
+        dialogClass: 'dnnFormPopup',
+        text: '<p style="font-size:20px;">' + deleteText + '</p>'
+    });
+});
 </script>
