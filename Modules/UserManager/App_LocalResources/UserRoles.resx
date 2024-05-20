@@ -123,8 +123,23 @@
   <data name="AddRole.Text" xml:space="preserve">
     <value>Add Role</value>
   </data>
+  <data name="ClearDates.Text" xml:space="preserve">
+    <value>Clear the Dates</value>
+  </data>
+  <data name="CorrectlyEdited.Text" xml:space="preserve">
+    <value>Success: Correctly edited</value>
+  </data>
   <data name="Delete.Text" xml:space="preserve">
     <value>Delete</value>
+  </data>
+  <data name="ErrorOccurred.Text" xml:space="preserve">
+    <value>Error: an error has occurred</value>
+  </data>
+  <data name="Expires.Text" xml:space="preserve">
+    <value>EXPIRES</value>
+  </data>
+  <data name="ExpiresDate.Text" xml:space="preserve">
+    <value>Expires date</value>
   </data>
   <data name="NoRolesFounds.Text" xml:space="preserve">
     <value>No roles founds</value>
@@ -137,6 +152,12 @@
   </data>
   <data name="SearchCriteria.Text" xml:space="preserve">
     <value>with this search criteria</value>
+  </data>
+  <data name="Start.Text" xml:space="preserve">
+    <value>START</value>
+  </data>
+  <data name="StartDate.Text" xml:space="preserve">
+    <value>Start date</value>
   </data>
   <data name="UserList.Text" xml:space="preserve">
     <value>User List</value>
