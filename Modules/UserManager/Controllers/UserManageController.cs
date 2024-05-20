@@ -28,6 +28,7 @@ using DotNetNuke.Web.Mvc.Framework.ActionFilters;
 using DotNetNuke.Web.Mvc.Framework.Controllers;
 using System;
 using System.Web.Mvc;
+using Upendo.Modules.UserManager.Models.DnnModel;
 using Upendo.Modules.UserManager.Utility;
 using Upendo.Modules.UserManager.ViewModels;
 using static Telerik.Web.UI.OrgChartStyles;
@@ -304,6 +305,22 @@ namespace Upendo.Modules.UserManager.Controllers
             {
                 var portalId = ModuleContext.PortalId;
                 UserRepository.UpdateDateTimeUserRole(portalId,itemId, roleId, effectiveDate, expiryDate);
+            }
+            catch (Exception ex)
+            {
+                // Log the exception
+                LoggerSource.Instance.GetLogger(typeof(UserRepository)).Error(ex);
+            }
+            return Content("");
+        }
+        
+        public ActionResult SetDateTimeUserRoleNull(int itemId, int roleId)
+        {
+            try
+            {
+                var portalId = ModuleContext.PortalId;
+                var roleController = new RoleController();
+                roleController.AddUserRole(portalId, itemId, roleId, DateTime.MinValue, DateTime.MinValue);
             }
             catch (Exception ex)
             {
