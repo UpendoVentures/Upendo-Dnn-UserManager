@@ -40,5 +40,7 @@ namespace Upendo.Modules.UserManager.ViewModels
         public RoleType RoleType { get; set; }
         public bool HasRole { get; set; }
         public int? Index { get; set; }
+        public DateTime? EffectiveDate { get; set; }
+        public DateTime? ExpiryDate { get; set; }
     }
 }

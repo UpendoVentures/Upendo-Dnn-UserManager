@@ -19,6 +19,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 using DotNetNuke.Entities.Users;
 using DotNetNuke.Framework.JavaScriptLibraries;
+using DotNetNuke.Instrumentation;
 using DotNetNuke.Security.Membership;
 using DotNetNuke.Security.Permissions;
 using DotNetNuke.Security.Roles;
@@ -27,8 +28,10 @@ using DotNetNuke.Web.Mvc.Framework.ActionFilters;
 using DotNetNuke.Web.Mvc.Framework.Controllers;
 using System;
 using System.Web.Mvc;
+using Upendo.Modules.UserManager.Models.DnnModel;
 using Upendo.Modules.UserManager.Utility;
 using Upendo.Modules.UserManager.ViewModels;
+using static Telerik.Web.UI.OrgChartStyles;
 
 namespace Upendo.Modules.UserManager.Controllers
 {
@@ -294,6 +297,48 @@ namespace Upendo.Modules.UserManager.Controllers
                 return View(result);
             }
         }
+
+        [HttpPost]
+        public ActionResult UpdateDateTimeUserRole(int itemId, int roleId,DateTime? effectiveDate, DateTime? expiryDate)
+        {
+            try
+            {
+                var portalId = ModuleContext.PortalId;
+                UserRepository.UpdateDateTimeUserRole(portalId,itemId, roleId, effectiveDate, expiryDate);
+            }
+            catch (Exception ex)
+            {
+                // Log the exception
+                LoggerSource.Instance.GetLogger(typeof(UserRepository)).Error(ex);
+            }
+            return Content("");
+        }
+        
+        public ActionResult SetDateTimeUserRoleNull(int itemId, int roleId)
+        {
+            try
+            {
+                var portalId = ModuleContext.PortalId;
+                var roleController = new RoleController();
+                roleController.AddUserRole(portalId, itemId, roleId, DateTime.MinValue, DateTime.MinValue);
+
+                // Log the action
+                var user = UserController.GetUserById(portalId, itemId);
+                UserRoleInfo userRole = roleController.GetUserRole(portalId, itemId, roleId);
+                var currentUser = UserController.Instance.GetCurrentUserInfo();
+
+                var logMessage = $"The effective date and expiration date for Role {userRole.FullName} were cleared for User {user.Username} by Username {currentUser.Username}.";
+                var logger = LoggerSource.Instance.GetLogger(typeof(UserManageController));
+                logger.Info(logMessage);
+            }
+            catch (Exception ex)
+            {
+                // Log the exception
+                LoggerSource.Instance.GetLogger(typeof(UserManageController)).Error(ex);
+            }
+            return Content("");
+        }
+
         public ActionResult PasswordResetLink(int itemId)
         {
             var portalId = ModuleContext.PortalId;
