@@ -167,14 +167,14 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Confirm Delete</h5>
+                    <h2 class="modal-title text-danger">@Localization.GetString("YouAreSure", @ResourceFile)</h2>
                 </div>
                 <div class="modal-body">
-                    <p>Are you sure you want to delete these data?</p>
+                    <p class="text-danger">@Localization.GetString("ClearStartEndDate", @ResourceFile)</p>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" id="confirmDelete">Delete</button>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-danger" id="confirmDelete">@Localization.GetString("Ok", @ResourceFile)</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">@Localization.GetString("Cancel", @ResourceFile)</button>
                 </div>
             </div>
         </div>
@@ -248,8 +248,15 @@ $(document).ready(function () {
         var expiresDateInput = $(this).find('.expiresDateInput');
         var expiresDate = expiresDateInput.val() ? new Date(expiresDateInput.val()) : new Date();
         var minExpiresDate = new Date(expiresDate);
-
-        minExpiresDate.setDate(minExpiresDate.getDate() + 1); // Add one day to the expires date
+        // Get the startPicker value
+        var startPickerValue = $(this).closest('tr').find('.startPicker input').val();
+        if (startPickerValue) {
+            // Parse year, month, and day from startPickerValue
+            var [year, month, day] = startPickerValue.split('-').map(Number);
+            // Create a new date in local time
+            minExpiresDate = new Date(year, month - 1, day);
+            minExpiresDate.setDate(minExpiresDate.getDate() + 1);
+        }
         $(this).datepicker({
             todayBtn: "linked",
             autoclose: true,
@@ -288,7 +295,6 @@ $(document).ready(function () {
     $('.deleteButton').click(function(e) {
         e.preventDefault();
         roleId = $(this).data('role-id'); // Assign the roleId from the clicked button to the outer roleId variable
-        console.log(roleId);
         $('#confirmModal').modal('show');
     });
 
@@ -297,7 +303,6 @@ $(document).ready(function () {
         var itemId = @userId; // Get the itemId from the Razor variable
         var baseUrl = '@Url.Action("SetDateTimeUserRoleNull", "UserManage")';
         var url = baseUrl + '?itemId=' + itemId + '&roleId=' + roleId;
-        console.log(url);
         $.ajax({
             url: url,
             type: 'POST',
