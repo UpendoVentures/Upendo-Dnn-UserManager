@@ -321,11 +321,20 @@ namespace Upendo.Modules.UserManager.Controllers
                 var portalId = ModuleContext.PortalId;
                 var roleController = new RoleController();
                 roleController.AddUserRole(portalId, itemId, roleId, DateTime.MinValue, DateTime.MinValue);
+
+                // Log the action
+                var user = UserController.GetUserById(portalId, itemId);
+                UserRoleInfo userRole = roleController.GetUserRole(portalId, itemId, roleId);
+                var currentUser = UserController.Instance.GetCurrentUserInfo();
+
+                var logMessage = $"The effective date and expiration date for Role {userRole.FullName} were cleared for User {user.Username} by Username {currentUser.Username}.";
+                var logger = LoggerSource.Instance.GetLogger(typeof(UserManageController));
+                logger.Info(logMessage);
             }
             catch (Exception ex)
             {
                 // Log the exception
-                LoggerSource.Instance.GetLogger(typeof(UserRepository)).Error(ex);
+                LoggerSource.Instance.GetLogger(typeof(UserManageController)).Error(ex);
             }
             return Content("");
         }
