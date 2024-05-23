@@ -122,7 +122,7 @@
                             </p>
                         </td>
                         <td class="centerInTable">
-                            <a class="btn btn-sm expiresSubmitButton" data-toggle="tooltip" data-placement="top" title="@Localization.GetString("StartDate", @ResourceFile)">
+                            <a class="btn btn-sm expiresSubmitButton @(item.HasRole ? "" : "disabled")" data-toggle="tooltip" data-placement="top" title="@Localization.GetString("StartDate", @ResourceFile)">
                                 <div class="input-group date startPicker" data-role-id="@item.RoleId">
                                     <input class="startDateInput hidden" type="text" value="@(item.EffectiveDate.HasValue && item.EffectiveDate.Value != DateTime.MinValue ? item.EffectiveDate.Value.ToString("yyyy-MM-dd") : "")">
                                     <span class="input-group-addon">
@@ -130,7 +130,7 @@
                                     </span>
                                 </div>
                             </a>
-                            <a class="btn btn-sm expiresSubmitButton" data-toggle="tooltip" data-placement="top" title="@Localization.GetString("ExpiresDate", @ResourceFile)">
+                            <a class="btn btn-sm expiresSubmitButton @(item.HasRole ? "" : "disabled")" data-toggle="tooltip" data-placement="top" title="@Localization.GetString("ExpiresDate", @ResourceFile)">
                                 <div class="input-group date expiresPicker" data-role-id="@item.RoleId">
                                     <input class="expiresDateInput hidden" type="text" value="@(item.ExpiryDate.HasValue && item.ExpiryDate.Value != DateTime.MinValue ? item.ExpiryDate.Value.ToString("yyyy-MM-dd") : "")">
                                     <span class="input-group-addon">
@@ -138,21 +138,22 @@
                                     </span>
                                 </div>
                             </a>
-                            <a class="deleteButton btn btn-sm expiresSubmitButton" data-toggle="tooltip" data-placement="top" title="@Localization.GetString("ClearDates", @ResourceFile)" data-role-id="@item.RoleId">
+                            <a class="deleteButton btn btn-sm expiresSubmitButton @(item.HasRole ? "" : "disabled")" data-toggle="tooltip" data-placement="top" title="@Localization.GetString("ClearDates", @ResourceFile)" data-role-id="@item.RoleId">
                                 <span class="input-group-addon">
                                     <i class="glyphicon glyphicon-remove"></i>
                                 </span>
                             </a>
+
                             @if (@item.HasRole == true)
                             {
-                                <a class="btn btn-danger btn-sm edit hint--top hint--" href="@Url.Action("UserRoles", "UserManage", new { take = @Model.Take, pageIndex = @Model.PageIndex, search = @Model.Search, itemId = @userId, roleId = item.RoleId, userId = @userId, actionView = "Remove" })"
+                                <a class="btn btn-danger btn-sm edit hint--top hint-- remove-role-btn" data-item-id="@userId" data-role-id="@item.RoleId"
                                    data-toggle="tooltip" data-placement="top" title="@Localization.GetString("Delete", @ResourceFile)">
                                     <span class="glyphicon glyphicon-trash color-white" aria-hidden="true"></span>
                                 </a>
                             }
                             else
                             {
-                                <a class="btn btn-primary btn-sm edit hint--top hint--" href="@Url.Action("UserRoles", "UserManage", new { take = @Model.Take, pageIndex = @Model.PageIndex, search = @Model.Search, itemId = @userId, roleId = item.RoleId, userId = @userId, actionView = "Add" })"
+                                <a class="btn btn-primary btn-sm edit hint--top hint-- add-role-btn" data-item-id="@userId" data-role-id="@item.RoleId"
                                    data-toggle="tooltip" data-placement="top" title="@Localization.GetString("AddRole", @ResourceFile)">
                                     <span class="glyphicon glyphicon-plus color-white" aria-hidden="true"></span>
                                 </a>
@@ -205,6 +206,50 @@
 $(document).ready(function () {
     var correctlyEdited = '@DotNetNuke.Services.Localization.Localization.GetString("CorrectlyEdited.Text", "~/DesktopModules/MVC/Upendo.Modules.UserManager/App_LocalResources/UserRoles.resx")';
     var errorOccurred = '@DotNetNuke.Services.Localization.Localization.GetString("ErrorOccurred.Text", "~/DesktopModules/MVC/Upendo.Modules.UserManager/App_LocalResources/UserRoles.resx")';
+
+    $('.add-role-btn').on('click', function(e) {
+        e.preventDefault();
+
+        var itemId = $(this).data('item-id');
+        var roleId = $(this).data('role-id');
+        var url = '@Url.Action("AddUserRole", "UserManage")' + '?itemId=' + itemId + '&roleId=' + roleId;
+
+        $.ajax({
+            url: url,
+            type: 'POST',
+            success: function(response) {
+                // Show a success message
+                alert('User role added successfully');
+                location.reload();
+            },
+            error: function(error) {
+                // Show an error message
+                alert('An error occurred while adding the user role');
+            }
+        });
+    });
+
+    $('.remove-role-btn').on('click', function(e) {
+        e.preventDefault();
+
+        var itemId = $(this).data('item-id');
+        var roleId = $(this).data('role-id');
+        var url = '@Url.Action("RemoveUserRole", "UserManage")' + '?itemId=' + itemId + '&roleId=' + roleId;
+
+        $.ajax({
+            url: url,
+            type: 'POST',
+            success: function(response) {
+                // Show a success message
+                alert('User role removed successfully');
+                location.reload();
+            },
+            error: function(error) {
+                // Show an error message
+                alert('An error occurred while removing the user role');
+            }
+        });
+    });
 
     $('.startPicker').each(function() {
         $(this).datepicker({
