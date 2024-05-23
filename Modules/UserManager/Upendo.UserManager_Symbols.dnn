@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <dotnetnuke type="Package" version="6.0">
   <packages>
-    <package name="Upendo.Modules.UserManager_Symbols" type="Library" version="01.01.01">
+    <package name="Upendo.Modules.UserManager_Symbols" type="Library" version="01.02.00">
       <friendlyName>Upendo DNN User Manager Symbols</friendlyName>
       <description><![CDATA[Upendo DNN User Manager Extension for DNN]]></description>
       <owner>
@@ -14,7 +14,7 @@
       <releaseNotes src="ReleaseNotes.txt" />
       <azureCompatible>True</azureCompatible>
       <dependencies>
-        <dependency type="managedPackage" version="1.1.1">Upendo.Modules.UserManager</dependency>
+        <dependency type="managedPackage" version="1.2.0">Upendo.Modules.UserManager</dependency>
       </dependencies>
       <components>
         <component type="ResourceFile">
