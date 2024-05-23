@@ -25,6 +25,7 @@ using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Web.Security;
 using DotNetNuke.Data;
 using DotNetNuke.Entities.Host;
 using DotNetNuke.Entities.Portals;
@@ -44,6 +45,9 @@ namespace Upendo.Modules.UserManager.Utility
     /// </summary>
     public class UserRepository
     {
+        private static readonly string ResourceFile = "~/DesktopModules/MVC/Upendo.Modules.UserManager/App_LocalResources/UserRepository.resx";
+        private static readonly RoleController RoleController = new RoleController();
+
         /// <summary>
         /// Get all users by param
         /// </summary>
@@ -143,6 +147,8 @@ namespace Upendo.Modules.UserManager.Utility
             {
                 if (item.Status != RoleStatus.Approved) continue;
                 if (item.RoleName == "Administrators" && !isAdminOrSuperUser) continue;
+                UserRoleInfo userRole = RoleController.GetUserRole(portalId, userInfo.UserID, item.RoleID);
+
                 var rolViewModel = new RolesViewModel()
                 {
                     RoleId = item.RoleID,
@@ -150,6 +156,8 @@ namespace Upendo.Modules.UserManager.Utility
                     PortalId = item.PortalID,
                     HasRole = false,
                     Index = 1,
+                    ExpiryDate = userRole?.ExpiryDate,
+                    EffectiveDate = userRole?.EffectiveDate
                 };
                 if (userInfo.Roles.FirstOrDefault(r => r == item.RoleName) != null)
                 {
@@ -174,11 +182,11 @@ namespace Upendo.Modules.UserManager.Utility
             }
             if (!string.IsNullOrEmpty(search) && search != " ")
             {
-                result = result.Where(e => e.RoleName.Contains(search)).ToList();
+                result = result.Where(e => e.RoleName.Contains(search)).OrderByDescending(r => r.Index).ToList();
                 rolesTotal = rolesViewModel.Count();
             }
             var pagesTotal = Math.Ceiling(rolesTotal / take);
-            result = result.Skip(pageIndex).Take((int)take).ToList();
+            result = result.Skip(pageIndex).Take((int)take).OrderByDescending(r => r.Index).ToList();
             return new DataTableResponse<RolesViewModel>()
             {
                 Take = take,
@@ -222,12 +230,13 @@ namespace Upendo.Modules.UserManager.Utility
             };
             return user;
         }
+
         /// <summary>
         /// Create User
         /// </summary>
         /// <param name="user"></param>
         /// <param name="portalId"></param>
-        public static void CreateUser(UserViewModel user, int portalId)
+        public static UserCreateStatus CreateUser(UserViewModel user, int portalId)
         {
             var userInfo = new UserInfo
             {
@@ -249,7 +258,7 @@ namespace Upendo.Modules.UserManager.Utility
             {
                 userInfo.Roles.Append(item.RoleName);
             }
-            UserController.CreateUser(ref userInfo, user.SendEmail);
+            return UserController.CreateUser(ref userInfo, user.SendEmail);
         }
 
         /// <summary>
@@ -311,7 +320,6 @@ namespace Upendo.Modules.UserManager.Utility
         }
         public static string SendPasswordResetLink(int portalId, int itemId, PortalSettings portalSettings)
         {
-            string ResourceFile = "~/DesktopModules/MVC/Upendo.Modules.UserManager/App_LocalResources/UserRepository.resx";
             try
             {
                 var user = UserController.GetUserById(portalId, itemId);
@@ -344,6 +352,36 @@ namespace Upendo.Modules.UserManager.Utility
                 LoggerSource.Instance.GetLogger(typeof(UserRepository)).Error(ex);
                 // Return a generic error message
                 return Localization.GetString("AnErrorOccurred.Text", ResourceFile);
+            }
+        }
+
+        public static bool UpdateDateTimeUserRole(int portalId, int itemId, int roleId, DateTime? effectiveDate, DateTime? expiryDate)
+        {
+
+            try
+            {
+                var user = UserController.GetUserById(portalId, itemId);
+                UserRoleInfo userRole = RoleController.GetUserRole(portalId, itemId, roleId);
+
+                var dataEffectiveDate = effectiveDate == null ? (userRole.EffectiveDate == DateTime.MinValue ? (object)DBNull.Value : userRole.EffectiveDate) : effectiveDate;
+                var dataExpiryDate = expiryDate == null ? (userRole.ExpiryDate == DateTime.MinValue ? (object)DBNull.Value : userRole.ExpiryDate) : expiryDate;
+
+                if (dataEffectiveDate != DBNull.Value)
+                {
+                    userRole.EffectiveDate = (DateTime)dataEffectiveDate;
+                }
+                if (dataExpiryDate != DBNull.Value)
+                {
+                    userRole.ExpiryDate = (DateTime)dataExpiryDate;
+                }
+                RoleController.AddUserRole(portalId, itemId, roleId, userRole.EffectiveDate, userRole.ExpiryDate);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                // Log the exception
+                LoggerSource.Instance.GetLogger(typeof(UserRepository)).Error(ex);
+                return false;
             }
         }
     }

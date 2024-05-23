@@ -19,15 +19,20 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 using DotNetNuke.Entities.Users;
 using DotNetNuke.Framework.JavaScriptLibraries;
+using DotNetNuke.Instrumentation;
+using DotNetNuke.Security.Membership;
 using DotNetNuke.Security.Permissions;
 using DotNetNuke.Security.Roles;
 using DotNetNuke.Services.Localization;
 using DotNetNuke.Web.Mvc.Framework.ActionFilters;
 using DotNetNuke.Web.Mvc.Framework.Controllers;
 using System;
+using System.Net;
 using System.Web.Mvc;
+using Upendo.Modules.UserManager.Models.DnnModel;
 using Upendo.Modules.UserManager.Utility;
 using Upendo.Modules.UserManager.ViewModels;
+using static Telerik.Web.UI.OrgChartStyles;
 
 namespace Upendo.Modules.UserManager.Controllers
 {
@@ -122,21 +127,48 @@ namespace Upendo.Modules.UserManager.Controllers
         {
             DotNetNuke.Framework.JavaScriptLibraries.JavaScript.RequestRegistration(CommonJs.DnnPlugins);
             var portalId = ModuleContext.PortalId;
-            var user = UserController.GetUserByName(portalId, item.Username);
             ModelState.Remove("UserId");
-            if (user != null)
-            {
-                string errorMessage = Localization.GetString("UsernameInUse.Text", ResourceFile);
-                ModelState.AddModelError(string.Empty, @errorMessage);
-                return View(item);
-            }
-
             if (!ModelState.IsValid)
             {
                 return View(item);
             }
-            UserRepository.CreateUser(item, portalId);
-            return RedirectToAction("Index");
+            var userCreateStatus = UserRepository.CreateUser(item, portalId);
+            if (userCreateStatus == UserCreateStatus.Success)
+            {
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                switch (userCreateStatus)
+                {
+                    case UserCreateStatus.DuplicateEmail:
+                        ModelState.AddModelError("Email", "Duplicate; Email Address already in use on another User Account");
+                        break;
+                    case UserCreateStatus.InvalidEmail:
+                        ModelState.AddModelError("Email", "Invalid; Email Address did not pass validation");
+                        break;
+                    case UserCreateStatus.InvalidPassword:
+                        ModelState.AddModelError("Password", "Invalid; Password requirements were not met");
+                        break;
+                    case UserCreateStatus.BannedPasswordUsed:
+                        ModelState.AddModelError("Password", "Invalid; Password is banned");
+                        break;
+                    case UserCreateStatus.DuplicateUserName:
+                    case UserCreateStatus.UserAlreadyRegistered:
+                    case UserCreateStatus.UsernameAlreadyExists:
+                        ModelState.AddModelError("Username", "Duplicate; Username already in use on another User Account");
+                        break;
+                    case UserCreateStatus.InvalidUserName:
+                        ModelState.AddModelError("Username", "Invalid; Username does not meet requirements");
+                        break;
+                    default:
+                        ModelState.AddModelError(string.Empty, $"Create User Failed. Unhandled or Unknown UserCreateStatus: {userCreateStatus}");
+                        break;
+                }
+                string errorMessage = UserController.GetUserCreateStatus(userCreateStatus);
+                ModelState.AddModelError(string.Empty, errorMessage);
+                return View(item);
+            }
         }
 
         public ActionResult Edit(int itemId)
@@ -249,23 +281,111 @@ namespace Upendo.Modules.UserManager.Controllers
                     var result1 = UserRepository.GetRolesByUser(takeValue, pageIndexValue, goToPage, portalId, search, itemId);
                     return View(result1);
                 }
-
-                if (roleId != null)
-                {
-                    if (actionView == "Add")
-                    {
-                        RoleController.Instance.AddUserRole(portalId, itemId, roleIdValue, RoleStatus.Approved, false, DateTime.Now, DateTime.Now.AddDays(30));
-                    }
-                    else
-                    {
-                        RoleController.Instance.UpdateUserRole(portalId, itemId, roleIdValue, RoleStatus.Approved, false, true);
-                    }
-                }
                 ViewBag.User = UserRepository.GetUser(portalId, itemId);
                 var result = UserRepository.GetRolesByUser(takeValue, pageIndexValue, goToPage, portalId, search, itemId);
                 return View(result);
             }
         }
+
+        [HttpPost]
+        public ActionResult AddUserRole(int itemId, int roleId)
+        {
+            bool isAuthenticated = Request.IsAuthenticated;
+            // Check if the authenticated user has the required permission
+            var hasPermission = Functions.HasPermission(ModuleContext);
+
+            if (!isAuthenticated || !hasPermission)
+            {
+                string errorMessage = Localization.GetString("NotPermissions.Text", ResourceFile);
+                ViewBag.ErrorMessage = errorMessage;
+                return View("Error");
+            }
+            else
+            {
+                try
+                {
+                    var portalId = ModuleContext.PortalId;
+                    RoleController.Instance.AddUserRole(portalId, itemId, roleId, RoleStatus.Approved, false, DateTime.MinValue, DateTime.MinValue);
+                }
+                catch (Exception ex)
+                {
+                    // Log the exception
+                    LoggerSource.Instance.GetLogger(typeof(UserRepository)).Error(ex);
+                }
+                return Content("");
+            }
+        }
+
+        [HttpPost]
+        public ActionResult RemoveUserRole(int itemId, int roleId)
+        {
+            bool isAuthenticated = Request.IsAuthenticated;
+            // Check if the authenticated user has the required permission
+            var hasPermission = Functions.HasPermission(ModuleContext);
+
+            if (!isAuthenticated || !hasPermission)
+            {
+                string errorMessage = Localization.GetString("NotPermissions.Text", ResourceFile);
+                ViewBag.ErrorMessage = errorMessage;
+                return View("Error");
+            }
+            else
+            {
+                try
+                {
+                    var portalId = ModuleContext.PortalId;
+                    RoleController.Instance.UpdateUserRole(portalId, itemId, roleId, RoleStatus.Approved, false, true);
+                }
+                catch (Exception ex)
+                {
+                    // Log the exception
+                    LoggerSource.Instance.GetLogger(typeof(UserRepository)).Error(ex);
+                }
+                return Content("");
+            }
+        }
+
+        [HttpPost]
+        public ActionResult UpdateDateTimeUserRole(int itemId, int roleId, DateTime? effectiveDate, DateTime? expiryDate)
+        {
+            try
+            {
+                var portalId = ModuleContext.PortalId;
+                UserRepository.UpdateDateTimeUserRole(portalId, itemId, roleId, effectiveDate, expiryDate);
+            }
+            catch (Exception ex)
+            {
+                // Log the exception
+                LoggerSource.Instance.GetLogger(typeof(UserRepository)).Error(ex);
+            }
+            return Content("");
+        }
+
+        public ActionResult SetDateTimeUserRoleNull(int itemId, int roleId)
+        {
+            try
+            {
+                var portalId = ModuleContext.PortalId;
+                var roleController = new RoleController();
+                roleController.AddUserRole(portalId, itemId, roleId, DateTime.MinValue, DateTime.MinValue);
+
+                // Log the action
+                var user = UserController.GetUserById(portalId, itemId);
+                UserRoleInfo userRole = roleController.GetUserRole(portalId, itemId, roleId);
+                var currentUser = UserController.Instance.GetCurrentUserInfo();
+
+                var logMessage = $"The effective date and expiration date for Role {userRole.FullName} were cleared for User {user.Username} by Username {currentUser.Username}.";
+                var logger = LoggerSource.Instance.GetLogger(typeof(UserManageController));
+                logger.Info(logMessage);
+            }
+            catch (Exception ex)
+            {
+                // Log the exception
+                LoggerSource.Instance.GetLogger(typeof(UserManageController)).Error(ex);
+            }
+            return Content("");
+        }
+
         public ActionResult PasswordResetLink(int itemId)
         {
             var portalId = ModuleContext.PortalId;

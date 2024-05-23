@@ -123,11 +123,35 @@
   <data name="AddRole.Text" xml:space="preserve">
     <value>Add Role</value>
   </data>
+  <data name="Cancel.Text" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="ClearDates.Text" xml:space="preserve">
+    <value>Clear the Dates</value>
+  </data>
+  <data name="ClearStartEndDate.Text" xml:space="preserve">
+    <value>This role has a start date and/or end date assigned to it. Clicking OK will clear those values. This action CANNOT be undone. Do you want to proceed?</value>
+  </data>
+  <data name="CorrectlyEdited.Text" xml:space="preserve">
+    <value>Success: Correctly edited</value>
+  </data>
   <data name="Delete.Text" xml:space="preserve">
     <value>Delete</value>
   </data>
+  <data name="ErrorOccurred.Text" xml:space="preserve">
+    <value>Error: an error has occurred</value>
+  </data>
+  <data name="Expires.Text" xml:space="preserve">
+    <value>EXPIRES</value>
+  </data>
+  <data name="ExpiresDate.Text" xml:space="preserve">
+    <value>Expires date</value>
+  </data>
   <data name="NoRolesFounds.Text" xml:space="preserve">
     <value>No roles founds</value>
+  </data>
+  <data name="Ok.text" xml:space="preserve">
+    <value>Ok</value>
   </data>
   <data name="Role.Text" xml:space="preserve">
     <value>ROLE</value>
@@ -138,7 +162,16 @@
   <data name="SearchCriteria.Text" xml:space="preserve">
     <value>with this search criteria</value>
   </data>
+  <data name="Start.Text" xml:space="preserve">
+    <value>START</value>
+  </data>
+  <data name="StartDate.Text" xml:space="preserve">
+    <value>Start date</value>
+  </data>
   <data name="UserList.Text" xml:space="preserve">
     <value>User List</value>
+  </data>
+  <data name="YouAreSure.Text" xml:space="preserve">
+    <value>You're sure?</value>
   </data>
 </root>

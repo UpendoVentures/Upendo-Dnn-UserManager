@@ -109,6 +109,7 @@
     <Compile Include="ViewModels\Pagination.cs" />
     <Compile Include="ViewModels\ResultJsonViewModel.cs" />
     <Compile Include="ViewModels\RolesViewModel.cs" />
+    <Compile Include="ViewModels\UserRoleDates.cs" />
     <Compile Include="ViewModels\UserViewModel.cs" />
   </ItemGroup>
   <ItemGroup>

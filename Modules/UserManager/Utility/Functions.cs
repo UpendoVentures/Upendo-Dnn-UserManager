@@ -28,11 +28,17 @@ using DotNetNuke.Security.Permissions;
 using System.Collections;
 using System.Data.SqlClient;
 using System.Data;
+using DotNetNuke.Instrumentation;
+using DotNetNuke.Services.Localization;
+using static Telerik.Web.UI.OrgChartStyles;
+using DotNetNuke.Security.Roles;
 
 namespace Upendo.Modules.UserManager.Utility
 {
     public class Functions
     {
+        private static readonly RoleController RoleController = new RoleController();
+
         public static Users MakeUser(UserInfo u)
         {
             var user = new Users()
@@ -113,7 +119,7 @@ namespace Upendo.Modules.UserManager.Utility
             }
             return new DataTableResponse<Users>() { Take = pagination.Take, PageIndex = pagination.PageIndex, PagesTotal = pagesTotal, RecordsTotal = usersTotal, Search = pagination.Search, OrderBy = pagination.OrderBy, Order = pagination.Order, Data = users };
         }
-        
+
         public static DataTableResponse<Users> GetUsersProcedure(Pagination pagination, object parameters)
         {
             var results = new List<Users>();

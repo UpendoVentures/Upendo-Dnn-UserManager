@@ -14,10 +14,10 @@
 	<p>Sponsorship is <em>Powered by GitHub Sponsors</em> and ensures that this project lives and thrives. <a href="https://github.com/sponsors/UpendoVentures" target="_blank">Please consider contributing</a> any amount.</p>
 	<p>THANK YOU to the following rockstars!</p>
 	<ul>
-		<li>David Poindexter, <a href="https://nvisionative.com/" target="_blank">nvisionative</a></li>
 		<li>Dan Rice, <a href="https://www.puresystems.co.uk/" target="_blank">Pure Systems</a></li>
-		<li>Matt Rutledge, <a href="https://believekids.com/" target="_blank">Believe Kids</a></li>
 		<li>Adam Bernstein, <a href="https://practicewise.com/" target="_blank">PracticeWise</a></li>
+		<li>Jeremy Farrance, <a href="https://accuraty.com/" target="_blank">Accuraty</a></li>
+		<li><a href="https://github.com/JohnRamminger" target="_blank">John Ramminger</a></li>
 		<li>(<em>and two anonymous sponsors</em>)</li>
 	</ul>
 	
@@ -33,6 +33,28 @@
 	<ul>
 		<li><strong>SI:</strong> Support Inquiry - This issue was reported by a <a href="https://upendoventures.com/Support" target="_blank">support customer</a> and, as such, was prioritized above all other tasks.</li>
 	</ul>
+
+	<h2>Release Notes: 01.02.00</h2>
+	
+	<h3><strong>Enhancements</strong></h3>
+	<ul>
+		<li><strong>SI: Added Ability to Specify Start/End Dates for Roles</strong> - You can now independently assign a start or end date for the role expiration, as well as a one-click clearing for the expiry dates. (<a href="https://github.com/UpendoVentures/Upendo-Dnn-UserManager/issues/52" target="_blank">Issue 52</a>), Thanks <a href="https://github.com/alejoroman0605" target="_blank">@alejoroman0605</a></li>
+		<li><strong>SI: Added Visual Email Validation</strong> - The email address validation now follows a similar UX pattern as the password. (<a href="https://github.com/UpendoVentures/Upendo-Dnn-UserManager/issues/43" target="_blank">Issue 43</a>), Thanks <a href="https://github.com/alejoroman0605" target="_blank">@alejoroman0605</a></li>
+		<!--
+		<li><strong></strong> - . (<a href="https://github.com/UpendoVentures/Upendo-Dnn-UserManager/issues/" target="_blank">Issue </a>), Thanks <a href="https://github.com/" target="_blank">@</a></li>
+		<li>None at this time.</li>
+		-->
+	</ul>
+	
+	<h3><strong>Maintenance Updates</strong></h3>
+	<ul>
+		<li><a href="https://github.com/UpendoVentures/Upendo-Dnn-UserManager/issues/81" target="_blank">Issue 81</a> - Added messaging to display an error when it occurs. Thanks <a href="https://github.com/jeremy-farrance" target="_blank">@jeremy-farrance</a></li>
+		<!--
+		<li><a href="https://github.com/UpendoVentures/Upendo-Dnn-UserManager/issues/" target="_blank">Issue </a> - . Thanks <a href="https://github.com/" target="_blank">@</a></li>
+		<li>(no issue) - .</li>
+		-->
+	</ul>
+	<hr />
 
 	<h2>Release Notes: 01.01.01</h2>
 	

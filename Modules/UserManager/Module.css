@@ -337,3 +337,17 @@
 .color-black {
     color: black !important;
 }
+
+/* version 1.01.02 additions */
+.field-validation-error {
+  color: darkred;
+  font-size: small;
+}
+
+.datepicker-dropdown.datepicker-orient-left:after {
+    left: 50% !important;
+}
+
+.datepicker-dropdown.datepicker-orient-top:before {
+    border-top: 0 solid rgba(0, 0, 0, .15) !important;
+}
