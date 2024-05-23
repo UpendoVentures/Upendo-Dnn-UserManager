@@ -182,11 +182,11 @@ namespace Upendo.Modules.UserManager.Utility
             }
             if (!string.IsNullOrEmpty(search) && search != " ")
             {
-                result = result.Where(e => e.RoleName.Contains(search)).ToList();
+                result = result.Where(e => e.RoleName.Contains(search)).OrderByDescending(r => r.Index).ToList();
                 rolesTotal = rolesViewModel.Count();
             }
             var pagesTotal = Math.Ceiling(rolesTotal / take);
-            result = result.Skip(pageIndex).Take((int)take).ToList();
+            result = result.Skip(pageIndex).Take((int)take).OrderByDescending(r => r.Index).ToList();
             return new DataTableResponse<RolesViewModel>()
             {
                 Take = take,
