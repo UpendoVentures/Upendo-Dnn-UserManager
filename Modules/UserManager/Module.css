@@ -181,6 +181,10 @@
     margin-left: 30px;
 }
 
+.mt0 {
+    margin-top: 0 !important;
+}
+
 .mt5 {
     margin-top: 5px;
 }
@@ -386,8 +390,4 @@
 
 .admin-manager .dropdown:hover .dropbtn {
     background-color: #3e8e41;
-}
-
-.admin-manager .dnnPrimaryAction {
-    margin-top: 0;
 }
