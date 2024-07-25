@@ -68,7 +68,7 @@
         <div class="col-md-3">
             <div class="input-group">
                 <span class="input-group-btn">
-                    <button class="dnnPrimaryAction box-shadow" type="submit">@Localization.GetString("Search", @SharedResourceFile)</button>
+                    <button class="dnnPrimaryAction mt0 box-shadow" type="submit">@Localization.GetString("Search", @SharedResourceFile)</button>
                 </span>
                 @Html.TextBoxFor(m => m.Search, new { @class = "form-control", @type = "text", @style = "height: 40px;box-shadow: 0 0 3px 0 #888888" })
             </div>
@@ -97,17 +97,8 @@
                     }
                 </div>
             </div>
-            <div class=" ml30">
-                <a class="btn btn-link box-shadow" href="@Url.Action("Index", "UserManage", new {take = @Model.Take, pageIndex=@Model.PageIndex, filter = @ViewBag.Filter, search=@Model.Search, orderBy=@Model.OrderBy , order="asc"})"
-                   data-toggle="tooltip" data-placement="top" title="Asc">
-                    <span class="fa fa-arrow-up" aria-hidden="true"></span>
-                </a>
-                <a class="btn btn-link box-shadow" href="@Url.Action("Index", "UserManage", new {take = @Model.Take, pageIndex=@Model.PageIndex, filter = @ViewBag.Filter, search=@Model.Search, orderBy=@Model.OrderBy, order="desc"})"
-                   data-toggle="tooltip" data-placement="top" title="Desc">
-                    <span class="fa fa-arrow-down" aria-hidden="true"></span>
-                </a>
-            </div>
-            <div class="dropdown">
+
+            <div class="dropdown ml30">
                 <a class="dropDown dropdown-toggle">
                     <strong>@Localization.GetString("SortBy", @SharedResourceFile)<span class="caret"></span></strong>
                 </a>
@@ -125,6 +116,14 @@
                     </a>
                 </div>
             </div>
+            <a class="btn btn-link box-shadow" href="@Url.Action("Index", "UserManage", new {take = @Model.Take, pageIndex=@Model.PageIndex, filter = @ViewBag.Filter, search=@Model.Search, orderBy=@Model.OrderBy , order="asc"})"
+               data-toggle="tooltip" data-placement="top" title="Asc">
+                <span class="fa fa-arrow-up" aria-hidden="true"></span>
+            </a>
+            <a class="btn btn-link box-shadow" href="@Url.Action("Index", "UserManage", new {take = @Model.Take, pageIndex=@Model.PageIndex, filter = @ViewBag.Filter, search=@Model.Search, orderBy=@Model.OrderBy, order="desc"})"
+               data-toggle="tooltip" data-placement="top" title="Desc">
+                <span class="fa fa-arrow-down" aria-hidden="true"></span>
+            </a>
         </div>
     </div>
 </div>
@@ -186,7 +185,7 @@
 
                     </td>
                     <td class="text-center">
-                        <a data-hint="Edit" class="btn btn-warning btn-sm edit warning" href="@Url.Action("Edit", "UserManage", new {ctl = "Edit", itemId = item.UserId})"
+                        <a data-hint="Edit" class="dnnPrimaryAction btn-sm edit warning" href="@Url.Action("Edit", "UserManage", new {ctl = "Edit", itemId = item.UserId})"
                            data-toggle="tooltip" data-placement="top" title="@Localization.GetString("Edit", @SharedResourceFile)">
                             <span class="fa fa-edit color-white" aria-hidden="true"></span>
                         </a>
