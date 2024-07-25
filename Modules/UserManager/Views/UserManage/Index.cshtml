@@ -18,247 +18,207 @@
     var pageIndexTo = (pageIndexPaginate + Model.Take) - 1;
     var skipTo = Model.PageIndex + Model.Take;
 }
-<div id="Items-@Dnn.ModuleContext.ModuleId" style="margin: 2%!important;">
+<div class="admin-manager" id="Items-@Dnn.ModuleContext.ModuleId" style="margin: 2%!important;">
     <div class="col-md-12" style="margin-bottom: 20px;">
-        <ul class="nav navbar-nav navbar-right">
-            <a type="button" class="dnnPrimaryAction" href="@Url.Action("Create", "UserManage", new {ctl = "Edit"})">
-                @Localization.GetString("BtnCreateUser", @ResourceFile)
+        <a type="button" class="dnnPrimaryAction" href="@Url.Action("Create", "UserManage", new {ctl = "Edit"})">
+            @Localization.GetString("BtnCreateUser", @ResourceFile)
+        </a>
+        <span id="dialogs-DeleteUnauthorized" class="dnnActions" style="display: initial;">
+            <a type="button" class="confirm btn btn-warning" href="@Url.Action("DeleteUnauthorizedUsers", "UserManage", new {})" style="color: white;">
+                <span class="fa fa-trash color-white" aria-hidden="true"></span>
+                @Localization.GetString("DeleteUnauthorizedUsers", @ResourceFile)
             </a>
-            <span id="dialogs-DeleteUnauthorized" class="dnnActions" style="display: initial;">
-                <a type="button" class="confirm btn btn-warning" href="@Url.Action("DeleteUnauthorizedUsers", "UserManage", new {})" style="color: white;">
-                    <span class="glyphicon glyphicon-trash color-white" aria-hidden="true"></span>
-                    @Localization.GetString("DeleteUnauthorizedUsers", @ResourceFile)
-                </a>
-            </span>
-            <span id="dialogs-RemoveDelete" class="dnnActions" style="display: initial;">
-                <a type="button" class="confirm btn btn-warning" href="@Url.Action("RemoveDeletedUsers", "UserManage", new {})" style="color: white;">
-                    <span class="glyphicon glyphicon-trash color-white" aria-hidden="true"></span>
-                    @Localization.GetString("RemoveDeleteUsers", @ResourceFile)
-                </a>
-            </span>
-            <span class="dnnActions" style="display: initial;">
-                <a type="button" class="btn btn-info" href="@Url.Action("Index", "RolesManage", new {})" style="color: white;">
-                    <span class="glyphicon glyphicon-tasks color-white" aria-hidden="true"></span>
-                    @Localization.GetString("RolesList", @ResourceFile)
-                </a>
-            </span>
-        </ul>
+        </span>
+        <span id="dialogs-RemoveDelete" class="dnnActions" style="display: initial;">
+            <a type="button" class="confirm btn btn-warning" href="@Url.Action("RemoveDeletedUsers", "UserManage", new {})" style="color: white;">
+                <span class="fa fa-trash color-white" aria-hidden="true"></span>
+                @Localization.GetString("RemoveDeleteUsers", @ResourceFile)
+            </a>
+        </span>
+        <span class="dnnActions" style="display: initial;">
+            <a type="button" class="btn btn-info" href="@Url.Action("Index", "RolesManage", new {})" style="color: white;">
+                <span class="fa fa-tasks color-white" aria-hidden="true"></span>
+                @Localization.GetString("RolesList", @ResourceFile)
+            </a>
+        </span>
     </div>
     <div class="col-md-12 pl2">
-        <nav class="navbar navbar-default" role="navigation">
-            <div class="col-md-2 ">
-                <ul class="nav navbar-nav">
-                    <li class="dropdown">
-                        <a class="dropDown btn dropdown-toggle color-black" data-toggle="dropdown" href="#" style=" display: inline-flex;">
-                            @Localization.GetString("RowsPerPage", @SharedResourceFile) @Model.Take
-                            <span class="caret"></span>
-                        </a>        <ul class="dropdown-menu">
-                            <li>
-                                <a class="confirm page-link" href="@Url.Action("Index", "UserManage", new { take = 5, pageIndex = @Model.PageIndex, filter = @ViewBag.Filter, search=@Model.Search})">
-                                    <span aria-hidden="true">5</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a class="confirm page-link" href="@Url.Action("Index", "UserManage", new { take = 10, pageIndex = @Model.PageIndex, filter = @ViewBag.Filter, search=@Model.Search})">
-                                    <span aria-hidden="true">10</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a class="confirm page-link" href="@Url.Action("Index", "UserManage", new { take = 50, pageIndex = @Model.PageIndex, filter = @ViewBag.Filter, search=@Model.Search})">
-                                    <span aria-hidden="true">50</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a class="confirm page-link" href="@Url.Action("Index", "UserManage", new { take = 100, pageIndex = @Model.PageIndex, filter = @ViewBag.Filter, search=@Model.Search})">
-                                    <span aria-hidden="true">100</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a class="confirm page-link" href="@Url.Action("Index", "UserManage", new { take = @Model.RecordsTotal, pageIndex = @Model.PageIndex, filter = @ViewBag.Filter, search=@Model.Search})">
-                                    <span aria-hidden="true">@Localization.GetString("All", @SharedResourceFile)</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
-            </div>
-            <div class="col-md-3">
-                <div class="input-group">
-                    <span class="input-group-btn">
-                        <button class="btn btn-primary box-shadow" type="submit" style="margin-left: 60px;">@Localization.GetString("Search", @SharedResourceFile)</button>
-                    </span>
-                    @Html.TextBoxFor(m => m.Search, new { @class = "form-control", @type = "text", @style = " height: 40px;box-shadow: 0 0 3px 0 #888888" })
+        <div class="col-md-2 ">
+            <div class="dropdown">
+                <a class="dropDown dropdown-toggle"><strong>@Localization.GetString("RowsPerPage", @SharedResourceFile) @Model.Take <span class="caret"></span></strong></a>
+                <div class="dropdown-content">
+                    <a class="confirm page-link" href="@Url.Action("Index", "UserManage", new { take = 5, pageIndex = @Model.PageIndex, filter = @ViewBag.Filter, search=@Model.Search})">
+                        <span aria-hidden="true">5</span>
+                    </a>
+                    <a class="confirm page-link" href="@Url.Action("Index", "UserManage", new { take = 10, pageIndex = @Model.PageIndex, filter = @ViewBag.Filter, search=@Model.Search})">
+                        <span aria-hidden="true">10</span>
+                    </a>
+                    <a class="confirm page-link" href="@Url.Action("Index", "UserManage", new { take = 50, pageIndex = @Model.PageIndex, filter = @ViewBag.Filter, search=@Model.Search})">
+                        <span aria-hidden="true">50</span>
+                    </a>
+                    <a class="confirm page-link" href="@Url.Action("Index", "UserManage", new { take = 100, pageIndex = @Model.PageIndex, filter = @ViewBag.Filter, search=@Model.Search})">
+                        <span aria-hidden="true">100</span>
+                    </a>
+                    <a class="confirm page-link" href="@Url.Action("Index", "UserManage", new { take = @Model.RecordsTotal, pageIndex = @Model.PageIndex, filter = @ViewBag.Filter, search=@Model.Search})">
+                        <span aria-hidden="true">@Localization.GetString("All", @SharedResourceFile)</span>
+                    </a>
                 </div>
             </div>
-            <div class="col-md-7">
-                <ul class="nav navbar-nav navbar-right">
-                    <li class="dropdown" style="margin: 0 10px !important;">
-                        <a class="dropDown btn dropdown-toggle" data-toggle="dropdown" href="#" style=" display: inline-flex;">
-                            <span class="color-black">@ViewBag.Filter</span>
-                            <span class="caret" style=" display: inline-flex;"></span>
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li>
-                                <a class="confirm page-link" href="@Url.Action("Index", "UserManage", new { take = @Model.Take, pageIndex = @Model.PageIndex, search=@Model.Search, filter = "All", orderBy=@Model.OrderBy , order=@Model.Order})">
-                                    <span aria-hidden="true">@Localization.GetString("All", @SharedResourceFile)</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a class="confirm page-link" href="@Url.Action("Index", "UserManage", new { take = @Model.Take, pageIndex = @Model.PageIndex, search=@Model.Search, filter = "Authorized", orderBy=@Model.OrderBy , order=@Model.Order})">
-                                    <span aria-hidden="true">@Localization.GetString("Authorized", @SharedResourceFile)</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a class="confirm page-link" href="@Url.Action("Index", "UserManage", new { take = @Model.Take, pageIndex = @Model.PageIndex, search=@Model.Search, filter = "Unauthorized", orderBy=@Model.OrderBy , order=@Model.Order})">
-                                    <span aria-hidden="true">@Localization.GetString("Unauthorized", @SharedResourceFile)</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a class="confirm page-link" href="@Url.Action("Index", "UserManage", new { take = @Model.Take, pageIndex = @Model.PageIndex, search=@Model.Search, filter = "Deleted", orderBy=@Model.OrderBy , order=@Model.Order})">
-                                    <span aria-hidden="true">@Localization.GetString("Deleted", @SharedResourceFile)</span>
-                                </a>
-                            </li>
-                            @if (ViewBag.IsCurrentUserSuperUser)
-                            {
-                                <li>
-                                    <a class="confirm page-link" href="@Url.Action("Index", "UserManage", new { take = @Model.Take, pageIndex = @Model.PageIndex, search = @Model.Search, filter = "SuperUsers", orderBy = @Model.OrderBy, order = @Model.Order })">
-                                        <span aria-hidden="true">@Localization.GetString("SuperUsers", @SharedResourceFile)</span>
-                                    </a>
-                                </li>
-                            }
-                        </ul>
-                    </li>
-                    <li class="dropdown" style="margin: 0 10px !important;">
-                        <a class="dropDown btn dropdown-toggle" data-toggle="dropdown" href="#" style=" display: inline-flex;">
-                            <span class="color-black">@Localization.GetString("SortBy", @SharedResourceFile)</span>
-                            <span class="caret" style=" display: inline-flex;"></span>
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li>
-                                <a class="confirm page-link" href="@Url.Action("Index", "UserManage", new { take = @Model.Take, pageIndex = @Model.PageIndex, filter = @ViewBag.Filter, search=@Model.Search, orderBy="Username" , order=@Model.Order})">
-                                    <span aria-hidden="true">@Localization.GetString("Username", @ResourceFile)</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a class="confirm page-link" href="@Url.Action("Index", "UserManage", new { take = @Model.Take, pageIndex = @Model.PageIndex, filter = @ViewBag.Filter, search=@Model.Search, orderBy="DisplayName",order=@Model.Order})">
-                                    <span aria-hidden="true">@Localization.GetString("DisplayName", @ResourceFile)</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a class="confirm page-link" href="@Url.Action("Index", "UserManage", new { take = @Model.Take, pageIndex = @Model.PageIndex, filter = @ViewBag.Filter, search=@Model.Search, orderBy="Email" ,order=@Model.Order})">
-                                    <span aria-hidden="true">@Localization.GetString("Email", @ResourceFile)</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li>
-                        <a class="btn btn-link box-shadow" href="@Url.Action("Index", "UserManage", new {take = @Model.Take, pageIndex=@Model.PageIndex, filter = @ViewBag.Filter, search=@Model.Search, orderBy=@Model.OrderBy , order="asc"})"
-                           data-toggle="tooltip" data-placement="top" title="Asc">
-                            <span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="btn btn-link box-shadow" href="@Url.Action("Index", "UserManage", new {take = @Model.Take, pageIndex=@Model.PageIndex, filter = @ViewBag.Filter, search=@Model.Search, orderBy=@Model.OrderBy, order="desc"})"
-                           data-toggle="tooltip" data-placement="top" title="Desc">
-                            <span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span>
-                        </a>
-                    </li>
-
-                </ul>
+        </div>
+        <div class="col-md-3">
+            <div class="input-group">
+                <span class="input-group-btn">
+                    <button class="dnnPrimaryAction box-shadow" type="submit">@Localization.GetString("Search", @SharedResourceFile)</button>
+                </span>
+                @Html.TextBoxFor(m => m.Search, new { @class = "form-control", @type = "text", @style = "height: 40px;box-shadow: 0 0 3px 0 #888888" })
             </div>
-        </nav>
+        </div>
+        <div class="col-md-7">
+            <div class="dropdown ml30">
+                <a class="dropDown dropdown-toggle"><strong> @ViewBag.Filter<span class="caret"></span></strong></a>
+                <div class="dropdown-content">
+                    <a class="confirm page-link" href="@Url.Action("Index", "UserManage", new { take = @Model.Take, pageIndex = @Model.PageIndex, search=@Model.Search, filter = "All", orderBy=@Model.OrderBy , order=@Model.Order})">
+                        <span aria-hidden="true">@Localization.GetString("All", @SharedResourceFile)</span>
+                    </a>
+                    <a class="confirm page-link" href="@Url.Action("Index", "UserManage", new { take = @Model.Take, pageIndex = @Model.PageIndex, search=@Model.Search, filter = "Authorized", orderBy=@Model.OrderBy , order=@Model.Order})">
+                        <span aria-hidden="true">@Localization.GetString("Authorized", @SharedResourceFile)</span>
+                    </a>
+                    <a class="confirm page-link" href="@Url.Action("Index", "UserManage", new { take = @Model.Take, pageIndex = @Model.PageIndex, search=@Model.Search, filter = "Unauthorized", orderBy=@Model.OrderBy , order=@Model.Order})">
+                        <span aria-hidden="true">@Localization.GetString("Unauthorized", @SharedResourceFile)</span>
+                    </a>
+                    <a class="confirm page-link" href="@Url.Action("Index", "UserManage", new { take = @Model.Take, pageIndex = @Model.PageIndex, search=@Model.Search, filter = "Deleted", orderBy=@Model.OrderBy , order=@Model.Order})">
+                        <span aria-hidden="true">@Localization.GetString("Deleted", @SharedResourceFile)</span>
+                    </a>
+                    @if (ViewBag.IsCurrentUserSuperUser)
+                    {
+                        <a class="confirm page-link" href="@Url.Action("Index", "UserManage", new { take = @Model.Take, pageIndex = @Model.PageIndex, search = @Model.Search, filter = "SuperUsers", orderBy = @Model.OrderBy, order = @Model.Order })">
+                            <span aria-hidden="true">@Localization.GetString("SuperUsers", @SharedResourceFile)</span>
+                        </a>
+                    }
+                </div>
+            </div>
+            <div class=" ml30">
+                <a class="btn btn-link box-shadow" href="@Url.Action("Index", "UserManage", new {take = @Model.Take, pageIndex=@Model.PageIndex, filter = @ViewBag.Filter, search=@Model.Search, orderBy=@Model.OrderBy , order="asc"})"
+                   data-toggle="tooltip" data-placement="top" title="Asc">
+                    <span class="fa fa-arrow-up" aria-hidden="true"></span>
+                </a>
+                <a class="btn btn-link box-shadow" href="@Url.Action("Index", "UserManage", new {take = @Model.Take, pageIndex=@Model.PageIndex, filter = @ViewBag.Filter, search=@Model.Search, orderBy=@Model.OrderBy, order="desc"})"
+                   data-toggle="tooltip" data-placement="top" title="Desc">
+                    <span class="fa fa-arrow-down" aria-hidden="true"></span>
+                </a>
+            </div>
+            <div class="dropdown">
+                <a class="dropDown dropdown-toggle">
+                    <strong>@Localization.GetString("SortBy", @SharedResourceFile)<span class="caret"></span></strong>
+                </a>
+                <div class="dropdown-content">
+                    <a class="confirm page-link" href="@Url.Action("Index", "UserManage", new { take = @Model.Take, pageIndex = @Model.PageIndex, filter = @ViewBag.Filter, search=@Model.Search, orderBy="Username" , order=@Model.Order})">
+                        <span aria-hidden="true">@Localization.GetString("Username", @ResourceFile)</span>
+                    </a>
+
+                    <a class="confirm page-link" href="@Url.Action("Index", "UserManage", new { take = @Model.Take, pageIndex = @Model.PageIndex, filter = @ViewBag.Filter, search=@Model.Search, orderBy="DisplayName",order=@Model.Order})">
+                        <span aria-hidden="true">@Localization.GetString("DisplayName", @ResourceFile)</span>
+                    </a>
+
+                    <a class="confirm page-link" href="@Url.Action("Index", "UserManage", new { take = @Model.Take, pageIndex = @Model.PageIndex, filter = @ViewBag.Filter, search=@Model.Search, orderBy="Email" ,order=@Model.Order})">
+                        <span aria-hidden="true">@Localization.GetString("Email", @ResourceFile)</span>
+                    </a>
+                </div>
+            </div>
+        </div>
     </div>
-    <table class="table table-striped table-bordered table-hover">
-        <thead>
-            <tr style="background-color:#6d5a2c; color:#FFFFFF">
-                <th class="hidden">@Localization.GetString("Id", @ResourceFile)</th>
-                <th class="uppercase-text">@Localization.GetString("Username", @ResourceFile)</th>
-                <th class="uppercase-text">@Localization.GetString("DisplayName", @ResourceFile)</th>
-                <th class="uppercase-text">@Localization.GetString("Email", @ResourceFile)</th>
-                <th style="text-align: center;" class="uppercase-text text-center">@Localization.GetString("Superuser", @ResourceFile)</th>
-                <th style="text-align:center" class="text-center">@Localization.GetString("Actions", @ResourceFile)</th>
+</div>
+<table class="table table-striped table-bordered table-hover">
+    <thead>
+        <tr style="background-color:#6d5a2c; color:#FFFFFF">
+            <th class="hidden">@Localization.GetString("Id", @ResourceFile)</th>
+            <th class="uppercase-text">@Localization.GetString("Username", @ResourceFile)</th>
+            <th class="uppercase-text">@Localization.GetString("DisplayName", @ResourceFile)</th>
+            <th class="uppercase-text">@Localization.GetString("Email", @ResourceFile)</th>
+            <th style="text-align: center;" class="uppercase-text text-center">@Localization.GetString("Superuser", @ResourceFile)</th>
+            <th style="text-align:center" class="text-center">@Localization.GetString("Actions", @ResourceFile)</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.RecordsTotal == 0)
+        {
+            <tr>
+                <td colspan="6">
+                    <div class="center">
+                        <h1>@Localization.GetString("NoUsersFound", @ResourceFile)</h1>
+                        <h2>@Localization.GetString("SearchCriteria", @ResourceFile)</h2>
+                    </div>
+                </td>
             </tr>
-        </thead>
-        <tbody>
-            @if (Model.RecordsTotal == 0)
+        }
+        else
+        {
+            foreach (var item in Model.Data)
             {
                 <tr>
-                    <td colspan="6">
-                        <div class="center">
-                            <h1>@Localization.GetString("NoUsersFound", @ResourceFile)</h1>
-                            <h2>@Localization.GetString("SearchCriteria", @ResourceFile)</h2>
-                        </div>
+                    <td class="hidden">
+                        @item.UserId
+                    </td>
+                    <td>
+                        <a data-hint="Edit" href="@Url.Action("Edit", "UserManage", new {ctl = "Edit", itemId = item.UserId})"
+                           data-toggle="tooltip" data-placement="top" title="@Localization.GetString("Edit", @SharedResourceFile)">
+                            @item.Username
+                        </a>
+                    </td>
+                    <td>
+                        @item.DisplayName
+                    </td>
+                    <td>
+                        <a href="mailto:@item.Email" target="_blank">
+                            @item.Email
+                        </a>
+                    </td>
+                    <td class="text-center">
+                        @if (@item.IsSuperUser == true)
+                        {
+                            <span class="fa fa-ok" aria-hidden="true" style="color:yellowgreen"></span>
+                        }
+                        else
+                        {
+                            <span class="fa fa-remove" aria-hidden="true" style="color:red"></span>
+
+                        }
+
+                    </td>
+                    <td class="text-center">
+                        <a data-hint="Edit" class="btn btn-warning btn-sm edit warning" href="@Url.Action("Edit", "UserManage", new {ctl = "Edit", itemId = item.UserId})"
+                           data-toggle="tooltip" data-placement="top" title="@Localization.GetString("Edit", @SharedResourceFile)">
+                            <span class="fa fa-edit color-white" aria-hidden="true"></span>
+                        </a>
+                        <a data-hint="User Roles" class="btn btn-info btn-sm edit " href="@Url.Action("UserRoles", "UserManage", new {itemId = item.UserId})"
+                           data-toggle="tooltip" data-placement="top" title="@Localization.GetString("UserRoles", @ResourceFile)">
+                            <span class="fa fa-tasks color-white" aria-hidden="true"></span>
+                        </a>
+                        <span id="dialogs-delete" class="dnnActions" style="display: initial;">
+                            <a data-hint="Delete" class="confirm btn btn-danger btn-sm delete error" data-placement="top" data-singleton="true" href="@Url.Action("Delete", "UserManage", new {itemId = item.UserId})">
+                                <span class="fa fa-trash color-white" aria-hidden="true"></span>
+                            </a>
+                        </span>
                     </td>
                 </tr>
             }
-            else
-            {
-                foreach (var item in Model.Data)
-                {
-                    <tr>
-                        <td class="hidden">
-                            @item.UserId
-                        </td>
-                        <td>
-                            <a data-hint="Edit" href="@Url.Action("Edit", "UserManage", new {ctl = "Edit", itemId = item.UserId})"
-                               data-toggle="tooltip" data-placement="top" title="@Localization.GetString("Edit", @SharedResourceFile)">
-                                @item.Username
-                            </a>
-                        </td>
-                        <td>
-                            @item.DisplayName
-                        </td>
-                        <td>
-                            <a href="mailto:@item.Email" target="_blank">
-                                @item.Email
-                            </a>
-                        </td>
-                        <td class="text-center">
-                            @if (@item.IsSuperUser == true)
-                            {
-                                <span class="glyphicon glyphicon-ok" aria-hidden="true" style="color:yellowgreen"></span>
-                            }
-                            else
-                            {
-                                <span class="glyphicon glyphicon-remove" aria-hidden="true" style="color:red"></span>
-
-                            }
-
-                        </td>
-                        <td class="text-center">
-                            <a data-hint="Edit" class="btn btn-warning btn-sm edit warning" href="@Url.Action("Edit", "UserManage", new {ctl = "Edit", itemId = item.UserId})"
-                               data-toggle="tooltip" data-placement="top" title="@Localization.GetString("Edit", @SharedResourceFile)">
-                                <span class="glyphicon glyphicon-edit color-white" aria-hidden="true"></span>
-                            </a>
-                            <a data-hint="User Roles" class="btn btn-info btn-sm edit " href="@Url.Action("UserRoles", "UserManage", new {itemId = item.UserId})"
-                               data-toggle="tooltip" data-placement="top" title="@Localization.GetString("UserRoles", @ResourceFile)">
-                                <span class="glyphicon glyphicon-tasks color-white" aria-hidden="true"></span>
-                            </a>
-                            <span id="dialogs-delete" class="dnnActions" style="display: initial;">
-                                <a data-hint="Delete" class="confirm btn btn-danger btn-sm delete error" data-placement="top" data-singleton="true" href="@Url.Action("Delete", "UserManage", new {itemId = item.UserId})">
-                                    <span class="glyphicon glyphicon-trash color-white" aria-hidden="true"></span>
-                                </a>
-                            </span>
-                        </td>
-                    </tr>
-                }
-            }
-        </tbody>
-    </table>
-    <div class="data-footer">
-        <span class="text-align-left">@Localization.GetString("Page", @SharedResourceFile) <strong>@pageView</strong> @Localization.GetString("Of", @SharedResourceFile) <strong>@Model.PagesTotal</strong> @Localization.GetString("Pages", @SharedResourceFile)</span>
-        <div class="right">
-            <span> @Localization.GetString("Showing", @SharedResourceFile) <strong>@pageIndexPaginate</strong> @Localization.GetString("To", @SharedResourceFile) <strong>@pageIndexTo</strong> @Localization.GetString("Of", @SharedResourceFile) <strong>@Model.RecordsTotal</strong> @Localization.GetString("Entries", @SharedResourceFile)</span>
-            <a class="btn btn-default btn-sm " href="@Url.Action("Index", "UserManage", new {take = @Model.Take, pageIndex=@pageIndexMinus, filter = @ViewBag.Filter, search=@Model.Search, orderBy=@Model.OrderBy , order=@Model.Order})"
-               data-toggle="tooltip" data-placement="top" title="@Localization.GetString("Previus", @SharedResourceFile)">
-                <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-            </a>
-            <a class="btn btn-default btn-sm ml5 " href="@Url.Action("Index", "UserManage", new {take = @Model.Take, pageIndex=@pageIndexPlus, filter = @ViewBag.Filter, search=@Model.Search, orderBy=@Model.OrderBy , order=@Model.Order})"
-               data-toggle="tooltip" data-placement="top" title="@Localization.GetString("Next", @SharedResourceFile)">
-                <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-            </a>
-        </div>
+        }
+    </tbody>
+</table>
+<div class="data-footer">
+    <span class="text-align-left">@Localization.GetString("Page", @SharedResourceFile) <strong>@pageView</strong> @Localization.GetString("Of", @SharedResourceFile) <strong>@Model.PagesTotal</strong> @Localization.GetString("Pages", @SharedResourceFile)</span>
+    <div class="right">
+        <span> @Localization.GetString("Showing", @SharedResourceFile) <strong>@pageIndexPaginate</strong> @Localization.GetString("To", @SharedResourceFile) <strong>@pageIndexTo</strong> @Localization.GetString("Of", @SharedResourceFile) <strong>@Model.RecordsTotal</strong> @Localization.GetString("Entries", @SharedResourceFile)</span>
+        <a class="btn btn-default btn-sm " href="@Url.Action("Index", "UserManage", new {take = @Model.Take, pageIndex=@pageIndexMinus, filter = @ViewBag.Filter, search=@Model.Search, orderBy=@Model.OrderBy , order=@Model.Order})"
+           data-toggle="tooltip" data-placement="top" title="@Localization.GetString("Previus", @SharedResourceFile)">
+            <span class="fa fa-chevron-left" aria-hidden="true"></span>
+        </a>
+        <a class="btn btn-default btn-sm ml5 " href="@Url.Action("Index", "UserManage", new {take = @Model.Take, pageIndex=@pageIndexPlus, filter = @ViewBag.Filter, search=@Model.Search, orderBy=@Model.OrderBy , order=@Model.Order})"
+           data-toggle="tooltip" data-placement="top" title="@Localization.GetString("Next", @SharedResourceFile)">
+            <span class="fa fa-chevron-right" aria-hidden="true"></span>
+        </a>
     </div>
+</div>
 </div>
 
 <script>
