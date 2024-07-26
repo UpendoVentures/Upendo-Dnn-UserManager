@@ -31,19 +31,19 @@
             </div>
             <div class="col-md-10 AM-d-flex AM-justify-content-end">
                 <span id="dialogs-DeleteUnauthorized mr5" class="dnnActions mr5" style="display: initial;">
-                    <a type="button" class="confirm btn btn-warning" href="@Url.Action("DeleteUnauthorizedUsers", "UserManage", new {})" style="color: white;">
+                    <a type="button" class="confirm AM-btn AM-btn-danger" href="@Url.Action("DeleteUnauthorizedUsers", "UserManage", new {})" style="color: white;">
                         <span class="fa fa-trash color-white" aria-hidden="true"></span>
                         @Localization.GetString("DeleteUnauthorizedUsers", @ResourceFile)
                     </a>
                 </span>
                 <span id="dialogs-RemoveDelete" class="dnnActions mr5" style="display: initial;">
-                    <a type="button" class="confirm btn btn-warning" href="@Url.Action("RemoveDeletedUsers", "UserManage", new {})" style="color: white;">
+                    <a type="button" class="confirm AM-btn AM-btn-danger" href="@Url.Action("RemoveDeletedUsers", "UserManage", new {})" style="color: white;">
                         <span class="fa fa-trash color-white" aria-hidden="true"></span>
                         @Localization.GetString("RemoveDeleteUsers", @ResourceFile)
                     </a>
                 </span>
                 <span class="dnnActions" style="display: initial;">
-                    <a type="button" class="btn btn-info" href="@Url.Action("Index", "RolesManage", new {})" style="color: white;">
+                    <a type="button" class="AM-btn AM-btn-info" href="@Url.Action("Index", "RolesManage", new {})" style="color: white;">
                         <span class="fa fa-tasks color-white" aria-hidden="true"></span>
                         @Localization.GetString("RolesList", @ResourceFile)
                     </a>
@@ -128,11 +128,11 @@
                         </a>
                     </div>
                 </div>
-                <a class="btn btn-link box-shadow" href="@Url.Action("Index", "UserManage", new {take = @Model.Take, pageIndex=@Model.PageIndex, filter = @ViewBag.Filter, search=@Model.Search, orderBy=@Model.OrderBy , order="asc"})"
+                <a class="btn btn-link box-shadow background-color-gray" href="@Url.Action("Index", "UserManage", new {take = @Model.Take, pageIndex=@Model.PageIndex, filter = @ViewBag.Filter, search=@Model.Search, orderBy=@Model.OrderBy , order="asc"})"
                    data-toggle="tooltip" data-placement="top" title="Asc">
                     <span class="fa fa-arrow-up" aria-hidden="true"></span>
                 </a>
-                <a class="btn btn-link box-shadow" href="@Url.Action("Index", "UserManage", new {take = @Model.Take, pageIndex=@Model.PageIndex, filter = @ViewBag.Filter, search=@Model.Search, orderBy=@Model.OrderBy, order="desc"})"
+                <a class="btn btn-link box-shadow background-color-gray" href="@Url.Action("Index", "UserManage", new {take = @Model.Take, pageIndex=@Model.PageIndex, filter = @ViewBag.Filter, search=@Model.Search, orderBy=@Model.OrderBy, order="desc"})"
                    data-toggle="tooltip" data-placement="top" title="Desc">
                     <span class="fa fa-arrow-down" aria-hidden="true"></span>
                 </a>
@@ -197,16 +197,16 @@
 
                         </td>
                         <td class="text-center">
-                            <a data-hint="Edit" class="dnnPrimaryAction btn-sm edit warning" href="@Url.Action("Edit", "UserManage", new {ctl = "Edit", itemId = item.UserId})"
+                            <a data-hint="Edit" class="dnnPrimaryAction AM-btn-sm edit warning" href="@Url.Action("Edit", "UserManage", new {ctl = "Edit", itemId = item.UserId})"
                                data-toggle="tooltip" data-placement="top" title="@Localization.GetString("Edit", @SharedResourceFile)">
                                 <span class="fa fa-edit color-white" aria-hidden="true"></span>
                             </a>
-                            <a data-hint="User Roles" class="btn btn-info btn-sm edit " href="@Url.Action("UserRoles", "UserManage", new {itemId = item.UserId})"
+                            <a data-hint="User Roles" class="AM-btn AM-btn-info AM-btn-sm edit " href="@Url.Action("UserRoles", "UserManage", new {itemId = item.UserId})"
                                data-toggle="tooltip" data-placement="top" title="@Localization.GetString("UserRoles", @ResourceFile)">
                                 <span class="fa fa-tasks color-white" aria-hidden="true"></span>
                             </a>
                             <span id="dialogs-delete" class="dnnActions" style="display: initial;">
-                                <a data-hint="Delete" class="confirm btn btn-danger btn-sm delete error" data-placement="top" data-singleton="true" href="@Url.Action("Delete", "UserManage", new {itemId = item.UserId})">
+                                <a data-hint="Delete" class="confirm AM-btn AM-btn-danger AM-btn-sm delete error" data-placement="top" data-singleton="true" href="@Url.Action("Delete", "UserManage", new {itemId = item.UserId})">
                                     <span class="fa fa-trash color-white" aria-hidden="true"></span>
                                 </a>
                             </span>
@@ -224,7 +224,7 @@
                 <span class="fa fa-chevron-left" aria-hidden="true"></span>
             </a>
             <strong>@pageView</strong>
-            <a class="btn btn-default ml5  @(pageView >= pagesTotal ? "custom-disabled" : "")" href="@Url.Action("Index", "UserManage", new {take = @Model.Take, pageIndex=@pageIndexPlus, filter = @ViewBag.Filter, search=@Model.Search, orderBy=@Model.OrderBy , order=@Model.Order})"
+            <a class="btn btn-default @(pageView >= pagesTotal ? "custom-disabled" : "")" href="@Url.Action("Index", "UserManage", new {take = @Model.Take, pageIndex=@pageIndexPlus, filter = @ViewBag.Filter, search=@Model.Search, orderBy=@Model.OrderBy , order=@Model.Order})"
                data-toggle="tooltip" data-placement="top" title="@Localization.GetString("Next", @SharedResourceFile)">
                 <span class="fa fa-chevron-right" aria-hidden="true"></span>
             </a>
