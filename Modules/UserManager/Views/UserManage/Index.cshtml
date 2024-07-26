@@ -57,9 +57,6 @@
                 <div class="dropdown">
                     <a class="dropDown dropdown-toggle"><strong>@Localization.GetString("RowsPerPage", @SharedResourceFile) @Model.Take <span class="caret"></span></strong></a>
                     <div class="dropdown-content">
-                        <a class="confirm page-link" href="@Url.Action("Index", "UserManage", new { take = 2, pageIndex = @Model.PageIndex, filter = @ViewBag.Filter, search=@Model.Search})">
-                            <span aria-hidden="true">2</span>
-                        </a>
                         <a class="confirm page-link" href="@Url.Action("Index", "UserManage", new { take = 5, pageIndex = @Model.PageIndex, filter = @ViewBag.Filter, search=@Model.Search})">
                             <span aria-hidden="true">5</span>
                         </a>
