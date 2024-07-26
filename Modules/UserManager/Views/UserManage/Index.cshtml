@@ -25,7 +25,7 @@
     <div class="col-md-12 mt5 mb25">
         <div class="AM-row">
             <div class="col-md-2 AM-d-flex AM-justify-content-start">
-                <a type="button" class="dnnPrimaryAction" href="@Url.Action("Create", "UserManage", new {ctl = "Edit"})">
+                <a type="button" class="AM-btn AM-btn-primary" href="@Url.Action("Create", "UserManage", new {ctl = "Edit"})">
                     @Localization.GetString("BtnCreateUser", @ResourceFile)
                 </a>
             </div>
@@ -51,7 +51,7 @@
             </div>
         </div>
     </div>
-    <div class="col-md-12">
+    <div class="col-md-12 mb15">
         <div class="AM-row">
             <div class="col-md-3 AM-d-flex AM-justify-content-start">
                 <div class="dropdown">
@@ -81,9 +81,9 @@
             <div class="col-md-5 AM-d-flex AM-justify-content-center">
                 <div class="input-group">
                     <div class="input-group-prepend">
-                        <button class="dnnPrimaryAction box-shadow" type="submit">@Localization.GetString("Search", @SharedResourceFile)</button>
+                        <button class="AM-btn AM-btn-primary box-shadow" type="submit">@Localization.GetString("Search", @SharedResourceFile)</button>
                     </div>
-                    @Html.TextBoxFor(m => m.Search, new { @class = "form-control p7", @type = "text" })
+                    @Html.TextBoxFor(m => m.Search, new { @class = "form-control AM-search-input", @type = "text" })
                 </div>
             </div>
             <div class="col-md-4 AM-d-flex AM-justify-content-end">
@@ -197,7 +197,7 @@
 
                         </td>
                         <td class="text-center">
-                            <a data-hint="Edit" class="dnnPrimaryAction AM-btn-sm edit warning" href="@Url.Action("Edit", "UserManage", new {ctl = "Edit", itemId = item.UserId})"
+                            <a data-hint="Edit" class="AM-btn AM-btn-primary AM-btn-sm edit warning" href="@Url.Action("Edit", "UserManage", new {ctl = "Edit", itemId = item.UserId})"
                                data-toggle="tooltip" data-placement="top" title="@Localization.GetString("Edit", @SharedResourceFile)">
                                 <span class="fa fa-edit color-white" aria-hidden="true"></span>
                             </a>
