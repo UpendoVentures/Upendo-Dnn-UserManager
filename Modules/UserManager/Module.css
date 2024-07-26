@@ -267,11 +267,17 @@
 }
 
 /* Grid System */
-.admin-manager .row::after {
-    content: "";
-    display: table;
-    clear: both;
+.admin-manager .AM-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
+
+    .admin-manager .AM-row::after {
+        content: "";
+        display: table;
+        clear: both;
+    }
 
 .admin-manager .pl2 {
     padding-left: 2px !important;
@@ -438,12 +444,6 @@
     background-color: #3e8e41;
 }
 
-.admin-manager .AM-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
 .admin-manager .AM-d-flex {
     display: flex;
 }
@@ -489,7 +489,7 @@
     vertical-align: middle;
     cursor: pointer;
     user-select: none;
-    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
 
 .AM-btn-sm {
@@ -510,10 +510,46 @@
     border-color: #00539b;
 }
 
+    .AM-btn-primary:hover {
+        color: #fff;
+        background-color: #00539b8f;
+        border-color: #00539b8f;
+    }
+
+.AM-btn-default {
+    color: #333;
+    background-color: #adadad;
+    border-color: #adadad;
+}
+
+    .AM-btn-default:hover {
+        background-color: #adadadba;
+        border-color: #adadadba;
+    }
+
+    .AM-btn-default:disabled {
+        background-color: #e6e6e6;
+        border-color: #ccc;
+        cursor: not-allowed;
+        opacity: 0.65;
+    }
+
 .AM-btn-danger {
     color: white;
     background-color: #dc3545;
     border-color: #dc3545;
+}
+
+    .AM-btn-danger:hover {
+        color: white;
+        background-color: #dc35459c;
+        border-color: #dc35459c;
+    }
+
+.AM-btn-info {
+    color: white;
+    background-color: #25cff2;
+    border-color: #25cff2;
 }
 
 .AM-btn-info {
@@ -526,4 +562,34 @@
     height: 40px;
     margin-bottom: 5px;
     padding: 7px;
+}
+
+/* Styles for the alert */
+.AM-alert {
+    padding: 15px;
+    margin-bottom: 20px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    position: relative;
+}
+
+.AM-alert-danger {
+    color: #a94442;
+    background-color: #f2dede;
+    border-color: #ebccd1;
+}
+
+.AM-alert .close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    color: inherit;
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.AM-hidden {
+    display: none;
 }
