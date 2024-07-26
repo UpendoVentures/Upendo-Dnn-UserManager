@@ -8,101 +8,119 @@
     string defaultUserPicture = "/DesktopModules/MVC/Upendo.Modules.UserManager/Images/defaultUserPicture.jpg";
     string ResourceFile = "~/DesktopModules/MVC/Upendo.Modules.UserManager/App_LocalResources/AddEdit.resx";
 }
-<div class="col-7">
-    <div class="accountSettings">
-        <h4 class="center" id="title">@Localization.GetString("AccountSettings", @ResourceFile)</h4>
-        @if (!ViewData.ModelState.IsValid)
-        {
-            <div class="alert alert-danger">
-                @Html.ValidationSummary(false, "", new { @class = "" })
-            </div>
-        }
-        <fieldset>
-            <div class="formItem col-6">
-                <div><label>@Localization.GetString("FirstName", @ResourceFile)</label></div>
-                @Html.TextBoxFor(m => m.FirstName)
-                @Html.ValidationMessageFor(m => m.FirstName)
-            </div>
-            <div class="formItem col-6">
-                <div><label>@Localization.GetString("LastName", @ResourceFile)</label></div>
-                @Html.TextBoxFor(m => m.LastName)
-                @Html.ValidationMessageFor(m => m.LastName)
-            </div>
-            <div class="formItem col-6">
-                <div><label>@Localization.GetString("Username", @ResourceFile)</label></div>
-                @Html.TextBoxFor(m => m.Username)
-                @Html.ValidationMessageFor(m => m.Username)
-            </div>
-            <div class="formItem col-6">
-                <div><label>@Localization.GetString("Email", @ResourceFile)</label></div>
-                @Html.TextBoxFor(m => m.Email, new { @class = "form-control", @type = "email" })
-                @Html.ValidationMessageFor(m => m.Email)
-            </div>           
-            <div class="col-12 mt20" style="font-size: 16px;">
-                <div class="col-6">
-                    @Html.CheckBoxFor(m => m.IsSuperUser, new { @id = "chkIsSuperuser", @class = "superuser-checkbox" })
-                    <label for="chkIsSuperuser">@Localization.GetString("IsSuperUser", @ResourceFile)</label>
-                </div>
-                <div class="col-3">
-                    @Html.CheckBoxFor(m => m.Approved, new { @id = "chkApproved" })
-                    <label for="chkApproved">@Localization.GetString("Approved", @ResourceFile)</label>
-                </div>
-                <div class="col-3">
-                    @Html.CheckBoxFor(m => m.IsDeleted, new { @id = "chkIsDeleted" })
-                    <label for="chkIsDeleted">@Localization.GetString("IsDeleted", @ResourceFile)</label>
-                </div>
-                <div class="col-6">
-                    @Html.CheckBoxFor(m => m.SendEmail, new { @id = "chkSendEmail" })
-                    <label for="chkSendEmail">@Localization.GetString("SendEmailNewUser", @ResourceFile)</label>
-                </div>
-                @Html.HiddenFor(m => m.UserId)
-            </div>
-        </fieldset>
-        <div class="col-12 mt5">
-            <a class="btn btn-info btn-sm" id="userRolManagement" href="@Url.Action("UserRoles", "UserManage", new {itemId = @Model.UserId})">
-                <span class="color-white">@Localization.GetString("UserRoleManagement", @ResourceFile)</span>
-            </a>
-            <a class="btn btn-info btn-sm" id="userRolManagement" href="@Url.Action("PasswordResetLink", "UserManage", new {itemId = @Model.UserId})">
-                <span class="color-white">@Localization.GetString("PasswordResetLink", @ResourceFile)</span>
-            </a>
-        </div>
-    </div>
-</div>
-<div class="col-5">
-    <h4 class="center" id="title">@Localization.GetString("AccountData", @ResourceFile)</h4>
-    <div class="accountData">
-        <div>
-            <img src=@defaultUserPicture alt="User" width="200" height="200" class="float-right">
-        </div>
-        <p>@Localization.GetString("UserId", @ResourceFile) @Model.UserId</p>
-        <p>@Localization.GetString("DisplayName", @ResourceFile) @Model.DisplayName</p>
-        <p>@Localization.GetString("CreatedOnDate", @ResourceFile) @Model.CreatedOnDate</p>
-        <p>@Localization.GetString("LastModifiedOnDate", @ResourceFile) @Model.LastModifiedOnDate</p>
-        <p>@Localization.GetString("UpdatePassword", @ResourceFile) @Model.UpdatePassword</p>
-        <h4 id="subtitle">@Localization.GetString("UserRoles", @ResourceFile)</h4>
-        <ul>
-            @{
-                foreach (var item in Model.UserRoles)
+<div class="admin-manager">
+    <div class="AM-row">
+        <div class="col-md-7">
+            <div class="accountSettings">
+                <h4 class="center" id="title">@Localization.GetString("AccountSettings", @ResourceFile)</h4>
+                @if (!ViewData.ModelState.IsValid)
                 {
-                    <li> @item</li>
+                    <div class="alert alert-danger">
+                        @Html.ValidationSummary(false, "", new { @class = "" })
+                    </div>
                 }
-            }
-        </ul>
-    </div>
-</div>
-<div class="col-12 mt20">
-    <div class="buttomForm">
-        <div class="center">
-            <button type="submit" class="AM-btn AM-btn-primary" id="saveButton">@Localization.GetString("Save", @ResourceFile)</button>
-            <button id="cancelEdit" href="#" class="dnnSecondaryAction">@Localization.GetString("Cancel", @ResourceFile)</button>
+                <fieldset>
+                    <div class="formItem col-6">
+                        <div><label>@Localization.GetString("FirstName", @ResourceFile)</label></div>
+                        @Html.TextBoxFor(m => m.FirstName)
+                        @Html.ValidationMessageFor(m => m.FirstName)
+                    </div>
+                    <div class="formItem col-6">
+                        <div><label>@Localization.GetString("LastName", @ResourceFile)</label></div>
+                        @Html.TextBoxFor(m => m.LastName)
+                        @Html.ValidationMessageFor(m => m.LastName)
+                    </div>
+                    <div class="formItem col-6">
+                        <div><label>@Localization.GetString("Username", @ResourceFile)</label></div>
+                        @Html.TextBoxFor(m => m.Username)
+                        @Html.ValidationMessageFor(m => m.Username)
+                    </div>
+                    <div class="formItem col-6">
+                        <div><label>@Localization.GetString("Email", @ResourceFile)</label></div>
+                        @Html.TextBoxFor(m => m.Email, new { @class = "form-control", @type = "email" })
+                        @Html.ValidationMessageFor(m => m.Email)
+                    </div>
+                    <div class="col-12 mt20" style="font-size: 16px;">
+                        <div class="col-6">
+                            @Html.CheckBoxFor(m => m.IsSuperUser, new
+                                {
+                                    @id = "chkIsSuperuser",
+                                    @class =
+                                     "superuser-checkbox"
+                                })
+                            <label for="chkIsSuperuser">@Localization.GetString("IsSuperUser", @ResourceFile)</label>
+                        </div>
+                        <div class="col-3">
+                            @Html.CheckBoxFor(m => m.Approved, new { @id = "chkApproved" })
+                            <label for="chkApproved">@Localization.GetString("Approved", @ResourceFile)</label>
+                        </div>
+                        <div class="col-3">
+                            @Html.CheckBoxFor(m => m.IsDeleted, new { @id = "chkIsDeleted" })
+                            <label for="chkIsDeleted">@Localization.GetString("IsDeleted", @ResourceFile)</label>
+                        </div>
+                        <div class="col-6">
+                            @Html.CheckBoxFor(m => m.SendEmail, new { @id = "chkSendEmail" })
+                            <label for="chkSendEmail">@Localization.GetString("SendEmailNewUser", @ResourceFile)</label>
+                        </div>
+                        @Html.HiddenFor(m => m.UserId)
+                    </div>
+                </fieldset>
+                <div class="col-12 mt5">
+                    <a class="AM-btn AM-btn-info AM-btn-sm" id="userRolManagement"
+                       href="@Url.Action("UserRoles", "UserManage", new {itemId = @Model.UserId})">
+                        <span class="color-white">@Localization.GetString("UserRoleManagement", @ResourceFile)</span>
+                    </a>
+                    <a class="AM-btn AM-btn-info AM-btn-sm" id="userRolManagement"
+                       href="@Url.Action("PasswordResetLink", "UserManage", new {itemId = @Model.UserId})">
+                        <span class="color-white">@Localization.GetString("PasswordResetLink", @ResourceFile)</span>
+                    </a>
+                </div>
+            </div>
         </div>
-    </div>
-</div>
-<script>
+        <div class="col-md-5">
+            <h4 class="center" id="title">@Localization.GetString("AccountData", @ResourceFile)</h4>
+            <div class="accountData">
+                <div>
+                    <img src=@defaultUserPicture alt="User" width="200" height="200" class="float-right">
+                </div>
+                <p>@Localization.GetString("UserId", @ResourceFile) @Model.UserId</p>
+                <p>@Localization.GetString("DisplayName", @ResourceFile) @Model.DisplayName</p>
+                <p>@Localization.GetString("CreatedOnDate", @ResourceFile) @Model.CreatedOnDate</p>
+                <p>@Localization.GetString("LastModifiedOnDate", @ResourceFile) @Model.LastModifiedOnDate</p>
+                <p>@Localization.GetString("UpdatePassword", @ResourceFile) @Model.UpdatePassword</p>
+                <h4 id="subtitle">@Localization.GetString("UserRoles", @ResourceFile)</h4>
+                <ul>
+                    @{
+                        foreach (var item in Model.UserRoles)
+                        {
+                            <li> @item</li>
+                        }
+                    }
+                </ul>
+            </div>
+        </div>
+        <div class="col-md-12 mt20">
+            <div class="center">
+                <button type="submit" class="AM-btn AM-btn-primary AM-btn-large"
+                        id="saveButton">
+                    @Localization.GetString("Save",
+        @ResourceFile)
+                    </button>
+                    <button id="cancelEdit" href="#"
+                            class="AM-btn AM-btn-default AM-btn-large">
+                        @Localization.GetString("Cancel",
+@ResourceFile)
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-</script>
-<script type="text/javascript">
-     var weak = '@DotNetNuke.Services.Localization.Localization.GetString("Weak.Text", @ResourceFile)';
+        <script>
+
+        </script>
+        <script type="text/javascript">
+    var weak = '@DotNetNuke.Services.Localization.Localization.GetString("Weak.Text", @ResourceFile)';
     var fair = '@DotNetNuke.Services.Localization.Localization.GetString("Fair.Text", @ResourceFile)';
     var strong = '@DotNetNuke.Services.Localization.Localization.GetString("Strong.Text", @ResourceFile)';
     var passwordMatch = '@DotNetNuke.Services.Localization.Localization.GetString("PasswordMatch.Text", @ResourceFile)';
@@ -178,32 +196,32 @@
             });
         });
     }(jQuery, window.Sys));
-     document.addEventListener("DOMContentLoaded", function() {
+    document.addEventListener("DOMContentLoaded", function () {
         var isCurrentUserSuperUser = @Json.Encode(ViewBag.IsCurrentUserSuperUser);
         var superuserCheckbox = document.getElementById("chkIsSuperuser");
 
         if (superuserCheckbox) {
             superuserCheckbox.disabled = !isCurrentUserSuperUser;
         }
-     });
-document.addEventListener("DOMContentLoaded", function() {
-    var ownProfile = @Json.Encode(ViewBag.OwnProfile);
-    var userRoleManagementButton = document.getElementById("userRolManagement");
+    });
+    document.addEventListener("DOMContentLoaded", function () {
+        var ownProfile = @Json.Encode(ViewBag.OwnProfile);
+        var userRoleManagementButton = document.getElementById("userRolManagement");
 
-    if (ownProfile) {
-        var formElements = document.querySelectorAll('#saveButton, input[type="text"], input[type="email"], input[type="password"], #chkIsSuperuser, #chkApproved, #chkIsDeleted, #chkSendEmail');
+        if (ownProfile) {
+            var formElements = document.querySelectorAll('#saveButton, input[type="text"], input[type="email"], input[type="password"], #chkIsSuperuser, #chkApproved, #chkIsDeleted, #chkSendEmail');
 
-        for (var i = 0; i < formElements.length; i++) {
-            formElements[i].disabled = true;
-            formElements[i].classList.add("disabled-field");
+            for (var i = 0; i < formElements.length; i++) {
+                formElements[i].disabled = true;
+                formElements[i].classList.add("disabled-field");
+            }
+            if (userRoleManagementButton) {
+                userRoleManagementButton.classList.add("disabled-field");
+                userRoleManagementButton.onclick = function (event) {
+                    event.preventDefault();
+                };
+            }
         }
-        if (userRoleManagementButton) {
-            userRoleManagementButton.classList.add("disabled-field");
-            userRoleManagementButton.onclick = function(event) {
-                event.preventDefault();
-            };
-        }
-    }
-});
+    });
 
-</script>
+        </script>
