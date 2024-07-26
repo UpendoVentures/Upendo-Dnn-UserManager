@@ -91,10 +91,10 @@
             </div>
             <div class="col-md-12 AM-d-flex AM-justify-content-center mt5">
                 <div class="center">
-                    <button type="submit" class="AM-btn AM-btn-primary disabled" id="saveButton">
+                    <button type="submit" class="AM-btn AM-btn-primary AM-btn-large disabled" id="saveButton">
                         @Localization.GetString("Save", @ResourceFile)
                     </button>
-                    <a type="button" class="AM-btn AM-btn-default" style="color: white;"
+                    <a type="button" class="AM-btn AM-btn-default AM-btn-large" style="color: white;"
                        href="@Url.Action("Index", "UserManage")">
                         @Localization.GetString("Cancel", @ResourceFile)
                     </a>
@@ -152,7 +152,7 @@
     alertDiv.classList.add('AM-hidden');
     // Enabling a button again
     document.querySelector('#saveButton').classList.remove("disabled");
-    document.querySelector('#saveButton').classList.add("primary");
+    document.querySelector('#saveButton').classList.add("AM-btn AM-btn-primary");
   }
   var emailInput = document.getElementById('email');
   var emailMessage = document.getElementById('emailMessage');
