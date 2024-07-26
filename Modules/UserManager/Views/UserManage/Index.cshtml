@@ -156,8 +156,8 @@
                 <tr>
                     <td colspan="6">
                         <div class="center">
-                            <h1>@Localization.GetString("NoUsersFound", @ResourceFile)</h1>
-                            <h2>@Localization.GetString("SearchCriteria", @ResourceFile)</h2>
+                            <h5>@Localization.GetString("NoUsersFound", @ResourceFile)</h5>
+                            <h6>@Localization.GetString("SearchCriteria", @ResourceFile)</h6>
                         </div>
                     </td>
                 </tr>
@@ -206,7 +206,7 @@
                                 <span class="fa fa-tasks color-white" aria-hidden="true"></span>
                             </a>
                             <span id="dialogs-delete" class="dnnActions" style="display: initial;">
-                                <a data-hint="Delete" class="confirm AM-btn AM-btn-danger AM-btn-sm delete error" data-placement="top" data-singleton="true" href="@Url.Action("Delete", "UserManage", new {itemId = item.UserId})">
+                                <a data-hint="Delete" class="confirm AM-btn AM-btn-danger AM-btn-sm delete" data-placement="top" data-singleton="true" href="@Url.Action("Delete", "UserManage", new {itemId = item.UserId})">
                                     <span class="fa fa-trash color-white" aria-hidden="true"></span>
                                 </a>
                             </span>
@@ -250,9 +250,9 @@ $(function () {
         yesText: "Delete",
         noText: "Cancel",
         dialogClass: 'dnnFormPopup',
-        text: '<p style="font-size:20px;">' + deleteText + '</p>'
+        text: '<p style="font-size:20px;">' + deleteText + '</p>',
+        });
     });
-});
 
 $(function () {
     $('#dialogs-DeleteUnauthorized .confirm').dnnConfirm({
