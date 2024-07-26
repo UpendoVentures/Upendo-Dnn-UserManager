@@ -3,40 +3,40 @@
     margin-right: 5px;
 }
 
-    .admin-manager #table {
+    .admin-manager .table {
         font-family: Arial, Helvetica, sans-serif;
         border-collapse: collapse;
         width: 100%;
     }
 
-        .admin-manager #table td,
-        .admin-manager #table th {
+        .admin-manager .table td,
+        .admin-manager .table th {
             border: 1px solid #ddd;
             padding: 8px;
         }
 
-        .admin-manager #table tr:nth-child(even) {
-            background-color: #f2f2f2;
+        .admin-manager .table tr:nth-child(even) {
+            background-color: #fafafa42;
         }
 
-        .admin-manager #table tr:hover {
+        .admin-manager .table tr:hover {
             background-color: #ddd;
         }
 
-        .admin-manager #table th {
-            padding-top: 12px;
-            padding-bottom: 12px;
-            text-align: left;
-            background-color: #6d5a2c;
-            color: white;
-        }
-
-    .admin-manager #title {
-        color: #6d5a2c;
+    .admin-manager .dark-brown {
+        color: #ba9545;
     }
 
-    .admin-manager #subtitle {
-        color: #ba9545;
+    .admin-manager .red {
+        color: red;
+    }
+
+    .admin-manager .yellowgreen {
+        color: yellowgreen;
+    }
+
+    .admin-manager .background-dark-brown {
+        background-color: #6d5a2c;
     }
 
     .admin-manager .input-group input[type="text"] {
@@ -56,118 +56,146 @@
             width: 250px;
         }
 
-    .admin-manager .formItem {
-        margin-top: 20px;
-        font-size: 16px;
+    .admin-manager .input-group {
+        display: flex;
+        align-items: center;
     }
 
-        .admin-manager .formItem input {
-            width: 95%;
-            box-sizing: border-box;
-            border: 2px solid #ccc;
-            border-radius: 4px;
-            font-size: 16px;
-            padding: 3px;
-            box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.2), 0 2px 8px 0 rgba(0, 0, 0, 0.19);
-            margin-top: 3px;
+        .admin-manager .input-group .form-control {
+            flex: 1;
+            box-shadow: 0 0 3px 0 #888888;
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+            margin: 0;
         }
 
-    .admin-manager .buttomForm button {
-        border: none;
-        padding: 12px 30px;
-        text-align: center;
-        text-decoration: none;
-        display: inline-block;
+    .admin-manager .input-group-btn {
+        margin-right: -1px;
+    }
+
+.input-group-btn .dnnPrimaryAction {
+    height: 40px;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    margin: 0;
+}
+
+.admin-manager .formItem {
+    margin-top: 20px;
+    font-size: 16px;
+}
+
+    .admin-manager .formItem input {
+        width: 95%;
+        box-sizing: border-box;
+        border: 2px solid #ccc;
+        border-radius: 4px;
         font-size: 16px;
-        margin: 4px 2px;
-        cursor: pointer;
-        box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-        border-radius: 8px;
+        padding: 3px;
+        box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.2), 0 2px 8px 0 rgba(0, 0, 0, 0.19);
+        margin-top: 3px;
     }
 
-    .admin-manager .cancel-buttom {
-        border: none;
-        background-color: grey;
-        padding: 12px 30px;
-        text-align: center;
-        text-decoration: none;
-        display: inline-block;
-        font-size: 16px;
-        margin: 4px 2px;
-        cursor: pointer;
-        box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-        border-radius: 8px;
-    }
+.admin-manager .buttomForm button {
+    border: none;
+    padding: 12px 30px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    border-radius: 8px;
+}
 
-    .admin-manager .buttomForm .primary {
-        background-color: #008cba;
-    }
+.admin-manager .cancel-buttom {
+    border: none;
+    background-color: grey;
+    padding: 12px 30px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    border-radius: 8px;
+}
 
-    .admin-manager .buttomForm .disabled {
-        background-color: #b4babc;
-        pointer-events: none;
-        opacity: 0.65;
-        cursor: not-allowed;
-    }
+.admin-manager .buttomForm .primary {
+    background-color: #008cba;
+}
 
-    .admin-manager .checkbox {
-        font-size: 16px;
-        margin-top: 20px;
-    }
+.admin-manager .buttomForm .disabled {
+    background-color: #b4babc;
+    pointer-events: none;
+    opacity: 0.65;
+    cursor: not-allowed;
+}
 
-    .admin-manager #checkbox {
-        margin-top: 20px;
-        margin-bottom: 20px;
-        height: 20px;
-        width: 20px;
-        border-radius: 50%;
-    }
+.admin-manager .checkbox {
+    font-size: 16px;
+    margin-top: 20px;
+}
 
-    .admin-manager .left {
-        float: left;
-        margin: 2px;
-    }
+.admin-manager #checkbox {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    height: 20px;
+    width: 20px;
+    border-radius: 50%;
+}
 
-    .admin-manager .right {
-        float: right;
-        margin: 2px;
-    }
+.admin-manager .left {
+    float: left;
+    margin: 2px;
+}
 
-    .admin-manager .center {
-        margin: auto;
-        width: 60%;
-        text-align: center;
-    }
+.admin-manager .right {
+    float: right;
+    margin: 2px;
+}
 
-    .admin-manager .right {
-        margin: auto;
-        width: 60%;
-        text-align: right;
-    }
+.admin-manager .center {
+    margin: auto;
+    width: 60%;
+    text-align: center;
+}
 
-    .admin-manager .white-color {
-        color: white;
-    }
+.admin-manager .right {
+    margin: auto;
+    width: 60%;
+    text-align: right;
+}
 
-    .admin-manager .text-align-center {
-        text-align: center;
-    }
+.admin-manager .white-color {
+    color: white;
+}
 
-    .admin-manager .text-align-left {
-        text-align: left;
-    }
+.admin-manager .text-align-center {
+    text-align: center;
+}
 
-    .admin-manager .text-align-right {
-        text-align: right !important;
-    }
+.admin-manager .text-align-left {
+    text-align: left;
+}
 
-    .admin-manager .text-align-justify {
-        text-align: justify;
-    }
+.admin-manager .text-align-right {
+    text-align: right !important;
+}
 
-    .admin-manager .float-right {
-        float: right !important;
-    }
+.admin-manager .text-align-justify {
+    text-align: justify;
+}
+
+.admin-manager .float-right {
+    float: right !important;
+}
+
+.m10 {
+    margin: 10px;
+}
 
 .ml5 {
     margin-left: 5px;
@@ -181,8 +209,20 @@
     margin-left: 30px;
 }
 
+.mr2 {
+    margin-right: 2px !important;
+}
+
+.mr5 {
+    margin-right: 5px !important;
+}
+
 .mt0 {
     margin-top: 0 !important;
+}
+
+.mt1 {
+    margin-top: 1px !important;
 }
 
 .mt5 {
@@ -197,12 +237,20 @@
     margin-top: 35px;
 }
 
+.mb25 {
+    margin-bottom: 25px;
+}
+
 .pb10 {
     padding-bottom: 10px !important;
 }
 
 .p1 {
     padding: 1px 1 !important;
+}
+
+.p7 {
+    padding: 7px 7px !important;
 }
 
 .admin-manager .accountSettings {
@@ -222,6 +270,7 @@
 .admin-manager .row::after {
     content: "";
     display: table;
+    clear: both;
 }
 
 .admin-manager .pl2 {
@@ -234,57 +283,57 @@
 
 .admin-manager [class*="col-md-"] {
     float: left;
+    box-sizing: border-box;
 }
 
 .admin-manager .col-md-1 {
-    width: 8.33%;
+    width: calc(8.33%);
 }
 
 .admin-manager .col-md-2 {
-    width: 16.66%;
+    width: calc(16.66%);
 }
 
 .admin-manager .col-md-3 {
-    width: 25%;
+    width: calc(25%);
 }
 
 .admin-manager .col-md-4 {
-    width: 33.33%;
+    width: calc(33.33%);
 }
 
 .admin-manager .col-md-5 {
-    width: 41.66%;
+    width: calc(41.66%);
 }
 
 .admin-manager .col-md-6 {
-    width: 50%;
+    width: calc(50%);
 }
 
 .admin-manager .col-md-7 {
-    width: 58.33%;
+    width: calc(58.33%);
 }
 
 .admin-manager .col-md-8 {
-    width: 66.66%;
+    width: calc(66.66%);
 }
 
 .admin-manager .col-md-9 {
-    width: 75%;
+    width: calc(75%);
 }
 
 .admin-manager .col-md-10 {
-    width: 83.33%;
+    width: calc(83.33%);
 }
 
 .admin-manager .col-md-11 {
-    width: 91.66%;
+    width: calc(91.66%);
 }
 
 .admin-manager .col-md-12 {
-    width: 100%;
+    width: calc(100%);
 }
 /* Grid System */
-
 
 .admin-manager .input-group input {
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
@@ -369,7 +418,7 @@
     position: absolute;
     background-color: #f9f9f9;
     min-width: 160px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
     z-index: 1;
 }
 
@@ -381,7 +430,7 @@
     }
 
         .admin-manager .dropdown-content a:hover {
-            background-color: #f1f1f1
+            background-color: #f1f1f1;
         }
 
 .admin-manager .dropdown:hover .dropdown-content {
@@ -390,4 +439,41 @@
 
 .admin-manager .dropdown:hover .dropbtn {
     background-color: #3e8e41;
+}
+
+.admin-manager .AM-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.admin-manager .AM-d-flex {
+    display: flex;
+}
+
+.admin-manager .AM-justify-content-center {
+    justify-content: center;
+}
+
+.admin-manager .AM-justify-content-end {
+    justify-content: flex-end;
+}
+
+.custom-input-group {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.admin-manager .dnnActions {
+    padding-top: 0%;
+}
+
+.admin-manager .line-height-normal {
+    line-height: normal;
+}
+
+.admin-manager .custom-disabled {
+    pointer-events: none;
+    opacity: 0.5;
 }
