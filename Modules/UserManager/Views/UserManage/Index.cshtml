@@ -22,9 +22,9 @@
     var pagesTotal = (int)Math.Ceiling((double)totalItems / itemsPerPage);
 }
 <div class="admin-manager m10" id="Items-@Dnn.ModuleContext.ModuleId">
-    <div class="col-md-12 mt5 mb25">
+    <div class="col-md-12 mt5 mb25 pl0 pr0">
         <div class="AM-row">
-            <div class="col-md-2 AM-d-flex AM-justify-content-start">
+            <div class="col-md-2 AM-d-flex AM-justify-content-start pl0">
                 <a type="button" class="AM-btn AM-btn-primary" href="@Url.Action("Create", "UserManage", new {ctl = "Edit"})">
                     @Localization.GetString("BtnCreateUser", @ResourceFile)
                 </a>
@@ -51,9 +51,9 @@
             </div>
         </div>
     </div>
-    <div class="col-md-12 mb15">
+    <div class="col-md-12 pl0 pr0">
         <div class="AM-row">
-            <div class="col-md-3 AM-d-flex AM-justify-content-start">
+            <div class="col-md-3 AM-d-flex AM-justify-content-start pl0 pr0">
                 <div class="dropdown">
                     <a class="dropDown dropdown-toggle"><strong>@Localization.GetString("RowsPerPage", @SharedResourceFile) @Model.Take <span class="caret"></span></strong></a>
                     <div class="dropdown-content">
