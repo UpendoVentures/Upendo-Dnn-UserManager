@@ -180,12 +180,12 @@
                 </div>
                 <div class="col-md-5 center">
                     @Localization.GetString("Page", @SharedResourceFile)
-                    <a class="AM-btn @(pageView <= 1 ? "custom-disabled" : "")" href="@Url.Action("Index", "UserManage", new {take = @Model.Take, pageIndex=@pageIndexMinus, filter = @ViewBag.Filter, search=@Model.Search, orderBy=@Model.OrderBy , order=@Model.Order})"
+                    <a class="AM-btn @(pageView <= 1 ? "custom-disabled" : "")" href="@Url.Action("UserRoles", "UserManage", new { take = @Model.Take, pageIndex = @pageIndexMinus, search = @Model.Search, itemId = @userId })"
                        data-toggle="tooltip" data-placement="top" title="@Localization.GetString("Previus", @SharedResourceFile)">
                         <span class="fa fa-chevron-left" aria-hidden="true"></span>
                     </a>
-                    <strong>@pageView</strong>
-                    <a class="AM-btn @(pageView >= pagesTotal ? "custom-disabled" : "")" href="@Url.Action("Index", "UserManage", new {take = @Model.Take, pageIndex=@pageIndexPlus, filter = @ViewBag.Filter, search=@Model.Search, orderBy=@Model.OrderBy , order=@Model.Order})"
+                    @pageView
+                    <a class="AM-btn @(pageView >= pagesTotal ? "custom-disabled" : "")" href="@Url.Action("UserRoles", "UserManage", new { take = @Model.Take, pageIndex = @pageIndexPlus, search = @Model.Search, itemId = @userId })"
                        data-toggle="tooltip" data-placement="top" title="@Localization.GetString("Next", @SharedResourceFile)">
                         <span class="fa fa-chevron-right" aria-hidden="true"></span>
                     </a>
