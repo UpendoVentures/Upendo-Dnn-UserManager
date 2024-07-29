@@ -363,8 +363,10 @@ $(document).ready(function () {
     });
 });
     </script>
+
     <script>
-function validatePageInput() {
+    function validatePageInput() {
+        var pleaseEnterValidPage = '@DotNetNuke.Services.Localization.Localization.GetString("PleaseEnterValidPage.Text", "~/DesktopModules/MVC/Upendo.Modules.UserManager/App_LocalResources/UserRoles.resx")';
         var input = document.getElementById("goToPageInput");
         var button = document.getElementById("goToPageButton");
         var errorMessage = document.getElementById("error-message");
@@ -374,26 +376,26 @@ function validatePageInput() {
 
         if (isNaN(pageValue) || pageValue < 1 || pageValue > pagesTotal) {
             errorMessage.style.display = "block";
-            errorMessage.innerText = "Please enter a valid page number between 1 and " + pagesTotal;
+            errorMessage.innerText = pleaseEnterValidPage + " " + pagesTotal;
         } else {
             errorMessage.style.display = "none";
             // Submit the form if the input is valid
             button.type = "submit";
             button.click();
         }
-}
-$(function () {
-        $('.dropdown-toggle').dropdown()
-});
-
-$(function () {
-    var deleteText = '@DotNetNuke.Services.Localization.Localization.GetString("DeleteConfirmation.Text", "~/DesktopModules/MVC/Upendo.Modules.UserManager/App_LocalResources/Index.resx")';
-   $('#dialogs-delete .confirm').dnnConfirm({
-        title: "",
-        yesText: "Delete",
-        noText: "Cancel",
-        dialogClass: 'dnnFormPopup',
-        text: '<p style="font-size:20px;">' + deleteText + '</p>'
+    }
+    $(function () {
+            $('.dropdown-toggle').dropdown()
     });
-});
+
+    $(function () {
+        var deleteText = '@DotNetNuke.Services.Localization.Localization.GetString("DeleteConfirmation.Text", "~/DesktopModules/MVC/Upendo.Modules.UserManager/App_LocalResources/Index.resx")';
+    $('#dialogs-delete .confirm').dnnConfirm({
+            title: "",
+            yesText: "Delete",
+            noText: "Cancel",
+            dialogClass: 'dnnFormPopup',
+            text: '<p style="font-size:20px;">' + deleteText + '</p>'
+        });
+    });
     </script>
