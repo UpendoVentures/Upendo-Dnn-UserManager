@@ -22,9 +22,9 @@
     <div class="center">
         <h2 id="subtitle">@Localization.GetString("EditingSiteRoles", @SharedResourceFile)</h2>
     </div>
-    <div class="col-md-12 mt5 mb15">
+    <div class="col-md-12 mt5 pl0 pr0">
         <div class="AM-row">
-            <div class="col-sm-12 col-md-3 AM-d-flex AM-justify-content-start">
+            <div class="col-md-3 AM-d-flex AM-justify-content-start pl0">
                 <div class="dropdown">
                     <a class="dropDown dropdown-toggle"><strong>@Localization.GetString("RowsPerPage", @SharedResourceFile) @Model.Take <span class="caret"></span></strong></a>
                     <div class="dropdown-content">
@@ -58,17 +58,15 @@
                     @Html.TextBoxFor(m => m.Search, new { @class = "form-control AM-search-input mt5", @type = "text" })
                 </div>
             </div>
-            <div class="col-md-4 AM-d-flex AM-justify-content-end">
-                <ul class="nav navbar-nav navbar-right">
-                    <a type="button" class="AM-btn AM-btn-primary" href="@Url.Action("Create", "RolesManage", new {ctl = "Edit"})">
-                        <span class="fa fa-search color-white" aria-hidden="true"></span>
-                        @Localization.GetString("CreateRole", @ResourceFile)
-                    </a>
-                    <a type="button" class="AM-btn AM-btn-warning color-white" style="display: initial;" href="@Url.Action("Index", "UserManage", new {})">
-                        <span class="fa fa-chevron-left color-white" aria-hidden="true"></span>
-                        @Localization.GetString("UserList", @ResourceFile)
-                    </a>
-                </ul>
+            <div class="col-md-4 AM-d-flex AM-justify-content-end mt5">
+                <a type="button" class="AM-btn AM-btn-primary" href="@Url.Action("Create", "RolesManage", new {ctl = "Edit"})">
+                    <span class="fa fa-search color-white" aria-hidden="true"></span>
+                    @Localization.GetString("CreateRole", @ResourceFile)
+                </a>
+                <a type="button" class="AM-btn AM-btn-info color-white ml5" href="@Url.Action("Index", "UserManage", new {})">
+                    <span class="fa fa-chevron-left color-white" aria-hidden="true"></span>
+                    @Localization.GetString("UserList", @ResourceFile)
+                </a>
             </div>
         </div>
     </div>
