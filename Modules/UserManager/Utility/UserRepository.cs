@@ -287,6 +287,7 @@ namespace Upendo.Modules.UserManager.Utility
             userInfo.LastName = user.LastName;
             userInfo.Email = user.Email;
             userInfo.Username = user.Username;
+            userInfo.DisplayName = user.DisplayName;
             userInfo.PortalID = portalId;
             userInfo.IsSuperUser = currentUser.IsSuperUser ? user.IsSuperUser : false;
             userInfo.IsDeleted = currentUser.IsSuperUser ? user.IsDeleted : false;
