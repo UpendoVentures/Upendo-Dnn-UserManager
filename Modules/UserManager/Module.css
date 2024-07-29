@@ -258,6 +258,14 @@
     padding: 7px 7px !important;
 }
 
+.pl0 {
+    padding-left: 0 !important;
+}
+
+.pr0 {
+    padding-right: 0 !important;
+}
+
 .admin-manager .accountSettings {
     margin-left: 10px !important;
 }
