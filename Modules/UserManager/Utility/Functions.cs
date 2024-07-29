@@ -216,9 +216,9 @@ namespace Upendo.Modules.UserManager.Utility
 
         public static DataTableResponse<RolesViewModel> ListOfRoles(List<RolesViewModel> roles, int rolesTotal, double take, int pageIndex, int goToPageValue, string search, string orderBy, string order)
         {
-            if (!string.IsNullOrEmpty(search) && search != " ")
+            if (!string.IsNullOrEmpty(search) && search.Trim() != "")
             {
-                roles = roles.Where(e => string.Concat(e.RoleName.ToLower()).Contains(search.Trim().ToLower())).ToList();
+                roles = roles.Where(e => e.RoleName.ToLower().Contains(search.Trim().ToLower())).ToList();
                 rolesTotal = roles.Count();
                 pageIndex = 0;
             }
@@ -230,7 +230,7 @@ namespace Upendo.Modules.UserManager.Utility
                 switch (orderBy)
                 {
                     case "RoleName":
-                        roles = order == "desc" ? roles.OrderByDescending(x => x.RoleName).ToList() : roles.OrderBy(x => x.RoleName).ToList();
+                        roles = order == "desc" ? roles.OrderByDescending(x => x.RoleName.ToLower()).ToList() : roles.OrderBy(x => x.RoleName.ToLower()).ToList();
                         break;
                 }
             }
