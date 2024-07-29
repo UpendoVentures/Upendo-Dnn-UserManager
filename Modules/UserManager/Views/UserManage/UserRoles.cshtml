@@ -173,9 +173,9 @@
                 <div class="col-md-3 AM-d-flex AM-justify-content-start">
                     <div class="AM-input-group">
                         <span class="AM-input-group-btn">
-                            <button class="AM-btn AM-btn-primary box-shadow" type="submit">@Localization.GetString("GoToPage", @SharedResourceFile)</button>
+                            <button id="goToPageButton" class="AM-btn AM-btn-primary box-shadow @(pagesTotal < 2 ? "custom-disabled" : "")" type="button" onclick="validatePageInput()">@Localization.GetString("GoToPage", @SharedResourceFile)</button>
                         </span>
-                        @Html.TextBoxFor(m => m.GoToPage, new { @class = "form-control", @type = "text", })
+                        @Html.TextBoxFor(m => m.GoToPage, new { @id = "goToPageInput", @class = "form-control " + (pagesTotal < 2 ? "custom-disabled" : ""), @type = "text" })
                     </div>
                 </div>
                 <div class="col-md-5 center">
@@ -194,11 +194,14 @@
                 <div class="col-md-4 AM-d-flex AM-justify-content-end">
                     <strong class="line-height-normal mr5">@Model.RecordsTotal</strong> @Localization.GetString("Entries", @SharedResourceFile)
                 </div>
+                <div class="col-md-12 AM-d-flex AM-justify-content-start">
+                    <div id="error-message" class="text-danger" style="display:none;">
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-</div>
-<script>
+    <script>
 $(document).ready(function () {
     var correctlyEdited = '@DotNetNuke.Services.Localization.Localization.GetString("CorrectlyEdited.Text", "~/DesktopModules/MVC/Upendo.Modules.UserManager/App_LocalResources/UserRoles.resx")';
     var errorOccurred = '@DotNetNuke.Services.Localization.Localization.GetString("ErrorOccurred.Text", "~/DesktopModules/MVC/Upendo.Modules.UserManager/App_LocalResources/UserRoles.resx")';
@@ -359,15 +362,33 @@ $(document).ready(function () {
         });
     });
 });
-</script>
-<script>
-    $(function () {
-        $('.dropdown-toggle').dropdown()
-    });
+    </script>
+    <script>
+function validatePageInput() {
+        var input = document.getElementById("goToPageInput");
+        var button = document.getElementById("goToPageButton");
+        var errorMessage = document.getElementById("error-message");
+        var pagesTotal = @pagesTotal;
 
-    $(function () {
+        var pageValue = parseInt(input.value, 10);
+
+        if (isNaN(pageValue) || pageValue < 1 || pageValue > pagesTotal) {
+            errorMessage.style.display = "block";
+            errorMessage.innerText = "Please enter a valid page number between 1 and " + pagesTotal;
+        } else {
+            errorMessage.style.display = "none";
+            // Submit the form if the input is valid
+            button.type = "submit";
+            button.click();
+        }
+}
+$(function () {
+        $('.dropdown-toggle').dropdown()
+});
+
+$(function () {
     var deleteText = '@DotNetNuke.Services.Localization.Localization.GetString("DeleteConfirmation.Text", "~/DesktopModules/MVC/Upendo.Modules.UserManager/App_LocalResources/Index.resx")';
-    $('#dialogs-delete .confirm').dnnConfirm({
+   $('#dialogs-delete .confirm').dnnConfirm({
         title: "",
         yesText: "Delete",
         noText: "Cancel",
@@ -375,4 +396,4 @@ $(document).ready(function () {
         text: '<p style="font-size:20px;">' + deleteText + '</p>'
     });
 });
-</script>
+    </script>
