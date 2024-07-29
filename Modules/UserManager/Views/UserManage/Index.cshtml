@@ -76,11 +76,11 @@
                 </div>
             </div>
             <div class="col-md-5 AM-d-flex AM-justify-content-center">
-                <div class="input-group">
-                    <div class="input-group-prepend">
+                <div class="AM-input-group">
+                    <div class="AM-input-group-prepend">
                         <button class="AM-btn AM-btn-primary box-shadow" type="submit">@Localization.GetString("Search", @SharedResourceFile)</button>
                     </div>
-                    @Html.TextBoxFor(m => m.Search, new { @class = "form-control AM-search-input", @type = "text" })
+                    @Html.TextBoxFor(m => m.Search, new { @class = "form-control AM-search-input mt5", @type = "text" })
                 </div>
             </div>
             <div class="col-md-4 AM-d-flex AM-justify-content-end">
