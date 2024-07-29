@@ -39,6 +39,11 @@
         background-color: #6d5a2c;
     }
 
+    .admin-manager table.table tr.background-dark-brown:hover {
+        background-color: #6d5a2c;
+        color: #ffffff;
+    }
+
     .admin-manager .background-color-gray {
         background: #e4e4e4d4;
     }
