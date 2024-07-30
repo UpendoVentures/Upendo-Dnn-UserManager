@@ -153,6 +153,9 @@
   <data name="Ok.text" xml:space="preserve">
     <value>Ok</value>
   </data>
+  <data name="PleaseEnterValidPage.Text" xml:space="preserve">
+    <value>Please enter a valid page number between 1 and</value>
+  </data>
   <data name="Role.Text" xml:space="preserve">
     <value>ROLE</value>
   </data>

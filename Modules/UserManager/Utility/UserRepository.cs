@@ -52,6 +52,7 @@ namespace Upendo.Modules.UserManager.Utility
         /// Get all users by param
         /// </summary>
         /// <param name="pagination"></param>
+        /// <param name="portalId"></param>
         /// <returns></returns>
         public static DataTableResponse<Users> GetUsers(Pagination pagination, int portalId)
         {
@@ -66,10 +67,19 @@ namespace Upendo.Modules.UserManager.Utility
             {
                 pagination.PageIndex = 0;
             }
+            var parameters = new
+            {
+                IsSuperUser = (int?)null,
+                Authorised = (int?)null,
+                AllUsers = 0,
+                Deleted = (int?)null,
+                PortalId = portalId
+            };
+
             switch (pagination.Filter)
             {
                 case "Unauthorized":
-                    var parameters = new
+                    parameters = new
                     {
                         IsSuperUser = (int?)null,
                         Authorised = (int?)0,
@@ -77,7 +87,7 @@ namespace Upendo.Modules.UserManager.Utility
                         Deleted = (int?)0,
                         PortalId = portalId
                     };
-                    return Functions.GetUsersProcedure(pagination, parameters);
+                    break;
 
                 case "Deleted":
                     parameters = new
@@ -88,7 +98,7 @@ namespace Upendo.Modules.UserManager.Utility
                         Deleted = (int?)1,
                         PortalId = portalId
                     };
-                    return Functions.GetUsersProcedure(pagination, parameters);
+                    break;
 
                 case "SuperUsers":
                     parameters = new
@@ -99,7 +109,7 @@ namespace Upendo.Modules.UserManager.Utility
                         Deleted = (int?)null,
                         PortalId = portalId
                     };
-                    return Functions.GetUsersProcedure(pagination, parameters);
+                    break;
 
                 case "All":
                     parameters = new
@@ -110,7 +120,7 @@ namespace Upendo.Modules.UserManager.Utility
                         Deleted = (int?)null,
                         PortalId = portalId
                     };
-                    return Functions.GetUsersProcedure(pagination, parameters);
+                    break;
 
                 default:
                     parameters = new
@@ -121,8 +131,10 @@ namespace Upendo.Modules.UserManager.Utility
                         Deleted = (int?)null,
                         PortalId = portalId
                     };
-                    return Functions.GetUsersProcedure(pagination, parameters);
+                    break;
             }
+
+            return Functions.GetUsersProcedure(pagination, parameters);
         }
 
         /// <summary>
@@ -275,6 +287,7 @@ namespace Upendo.Modules.UserManager.Utility
             userInfo.LastName = user.LastName;
             userInfo.Email = user.Email;
             userInfo.Username = user.Username;
+            userInfo.DisplayName = user.DisplayName;
             userInfo.PortalID = portalId;
             userInfo.IsSuperUser = currentUser.IsSuperUser ? user.IsSuperUser : false;
             userInfo.IsDeleted = currentUser.IsSuperUser ? user.IsDeleted : false;
@@ -306,6 +319,8 @@ namespace Upendo.Modules.UserManager.Utility
                 // Delete from aspnet_Users table
                 DotNetNuke.Security.Membership.MembershipProvider membershipProvider =
                 DotNetNuke.Security.Membership.MembershipProvider.Instance();
+                user.Membership.Approved = false;
+                UserController.UpdateUser(portalId, user);
                 membershipProvider.DeleteUser(user);
             }
         }
