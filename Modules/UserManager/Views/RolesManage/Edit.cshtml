@@ -7,7 +7,7 @@
     string ResourceFile = "~/DesktopModules/MVC/Upendo.Modules.UserManager/App_LocalResources/AddEditRoles.resx";
 }
 
-<div class="dnnDialog">
+<div class="admin-manager dnnDialog">
     @if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
     {
         <div class="dnnFormMessage dnnFormError">
@@ -45,7 +45,7 @@
         @Html.HiddenFor(m => m.RoleId)
     </fieldset>
     <div class="buttomForm mt20">
-        <button type="submit" class="dnnPrimaryAction">@Localization.GetString("Save", @ResourceFile)</button>
+        <button type="submit" class="AM-btn AM-btn-primary">@Localization.GetString("Save", @ResourceFile)</button>
         <button id="cancelEdit" href="#" class="dnnSecondaryAction">@Dnn.LocalizeString("Cancel")</button>
     </div>
 </div>

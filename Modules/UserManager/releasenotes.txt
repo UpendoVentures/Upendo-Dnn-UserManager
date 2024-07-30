@@ -34,6 +34,28 @@
 		<li><strong>SI:</strong> Support Inquiry - This issue was reported by a <a href="https://upendoventures.com/Support" target="_blank">support customer</a> and, as such, was prioritized above all other tasks.</li>
 	</ul>
 
+	<h2>Release Notes: 01.03.00</h2>
+	
+	<h3><strong>Enhancements</strong></h3>
+	<ul>
+		<li>None at this time.</li>
+		<!--
+		<li><strong></strong> - . (<a href="https://github.com/UpendoVentures/Upendo-Dnn-UserManager/issues/" target="_blank">Issue </a>), Thanks <a href="https://github.com/" target="_blank">@</a></li>
+		<li>None at this time.</li>
+		-->
+	</ul>
+	
+	<h3><strong>Maintenance Updates</strong></h3>
+	<ul>
+		<li><a href="https://github.com/UpendoVentures/Upendo-Dnn-UserManager/issues/85" target="_blank">Issue 85</a> - Removed Glyphicons &amp; Bootstrap 3. Thanks <a href="https://github.com/alejoroman0605" target="_blank">@alejoroman0605</a></li>
+		<li><a href="https://github.com/UpendoVentures/Upendo-Dnn-UserManager/issues/63" target="_blank">Issue 63</a> - Removed Upendo Logo &amp; Unnecessary CSS Classes. Thanks <a href="https://github.com/alejoroman0605" target="_blank">@alejoroman0605</a></li>
+		<!--
+		<li><a href="https://github.com/UpendoVentures/Upendo-Dnn-UserManager/issues/" target="_blank">Issue </a> - . Thanks <a href="https://github.com/" target="_blank">@</a></li>
+		<li>(no issue) - .</li>
+		-->
+	</ul>
+	<hr />
+
 	<h2>Release Notes: 01.02.00</h2>
 	
 	<h3><strong>Enhancements</strong></h3>
