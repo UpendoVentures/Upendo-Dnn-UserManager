@@ -27,7 +27,9 @@ using DotNetNuke.Services.Localization;
 using DotNetNuke.Web.Mvc.Framework.ActionFilters;
 using DotNetNuke.Web.Mvc.Framework.Controllers;
 using System;
+using System.Linq;
 using System.Net;
+using System.Text;
 using System.Web.Mvc;
 using Upendo.Modules.UserManager.Models.DnnModel;
 using Upendo.Modules.UserManager.Utility;
@@ -171,6 +173,33 @@ namespace Upendo.Modules.UserManager.Controllers
             }
         }
 
+        [HttpGet]
+        public ActionResult GenerateTestUsers(int numberOfUsers)
+        {
+            var portalId = ModuleContext.PortalId;
+            for (int i = 1; i <= numberOfUsers; i++)
+            {
+                var user = new UserViewModel
+                {
+                    Username = $"user{i}",
+                    FirstName = $"FirstName{i}",
+                    LastName = $"LastName{i}",
+                    Email = $"user{i}@test.com",
+                    Password = "Password123!",
+                    ConfirmPassword = "Password123!",
+                    DisplayName = $"User {i}",
+                    PortalID = portalId,
+                    Approved = true,
+                    IsSuperUser = false,
+                    SendEmail = false
+                };
+
+               UserRepository.CreateUser(user, portalId);             
+            }
+
+            return RedirectToAction("Index");
+        }
+
         public ActionResult Edit(int itemId)
         {
             var portalId = ModuleContext.PortalId;
@@ -209,6 +238,51 @@ namespace Upendo.Modules.UserManager.Controllers
             UserRepository.DeleteUser(portalId, itemId);
             return RedirectToDefaultRoute();
         }
+
+        public ActionResult BulkDelete()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult BulkDeleteUsers(string userIds, bool permanentDelete)
+        {
+            var resultLog = new StringBuilder();
+            var userIdList = userIds.Split(',').Select(id => id.Trim()).ToList();
+            var portalId = ModuleContext.PortalId;
+
+            foreach (var userId in userIdList)
+            {
+                if (int.TryParse(userId, out int id))
+                {
+                    var user = UserController.GetUserById(portalId,id);
+                    if (user != null)
+                    {
+                        if (permanentDelete)
+                        {                            
+                            resultLog.AppendLine($"User {user.Username} (ID: {id}) permanently deleted.");
+                        }
+                        else
+                        {
+                            UserRepository.DeleteUser(portalId, id);
+                            resultLog.AppendLine($"User {user.Username} (ID: {id}) marked as deleted.");
+                        }
+                    }
+                    else
+                    {
+                        resultLog.AppendLine($"User with ID: {id} not found.");
+                    }
+                }
+                else
+                {
+                    resultLog.AppendLine($"Invalid User ID: {userId}");
+                }
+            }
+
+            ViewBag.ResultLog = resultLog.ToString();
+            return View("BulkDelete");
+        }
+
         public ActionResult ChangePassword(int itemId)
         {
             DotNetNuke.Framework.JavaScriptLibraries.JavaScript.RequestRegistration(CommonJs.DnnPlugins);
