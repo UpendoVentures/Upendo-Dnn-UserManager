@@ -174,4 +174,7 @@
   <data name="EditingSiteRoles.Text" xml:space="preserve">
     <value>Editing Site Roles</value>
   </data>
+  <data name="Delete.Text" xml:space="preserve">
+    <value>Delete</value>
+  </data>
 </root>
