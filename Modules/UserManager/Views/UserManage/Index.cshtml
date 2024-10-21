@@ -37,10 +37,16 @@
                 </a>
             </span>
             <span class="dnnActions" style="display: initial;">
-                <a type="button" class="btn btn-danger" href="@Url.Action("BulkDelete", "UserManage", new {})" style="color: white;">
-                    <span class="glyphicon glyphicon-tasks color-white" aria-hidden="true"></span>
-                    @Localization.GetString("BulkDeleteUser", @ResourceFile)
-                </a>
+                <div class="UDMU_tooltip-custom">
+                    <button type="button" class="btn btn-danger @(ViewBag.IsCurrentUserSuperUser ? "" : "UDMU_disabled")"
+                            @(ViewBag.IsCurrentUserSuperUser ? "" : "disabled") style="color: white;">
+                        <span class="glyphicon glyphicon-tasks color-white" aria-hidden="true"></span>
+                        @Localization.GetString("BulkDeleteUser", @ResourceFile)
+                    </button>
+                    <span class="UDMU_tooltiptext">
+                        @Localization.GetString("OnlySuperUserIsAllowedBulkDeleteUserAccounts", @SharedResourceFile)
+                    </span>
+                </div>
             </span>
             <span class="dnnActions" style="display: initial;">
                 <a type="button" class="btn btn-info" href="@Url.Action("Index", "RolesManage", new {})" style="color: white;">
