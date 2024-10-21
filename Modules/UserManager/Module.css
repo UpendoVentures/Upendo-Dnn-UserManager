@@ -104,8 +104,61 @@
     cursor: not-allowed;
 }
 
+/* Tooltip container */
+.UDMU_tooltip-custom {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+}
+
+    /* Tooltip text */
+    .UDMU_tooltip-custom .UDMU_tooltiptext {
+        visibility: hidden;
+        width: 200px;
+        background-color: #555;
+        color: #fff;
+        text-align: center;
+        border-radius: 6px;
+        padding: 5px 0;
+        position: absolute;
+        z-index: 1;
+        bottom: 125%; /* Position the tooltip above the text */
+        left: 50%;
+        margin-left: -100px;
+        opacity: 0;
+        transition: opacity 0.3s;
+    }
+
+        /* Tooltip arrow */
+        .UDMU_tooltip-custom .UDMU_tooltiptext::after {
+            content: "";
+            position: absolute;
+            top: 100%; /* At the bottom of the tooltip */
+            left: 50%;
+            margin-left: -5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: #555 transparent transparent transparent;
+        }
+
+    /* Show the tooltip text when you mouse over the tooltip container */
+    .UDMU_tooltip-custom:hover .UDMU_tooltiptext {
+        visibility: visible;
+        opacity: 1;
+    }
+
+.UDUM_disabled {
+    background-color: #b4babc;
+    pointer-events: none;
+    opacity: 0.65;
+    cursor: not-allowed;
+}
+
 .buttomForm #cancelEdit {
-    
+}
+
+.UDUM_m2 {
+    margin: 2% !important;
 }
 
 .checkbox {
@@ -340,8 +393,8 @@
 
 /* version 1.01.02 additions */
 .field-validation-error {
-  color: darkred;
-  font-size: small;
+    color: darkred;
+    font-size: small;
 }
 
 .datepicker-dropdown.datepicker-orient-left:after {
