@@ -172,12 +172,16 @@
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Providers\DataProviders\SqlDataProvider\01.01.01.SqlDataProvider" />
     <Content Include="Providers\DataProviders\SqlDataProvider\Uninstall.SqlDataProvider" />
+    <Content Include="Views\UserManage\BulkDelete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_LocalResources\RolesManageController.resx" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_LocalResources\UserRepository.resx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_LocalResources\BulkDelete.resx" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">14.0</VisualStudioVersion>
