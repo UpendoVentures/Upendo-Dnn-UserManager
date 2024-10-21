@@ -1,0 +1,34 @@
+@using DotNetNuke.Services.Localization;
+@{
+    string ResourceFile = "~/DesktopModules/MVC/Upendo.Modules.UserManager/App_LocalResources/Index.resx";
+    string ResourceFileBulkDelete = "~/DesktopModules/MVC/Upendo.Modules.UserManager/App_LocalResources/BulkDelete.resx";
+}
+
+<h2 id="subtitle">
+    @Localization.GetString("BulkDeleteUserAccounts", @ResourceFileBulkDelete)
+    <a type="button" class="btn btn-warning color-white float-right" style="display: initial;"
+       href="@Url.Action("Index", "UserManage", new {})">
+        <span class="glyphicon glyphicon-chevron-left color-white" aria-hidden="true"></span>
+        @Localization.GetString("UserList", @ResourceFile)
+    </a>
+</h2>
+<form action="@Url.Action("BulkDeleteUsers", "UserManage")" method="post">
+    <div class="form-group">
+        <label for="userIds">@Localization.GetString("EnterUserIDsCommaSeparated", @ResourceFileBulkDelete)</label>
+        <textarea class="form-control" id="userIds" name="userIds" rows="5"></textarea>
+    </div>
+    <div class="form-group">
+        <label for="permanentDelete">@Localization.GetString("PermanentDelete", @ResourceFileBulkDelete)</label>
+        <input type="checkbox" id="permanentDelete" name="permanentDelete" />
+    </div>
+    <button type="submit" class="btn btn-danger" data-toggle="tooltip" data-placement="top"
+            title="@Localization.GetString("OnlySuperusersCanPerformThisAction", @ResourceFileBulkDelete)">
+        @Localization.GetString("DeleteUsers", @ResourceFileBulkDelete)
+    </button>
+</form>
+
+@if (ViewBag.ResultLog != null)
+{
+    <h3>@Localization.GetString("DeletionResults", @ResourceFileBulkDelete)"</h3>
+    <pre>@ViewBag.ResultLog</pre>
+}
