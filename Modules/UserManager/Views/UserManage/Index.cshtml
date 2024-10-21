@@ -20,10 +20,10 @@
 }
 <div id="Items-@Dnn.ModuleContext.ModuleId" style="margin: 2%!important;">
     <div class="col-md-12" style="margin-bottom: 20px;">
+        <a type="button" class="dnnPrimaryAction" href="@Url.Action("Create", "UserManage", new {ctl = "Edit"})">
+            @Localization.GetString("BtnCreateUser", @ResourceFile)
+        </a>
         <ul class="nav navbar-nav navbar-right">
-            <a type="button" class="dnnPrimaryAction" href="@Url.Action("Create", "UserManage", new {ctl = "Edit"})">
-                @Localization.GetString("BtnCreateUser", @ResourceFile)
-            </a>
             <span id="dialogs-DeleteUnauthorized" class="dnnActions" style="display: initial;">
                 <a type="button" class="confirm btn btn-warning" href="@Url.Action("DeleteUnauthorizedUsers", "UserManage", new {})" style="color: white;">
                     <span class="glyphicon glyphicon-trash color-white" aria-hidden="true"></span>
@@ -34,6 +34,12 @@
                 <a type="button" class="confirm btn btn-warning" href="@Url.Action("RemoveDeletedUsers", "UserManage", new {})" style="color: white;">
                     <span class="glyphicon glyphicon-trash color-white" aria-hidden="true"></span>
                     @Localization.GetString("RemoveDeleteUsers", @ResourceFile)
+                </a>
+            </span>
+            <span class="dnnActions" style="display: initial;">
+                <a type="button" class="btn btn-danger" href="@Url.Action("BulkDelete", "UserManage", new {})" style="color: white;">
+                    <span class="glyphicon glyphicon-tasks color-white" aria-hidden="true"></span>
+                    @Localization.GetString("BulkDeleteUser", @ResourceFile)
                 </a>
             </span>
             <span class="dnnActions" style="display: initial;">
