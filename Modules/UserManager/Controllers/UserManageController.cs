@@ -241,45 +241,53 @@ namespace Upendo.Modules.UserManager.Controllers
 
         public ActionResult BulkDelete()
         {
+            // Get the current authenticated user
+            var currentUser = UserController.Instance.GetCurrentUserInfo();
+            ViewBag.IsCurrentUserSuperUser = currentUser.IsSuperUser;
             return View();
         }
 
         [HttpPost]
         public ActionResult BulkDeleteUsers(string userIds, bool permanentDelete)
         {
-            var resultLog = new StringBuilder();
-            var userIdList = userIds.Split(',').Select(id => id.Trim()).ToList();
-            var portalId = ModuleContext.PortalId;
-
-            foreach (var userId in userIdList)
+            // Get the current authenticated user
+            var currentUser = UserController.Instance.GetCurrentUserInfo();
+            ViewBag.IsCurrentUserSuperUser = currentUser.IsSuperUser;
             {
-                if (int.TryParse(userId, out int id))
+                var resultLog = new StringBuilder();
+                var userIdList = userIds.Split(',').Select(id => id.Trim()).ToList();
+                var portalId = ModuleContext.PortalId;
+
+                foreach (var userId in userIdList)
                 {
-                    var user = UserController.GetUserById(portalId,id);
-                    if (user != null)
+                    if (int.TryParse(userId, out int id))
                     {
-                        if (permanentDelete)
-                        {                            
-                            resultLog.AppendLine($"User {user.Username} (ID: {id}) permanently deleted.");
+                        var user = UserController.GetUserById(portalId, id);
+                        if (user != null)
+                        {
+                            if (permanentDelete)
+                            {
+                                resultLog.AppendLine($"User {user.Username} (ID: {id}) permanently deleted.");
+                            }
+                            else
+                            {
+                                UserRepository.DeleteUser(portalId, id);
+                                resultLog.AppendLine($"User {user.Username} (ID: {id}) marked as deleted.");
+                            }
                         }
                         else
                         {
-                            UserRepository.DeleteUser(portalId, id);
-                            resultLog.AppendLine($"User {user.Username} (ID: {id}) marked as deleted.");
+                            resultLog.AppendLine($"User with ID: {id} not found.");
                         }
                     }
                     else
                     {
-                        resultLog.AppendLine($"User with ID: {id} not found.");
+                        resultLog.AppendLine($"Invalid User ID: {userId}");
                     }
                 }
-                else
-                {
-                    resultLog.AppendLine($"Invalid User ID: {userId}");
-                }
-            }
 
-            ViewBag.ResultLog = resultLog.ToString();
+                ViewBag.ResultLog = resultLog.ToString();
+            }
             return View("BulkDelete");
         }
 
