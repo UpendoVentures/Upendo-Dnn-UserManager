@@ -28,7 +28,7 @@
                     @(ViewBag.IsCurrentUserSuperUser ? "" : "disabled")>
                 @Localization.GetString("DeleteUsers", @ResourceFileBulkDelete)
             </button>
-            <span class="UDMU_tooltiptext">
+            <span class="UDMU_tooltiptext @(!ViewBag.IsCurrentUserSuperUser ? "" : "hidden")">
                 @Localization.GetString("OnlySuperUserIsAllowedBulkDeleteUserAccounts", @SharedResourceFile)
             </span>
         </div>
