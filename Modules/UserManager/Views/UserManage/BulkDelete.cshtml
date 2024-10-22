@@ -1,4 +1,8 @@
+@inherits DotNetNuke.Web.Mvc.Framework.DnnWebViewPage<Upendo.Modules.UserManager.ViewModels.BulkDeleteViewModel>
+@using System.Collections.Generic
+@using DotNetNuke.Web.Mvc.Helpers
 @using DotNetNuke.Services.Localization;
+
 @{
     string ResourceFile = "~/DesktopModules/MVC/Upendo.Modules.UserManager/App_LocalResources/Index.resx";
     string SharedResourceFile = "~/DesktopModules/MVC/Upendo.Modules.UserManager/App_LocalResources/Shared.resx";
@@ -14,14 +18,20 @@
             @Localization.GetString("UserList", @ResourceFile)
         </a>
     </h2>
-    <form action="@Url.Action("BulkDeleteUsers", "UserManage")" method="post">
+    @if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
+    {
+        <div class="dnnFormMessage dnnFormError">
+            <p>@ViewBag.ErrorMessage</p>
+        </div>
+    }
+    <fieldset>
         <div class="form-group">
             <label for="userIds">@Localization.GetString("EnterUserIDsCommaSeparated", @ResourceFileBulkDelete)</label>
-            <textarea class="form-control" id="userIds" name="userIds" rows="5"></textarea>
+            @Html.TextAreaFor(m => m.UserIds, new { @class = "form-control", rows = 5 })
         </div>
         <div class="form-group">
             <label for="permanentDelete">@Localization.GetString("PermanentDelete", @ResourceFileBulkDelete)</label>
-            <input type="checkbox" id="permanentDelete" name="permanentDelete" />
+            @Html.CheckBoxFor(m => m.PermanentDelete)
         </div>
         <div class="UDMU_tooltip-custom">
             <button type="submit" class="btn btn-danger @(ViewBag.IsCurrentUserSuperUser ? "" : "UDMU_disabled")"
@@ -32,11 +42,10 @@
                 @Localization.GetString("OnlySuperUserIsAllowedBulkDeleteUserAccounts", @SharedResourceFile)
             </span>
         </div>
-    </form>
+    </fieldset>
 </div>
 @if (ViewBag.ResultLog != null)
 {
     <h3>@Localization.GetString("DeletionResults", @ResourceFileBulkDelete)</h3>
     <pre>@ViewBag.ResultLog</pre>
 }
-</div>
