@@ -43,11 +43,27 @@ namespace Upendo.Modules.UserManager.Controllers
     {
         private readonly string ResourceFile = "~/DesktopModules/MVC/Upendo.Modules.UserManager/App_LocalResources/UserManageController.resx";
         private readonly string SharedResourceFile = "~/DesktopModules/MVC/Upendo.Modules.UserManager/App_LocalResources/Shared.resx";
+        private readonly string ResourceFileBulkDelete = "~/DesktopModules/MVC/Upendo.Modules.UserManager/App_LocalResources/BulkDelete.resx";
+
         private readonly UserInfo _currentUser = UserController.Instance.GetCurrentUserInfo();
+        private readonly string _lUser = "";
+        private readonly string _lPermanentlyDeleted = "";
+        private readonly string _lMarkedDeleted = "";
+        private readonly string _lWithID = "";
+        private readonly string _lNotFound = "";
+        private readonly string _lInvalidUserID = "";
+        private readonly string _lNotPermissions = "";
 
         public UserManageController()
         {
             DotNetNuke.Framework.JavaScriptLibraries.JavaScript.RequestRegistration(CommonJs.DnnPlugins);
+            _lUser = Localization.GetString("User", ResourceFileBulkDelete);
+            _lPermanentlyDeleted = Localization.GetString("PermanentlyDeleted", ResourceFileBulkDelete);
+            _lMarkedDeleted = Localization.GetString("MarkedDeleted", ResourceFileBulkDelete);
+            _lWithID = Localization.GetString("WithID", ResourceFileBulkDelete);
+            _lNotFound = Localization.GetString("NotFound", ResourceFileBulkDelete);
+            _lInvalidUserID = Localization.GetString("InvalidUserID", ResourceFileBulkDelete);
+            _lNotPermissions = Localization.GetString("NotPermissions", ResourceFile);
         }
         [ModuleAction(ControlKey = "Edit", TitleKey = "AddItem")]
         public ActionResult Index(double? take, int? pageIndex, string filter, int? goToPage, string search, string orderBy, string order)
@@ -261,30 +277,29 @@ namespace Upendo.Modules.UserManager.Controllers
                         {
                             if (bulkDeleteViewModel.PermanentDelete)
                             {
-                                resultLog.AppendLine($"User {user.Username} (ID: {id}) permanently deleted.");
+                                resultLog.AppendLine($"{_lUser} {user.Username} (ID: {id}) {_lPermanentlyDeleted}");
                             }
                             else
                             {
                                 UserRepository.DeleteUser(portalId, id);
-                                resultLog.AppendLine($"User {user.Username} (ID: {id}) marked as deleted.");
+                                resultLog.AppendLine($"{_lUser} {user.Username} (ID: {id}) {_lMarkedDeleted}");
                             }
                         }
                         else
                         {
-                            resultLog.AppendLine($"User with ID: {id} not found.");
+                            resultLog.AppendLine($"{_lUser} {_lWithID} {id} {_lNotFound}");
                         }
                     }
                     else
                     {
-                        resultLog.AppendLine($"Invalid User ID: {userId}");
+                        resultLog.AppendLine($"{_lInvalidUserID} {userId}");
                     }
                 }
-
                 ViewBag.ResultLog = resultLog.ToString();
             }
             else
             {
-                var errorMessage = Localization.GetString("NotPermissions.Text", ResourceFile);
+                var errorMessage = _lNotPermissions;
                 LoggerSource.Instance.GetLogger(typeof(UserRepository)).Error(errorMessage);
                 ViewBag.ErrorMessage = errorMessage;
             }
