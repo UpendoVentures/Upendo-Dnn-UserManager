@@ -43,6 +43,7 @@ namespace Upendo.Modules.UserManager.Controllers
     {
         private readonly string ResourceFile = "~/DesktopModules/MVC/Upendo.Modules.UserManager/App_LocalResources/UserManageController.resx";
         private readonly string SharedResourceFile = "~/DesktopModules/MVC/Upendo.Modules.UserManager/App_LocalResources/Shared.resx";
+        private readonly UserInfo _currentUser = UserController.Instance.GetCurrentUserInfo();
 
         public UserManageController()
         {
@@ -66,9 +67,8 @@ namespace Upendo.Modules.UserManager.Controllers
             }
             else
             {
-                var currentUser = UserController.Instance.GetCurrentUserInfo();
                 // Pass the information of whether the current user is a SuperUser to the view
-                ViewBag.IsCurrentUserSuperUser = currentUser.IsSuperUser;
+                ViewBag.IsCurrentUserSuperUser = _currentUser.IsSuperUser;
 
                 var takeValue = take ?? default;
                 var pageIndexValue = take == null ? default : pageIndex.Value;
@@ -89,10 +89,10 @@ namespace Upendo.Modules.UserManager.Controllers
                         break;
                     case "SuperUsers":
                         // Determine the appropriate filter value based on whether the current user is a SuperUser
-                        filter = currentUser.IsSuperUser ? "SuperUsers" : "Authorized";
+                        filter = _currentUser.IsSuperUser ? "SuperUsers" : "Authorized";
 
                         // Set the ViewBag.Filter message based on whether the current user is a SuperUser
-                        ViewBag.Filter = currentUser.IsSuperUser
+                        ViewBag.Filter = _currentUser.IsSuperUser
                             ? Localization.GetString("SuperUsers", SharedResourceFile)
                             : Localization.GetString("Authorized", SharedResourceFile);
                         break;
@@ -205,19 +205,16 @@ namespace Upendo.Modules.UserManager.Controllers
             var portalId = ModuleContext.PortalId;
             var item = UserRepository.GetUser(portalId, itemId);
 
-            // Get the current authenticated user
-            var currentUser = UserController.Instance.GetCurrentUserInfo();
-            ViewBag.IsCurrentUserSuperUser = currentUser.IsSuperUser;
-            ViewBag.OwnProfile = currentUser.UserID != itemId ? false : currentUser.IsSuperUser ? false : true;
+            ViewBag.IsCurrentUserSuperUser = _currentUser.IsSuperUser;
+            ViewBag.OwnProfile = _currentUser.UserID != itemId ? false : _currentUser.IsSuperUser ? false : true;
             return View(item);
         }
 
         [HttpPost]
         public ActionResult Edit(UserViewModel item)
         {
-            var currentUser = UserController.Instance.GetCurrentUserInfo();
             var portalId = ModuleContext.PortalId;
-            if (currentUser.UserID != item.UserId)
+            if (_currentUser.UserID != item.UserId)
             {
                 UserRepository.EditUser(portalId, item);
             }
@@ -241,21 +238,18 @@ namespace Upendo.Modules.UserManager.Controllers
 
         public ActionResult BulkDelete()
         {
-            // Get the current authenticated user
-            var currentUser = UserController.Instance.GetCurrentUserInfo();
-            ViewBag.IsCurrentUserSuperUser = currentUser.IsSuperUser;
+            ViewBag.IsCurrentUserSuperUser = _currentUser.IsSuperUser;
             return View();
         }
 
         [HttpPost]
-        public ActionResult BulkDeleteUsers(string userIds, bool permanentDelete)
-        {
-            // Get the current authenticated user
-            var currentUser = UserController.Instance.GetCurrentUserInfo();
-            ViewBag.IsCurrentUserSuperUser = currentUser.IsSuperUser;
+        public ActionResult BulkDelete(BulkDeleteViewModel bulkDeleteViewModel)
+        {           
+            ViewBag.IsCurrentUserSuperUser = _currentUser.IsSuperUser;
+            if (_currentUser.IsSuperUser)
             {
                 var resultLog = new StringBuilder();
-                var userIdList = userIds.Split(',').Select(id => id.Trim()).ToList();
+                var userIdList = bulkDeleteViewModel.UserIds.Split(',').Select(id => id.Trim()).ToList();
                 var portalId = ModuleContext.PortalId;
 
                 foreach (var userId in userIdList)
@@ -265,7 +259,7 @@ namespace Upendo.Modules.UserManager.Controllers
                         var user = UserController.GetUserById(portalId, id);
                         if (user != null)
                         {
-                            if (permanentDelete)
+                            if (bulkDeleteViewModel.PermanentDelete)
                             {
                                 resultLog.AppendLine($"User {user.Username} (ID: {id}) permanently deleted.");
                             }
@@ -287,6 +281,12 @@ namespace Upendo.Modules.UserManager.Controllers
                 }
 
                 ViewBag.ResultLog = resultLog.ToString();
+            }
+            else
+            {
+                var errorMessage = Localization.GetString("NotPermissions.Text", ResourceFile);
+                LoggerSource.Instance.GetLogger(typeof(UserRepository)).Error(errorMessage);
+                ViewBag.ErrorMessage = errorMessage;
             }
             return View("BulkDelete");
         }
