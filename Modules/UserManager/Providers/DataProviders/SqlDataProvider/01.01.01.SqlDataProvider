@@ -50,11 +50,11 @@ BEGIN
         WHERE (u.[UserName] LIKE '%' + @SearchTerm + '%' OR
            u.[FirstName] LIKE '%' + @SearchTerm + '%' OR
            u.[Email] LIKE '%' + @SearchTerm + '%' OR
-           u.[DisplayName] LIKE '%' + @SearchTerm)
+           u.[DisplayName] LIKE '%' + @SearchTerm + '%')
               AND u.IsDeleted = 0
               AND (@IsSuperUser IS NULL OR u.IsSuperUser = @IsSuperUser)
               AND (@Deleted IS NULL OR up.IsDeleted = @Deleted)
-              AND ((@Deleted = 1 AND u.IsSuperUser = 0) OR (@Authorised IS NULL OR up.Authorised = @Authorised AND u.IsSuperUser = 0))
+              AND (@Authorised IS NULL OR (up.Authorised = @Authorised AND up.IsDeleted = 0))
               AND (@PortalId IS NULL OR up.PortalId = @PortalId);
     END
     ELSE
@@ -65,7 +65,7 @@ BEGIN
         WHERE (u.[UserName] LIKE '%' + @SearchTerm + '%' OR
            u.[FirstName] LIKE '%' + @SearchTerm + '%' OR
            u.[Email] LIKE '%' + @SearchTerm + '%' OR
-           u.[DisplayName] LIKE '%' + @SearchTerm)
+           u.[DisplayName] LIKE '%' + @SearchTerm + '%')
               AND (@PortalId IS NULL OR up.PortalId = @PortalId);
     END;
 
@@ -89,11 +89,11 @@ BEGIN
         (u.[UserName] LIKE '%' + @SearchTerm + '%' OR
         u.[FirstName] LIKE '%' + @SearchTerm + '%' OR
         u.[Email] LIKE '%' + @SearchTerm + '%' OR
-        u.[DisplayName] LIKE '%' + @SearchTerm)
+        u.[DisplayName] LIKE '%' + @SearchTerm + '%')
         AND u.IsDeleted = 0
         AND (@IsSuperUser IS NULL OR u.IsSuperUser = @IsSuperUser)
         AND (@Deleted IS NULL OR up.IsDeleted = @Deleted)
-        AND ((@Deleted = 1 AND u.IsSuperUser = 0) OR (@Authorised IS NULL OR up.Authorised = @Authorised AND u.IsSuperUser = 0))
+        AND (@Authorised IS NULL OR (up.Authorised = @Authorised AND up.IsDeleted = 0))
         AND (@PortalId IS NULL OR up.PortalId = @PortalId)
     ORDER BY RowNumber;
 
