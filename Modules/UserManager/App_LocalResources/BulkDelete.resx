@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AlreadyDeletedPreviously.Text" xml:space="preserve">
+    <value>Already Deleted Previously:</value>
+  </data>
   <data name="BulkDeleteUserAccounts.Text" xml:space="preserve">
     <value>Bulk Delete User Accounts</value>
   </data>
@@ -132,14 +135,26 @@
   <data name="InvalidUserID.Text" xml:space="preserve">
     <value>Invalid User ID:</value>
   </data>
+  <data name="InvalidUserIDs.Text" xml:space="preserve">
+    <value>Invalid User IDs:</value>
+  </data>
+  <data name="MarkedAsDeleted.Text" xml:space="preserve">
+    <value>Marked as Deleted:</value>
+  </data>
   <data name="MarkedDeleted.Text" xml:space="preserve">
     <value>marked as deleted.</value>
   </data>
   <data name="NotFound.Text" xml:space="preserve">
     <value>not found.</value>
   </data>
+  <data name="NotFoundLog.Text" xml:space="preserve">
+    <value>Not Found:</value>
+  </data>
   <data name="OnlySuperusersCanPerformThisAction.Text" xml:space="preserve">
     <value>Only superusers can perform this action</value>
+  </data>
+  <data name="OperationSummary.Text" xml:space="preserve">
+    <value>Operation Summary</value>
   </data>
   <data name="PermanentDelete.Text" xml:space="preserve">
     <value>Permanent Delete:</value>
@@ -149,6 +164,12 @@
   </data>
   <data name="Reset.Text" xml:space="preserve">
     <value>Reset</value>
+  </data>
+  <data name="SummaryOfOperationsPermanentlyDeleted.Text" xml:space="preserve">
+    <value>Summary of operations: Permanently Deleted:</value>
+  </data>
+  <data name="ThisUserAlreadyBeenDeletedPreviously.Text" xml:space="preserve">
+    <value>has already been previously deleted.</value>
   </data>
   <data name="User.Text" xml:space="preserve">
     <value>User</value>
