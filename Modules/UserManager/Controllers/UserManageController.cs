@@ -277,6 +277,7 @@ namespace Upendo.Modules.UserManager.Controllers
                         {
                             if (bulkDeleteViewModel.PermanentDelete)
                             {
+                                UserController.RemoveUser(user);
                                 resultLog.AppendLine($"{_lUser} {user.Username} (ID: {id}) {_lPermanentlyDeleted}");
                             }
                             else
