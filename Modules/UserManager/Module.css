@@ -166,6 +166,11 @@
     margin: 2% !important;
 }
 
+.UDUM_custom-textarea {
+    height: auto !important;
+    min-height: 250px;
+}
+
 .checkbox {
     font-size: 16px;
     margin-top: 20px;
