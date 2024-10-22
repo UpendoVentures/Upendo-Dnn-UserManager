@@ -27,16 +27,19 @@
     <fieldset>
         <div class="form-group">
             <label for="userIds">@Localization.GetString("EnterUserIDsCommaSeparated", @ResourceFileBulkDelete)</label>
-            @Html.TextAreaFor(m => m.UserIds, new { @class = "form-control UDUM_custom-textarea" })
+            @Html.TextAreaFor(m => m.UserIds, new { @class = "form-control UDUM_custom-textarea", id = "userIds" })
         </div>
         <div class="form-group">
             <label for="permanentDelete">@Localization.GetString("PermanentDelete", @ResourceFileBulkDelete)</label>
-            @Html.CheckBoxFor(m => m.PermanentDelete)
+            @Html.CheckBoxFor(m => m.PermanentDelete, new { id = "permanentDelete" })
         </div>
         <div class="UDMU_tooltip-custom">
             <button type="submit" class="btn btn-danger @(ViewBag.IsCurrentUserSuperUser ? "" : "UDMU_disabled")"
                     @(ViewBag.IsCurrentUserSuperUser ? "" : "disabled")>
                 @Localization.GetString("DeleteUsers", @ResourceFileBulkDelete)
+            </button>
+            <button type="button" class="btn btn-secondary" onclick="resetForm()">
+                @Localization.GetString("Reset", @ResourceFileBulkDelete)
             </button>
             <span class="UDMU_tooltiptext @(!ViewBag.IsCurrentUserSuperUser ? "" : "hidden")">
                 @Localization.GetString("OnlySuperUserIsAllowedBulkDeleteUserAccounts", @SharedResourceFile)
@@ -47,5 +50,19 @@
 @if (ViewBag.ResultLog != null)
 {
     <h3>@Localization.GetString("DeletionResults", @ResourceFileBulkDelete)</h3>
-    <pre>@ViewBag.ResultLog</pre>
+    <pre id="resultLog">@ViewBag.ResultLog</pre>
 }
+
+<script type="text/javascript">
+    document.addEventListener('DOMContentLoaded', function () {
+        function resetForm() {
+            document.getElementById('userIds').value = '';
+            document.getElementById('permanentDelete').checked = false;
+            var resultLog = document.getElementById('resultLog');
+            if (resultLog) {
+                resultLog.innerHTML = '';
+            }
+        }
+        window.resetForm = resetForm;
+    });
+</script>
