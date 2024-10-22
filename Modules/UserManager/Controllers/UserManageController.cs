@@ -24,6 +24,7 @@ using DotNetNuke.Security.Membership;
 using DotNetNuke.Security.Permissions;
 using DotNetNuke.Security.Roles;
 using DotNetNuke.Services.Localization;
+using DotNetNuke.Services.Log.EventLog;
 using DotNetNuke.Web.Mvc.Framework.ActionFilters;
 using DotNetNuke.Web.Mvc.Framework.Controllers;
 using System;
@@ -53,6 +54,13 @@ namespace Upendo.Modules.UserManager.Controllers
         private readonly string _lNotFound = "";
         private readonly string _lInvalidUserID = "";
         private readonly string _lNotPermissions = "";
+        private readonly string _lThisUserAlreadyBeenDeletedPreviously = "";
+        private readonly string _lSummaryOfOperationsPermanentlyDeleted = "";
+        private readonly string _lAlreadyDeletedPreviously = "";
+        private readonly string _lMarkedAsDeleted = "";
+        private readonly string _lNotFoundLog = "";
+        private readonly string _lInvalidUserIDs = "";
+        private readonly string _lOperationSummary = "";
 
         public UserManageController()
         {
@@ -64,6 +72,13 @@ namespace Upendo.Modules.UserManager.Controllers
             _lNotFound = Localization.GetString("NotFound", ResourceFileBulkDelete);
             _lInvalidUserID = Localization.GetString("InvalidUserID", ResourceFileBulkDelete);
             _lNotPermissions = Localization.GetString("NotPermissions", ResourceFile);
+            _lThisUserAlreadyBeenDeletedPreviously = Localization.GetString("ThisUserAlreadyBeenDeletedPreviously", ResourceFileBulkDelete);
+            _lSummaryOfOperationsPermanentlyDeleted = Localization.GetString("SummaryOfOperationsPermanentlyDeleted", ResourceFileBulkDelete);
+            _lAlreadyDeletedPreviously = Localization.GetString("AlreadyDeletedPreviously", ResourceFileBulkDelete);
+            _lMarkedAsDeleted = Localization.GetString("MarkedAsDeleted", ResourceFileBulkDelete);
+            _lNotFoundLog = Localization.GetString("NotFoundLog", ResourceFileBulkDelete);
+            _lInvalidUserIDs = Localization.GetString("InvalidUserIDs", ResourceFileBulkDelete);
+            _lOperationSummary = Localization.GetString("OperationSummary", ResourceFileBulkDelete);
         }
         [ModuleAction(ControlKey = "Edit", TitleKey = "AddItem")]
         public ActionResult Index(double? take, int? pageIndex, string filter, int? goToPage, string search, string orderBy, string order)
@@ -210,7 +225,7 @@ namespace Upendo.Modules.UserManager.Controllers
                     SendEmail = false
                 };
 
-               UserRepository.CreateUser(user, portalId);             
+                UserRepository.CreateUser(user, portalId);
             }
 
             return RedirectToAction("Index");
@@ -260,13 +275,19 @@ namespace Upendo.Modules.UserManager.Controllers
 
         [HttpPost]
         public ActionResult BulkDelete(BulkDeleteViewModel bulkDeleteViewModel)
-        {           
+        {
             ViewBag.IsCurrentUserSuperUser = _currentUser.IsSuperUser;
             if (_currentUser.IsSuperUser)
             {
                 var resultLog = new StringBuilder();
                 var userIdList = bulkDeleteViewModel.UserIds.Split(',').Select(id => id.Trim()).ToList();
                 var portalId = ModuleContext.PortalId;
+
+                var userPermanentlyDeleted = 0;
+                var userAlreadyBeenDeletedPreviously = 0;
+                var userMarkedDeleted = 0;
+                var userNotFound = 0;
+                var userInvalid = 0;
 
                 foreach (var userId in userIdList)
                 {
@@ -278,25 +299,48 @@ namespace Upendo.Modules.UserManager.Controllers
                             if (bulkDeleteViewModel.PermanentDelete)
                             {
                                 UserController.RemoveUser(user);
+                                userPermanentlyDeleted++;
                                 resultLog.AppendLine($"{_lUser} {user.Username} (ID: {id}) {_lPermanentlyDeleted}");
                             }
                             else
                             {
-                                UserRepository.DeleteUser(portalId, id);
-                                resultLog.AppendLine($"{_lUser} {user.Username} (ID: {id}) {_lMarkedDeleted}");
+                                if (user.IsDeleted)
+                                {
+                                    userAlreadyBeenDeletedPreviously++;
+                                    resultLog.AppendLine($"{_lUser} {user.Username} (ID: {id}) {_lThisUserAlreadyBeenDeletedPreviously}");
+                                }
+                                else
+                                {
+                                    UserRepository.DeleteUser(portalId, id);
+                                    userMarkedDeleted++;
+                                    resultLog.AppendLine($"{_lUser} {user.Username} (ID: {id}) {_lMarkedDeleted}");
+                                }
                             }
                         }
                         else
                         {
+                            userNotFound++;
                             resultLog.AppendLine($"{_lUser} {_lWithID} {id} {_lNotFound}");
                         }
                     }
                     else
                     {
+                        userInvalid++;
                         resultLog.AppendLine($"{_lInvalidUserID} {userId}");
                     }
                 }
                 ViewBag.ResultLog = resultLog.ToString();
+                var operationsSummary = $"{ _lSummaryOfOperationsPermanentlyDeleted } {userPermanentlyDeleted}, {_lAlreadyDeletedPreviously} {userAlreadyBeenDeletedPreviously}, {_lMarkedAsDeleted} {userMarkedDeleted}, {_lNotFoundLog} {userNotFound}, {_lInvalidUserIDs} {userInvalid}";
+                var logInfo = new LogInfo
+                {
+                    LogTypeKey = EventLogController.EventLogType.ADMIN_ALERT.ToString(),
+                    LogUserID = UserController.Instance.GetCurrentUserInfo().UserID,
+                    LogPortalID = portalId,
+                    LogCreateDate = DateTime.Now,
+                    LogServerName = Environment.MachineName
+                };
+                logInfo.AddProperty(_lOperationSummary, operationsSummary);
+                EventLogController.Instance.AddLog(logInfo);
             }
             else
             {
