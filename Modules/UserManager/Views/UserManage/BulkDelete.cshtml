@@ -27,7 +27,7 @@
     <fieldset>
         <div class="form-group">
             <label for="userIds">@Localization.GetString("EnterUserIDsCommaSeparated", @ResourceFileBulkDelete)</label>
-            @Html.TextAreaFor(m => m.UserIds, new { @class = "form-control", rows = 5 })
+            @Html.TextAreaFor(m => m.UserIds, new { @class = "form-control UDUM_custom-textarea" })
         </div>
         <div class="form-group">
             <label for="permanentDelete">@Localization.GetString("PermanentDelete", @ResourceFileBulkDelete)</label>
