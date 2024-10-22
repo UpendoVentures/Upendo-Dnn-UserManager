@@ -46,13 +46,12 @@
             </span>
         </div>
     </fieldset>
+    @if (ViewBag.ResultLog != null)
+    {
+        <h3>@Localization.GetString("DeletionResults", @ResourceFileBulkDelete)</h3>
+        <pre id="resultLog">@ViewBag.ResultLog</pre>
+    }
 </div>
-@if (ViewBag.ResultLog != null)
-{
-    <h3>@Localization.GetString("DeletionResults", @ResourceFileBulkDelete)</h3>
-    <pre id="resultLog">@ViewBag.ResultLog</pre>
-}
-
 <script type="text/javascript">
     document.addEventListener('DOMContentLoaded', function () {
         function resetForm() {
