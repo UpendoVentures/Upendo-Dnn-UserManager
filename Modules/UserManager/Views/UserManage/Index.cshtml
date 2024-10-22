@@ -184,10 +184,7 @@
     <table class="table table-striped table-bordered table-hover">
         <thead>
             <tr style="background-color:#6d5a2c; color:#FFFFFF">
-                @if (ViewBag.IsCurrentUserSuperUser)
-                {
-                    <th>@Localization.GetString("Id", @ResourceFile)</th>
-                }
+                <th class="@(ViewBag.IsCurrentUserSuperUser ? "" : "hidden")">@Localization.GetString("Id", @ResourceFile)</th>
                 <th class="uppercase-text">@Localization.GetString("Username", @ResourceFile)</th>
                 <th class="uppercase-text">@Localization.GetString("DisplayName", @ResourceFile)</th>
                 <th class="uppercase-text">@Localization.GetString("Email", @ResourceFile)</th>
@@ -212,13 +209,9 @@
                 foreach (var item in Model.Data)
                 {
                     <tr>
-                        @if (ViewBag.IsCurrentUserSuperUser)
-                        {
-                            <td>
-                                @item.UserId
-                            </td>
-
-                        }
+                        <td class="@(ViewBag.IsCurrentUserSuperUser ? "" : "hidden")">
+                            @item.UserId
+                        </td>
                         <td>
                             <a data-hint="Edit" href="@Url.Action("Edit", "UserManage", new {ctl = "Edit", itemId = item.UserId})"
                                data-toggle="tooltip" data-placement="top" title="@Localization.GetString("Edit", @SharedResourceFile)">
