@@ -129,10 +129,31 @@
   <data name="EnterUserIDsCommaSeparated.Text" xml:space="preserve">
     <value>Enter User IDs (comma-separated):</value>
   </data>
+  <data name="InvalidUserID.Text" xml:space="preserve">
+    <value>Invalid User ID:</value>
+  </data>
+  <data name="MarkedDeleted.Text" xml:space="preserve">
+    <value>marked as deleted.</value>
+  </data>
+  <data name="NotFound.Text" xml:space="preserve">
+    <value>not found.</value>
+  </data>
   <data name="OnlySuperusersCanPerformThisAction.Text" xml:space="preserve">
     <value>Only superusers can perform this action</value>
   </data>
   <data name="PermanentDelete.Text" xml:space="preserve">
     <value>Permanent Delete:</value>
+  </data>
+  <data name="PermanentlyDeleted.Text" xml:space="preserve">
+    <value>permanently deleted.</value>
+  </data>
+  <data name="Reset.Text" xml:space="preserve">
+    <value>Reset</value>
+  </data>
+  <data name="User.Text" xml:space="preserve">
+    <value>User</value>
+  </data>
+  <data name="WithID.Text" xml:space="preserve">
+    <value>with ID:</value>
   </data>
 </root>
