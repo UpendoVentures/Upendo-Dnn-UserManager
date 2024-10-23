@@ -61,6 +61,7 @@ namespace Upendo.Modules.UserManager.Controllers
         private readonly string _lNotFoundLog = "";
         private readonly string _lInvalidUserIDs = "";
         private readonly string _lOperationSummary = "";
+        private readonly string _lToMaintainPerformanceControls = "";
 
         public UserManageController()
         {
@@ -79,6 +80,7 @@ namespace Upendo.Modules.UserManager.Controllers
             _lNotFoundLog = Localization.GetString("NotFoundLog", ResourceFileBulkDelete);
             _lInvalidUserIDs = Localization.GetString("InvalidUserIDs", ResourceFileBulkDelete);
             _lOperationSummary = Localization.GetString("OperationSummary", ResourceFileBulkDelete);
+            _lToMaintainPerformanceControls = Localization.GetString("ToMaintainPerformanceControls", ResourceFileBulkDelete);
         }
         [ModuleAction(ControlKey = "Edit", TitleKey = "AddItem")]
         public ActionResult Index(double? take, int? pageIndex, string filter, int? goToPage, string search, string orderBy, string order)
@@ -281,8 +283,13 @@ namespace Upendo.Modules.UserManager.Controllers
             {
                 var resultLog = new StringBuilder();
                 var userIdList = bulkDeleteViewModel.UserIds.Split(',').Select(id => id.Trim()).ToList();
+                if (userIdList.Count() > 3000)
+                {
+                    string errorMessage = _lToMaintainPerformanceControls;
+                    ViewBag.ErrorMessage = errorMessage;
+                    return View();
+                }
                 var portalId = ModuleContext.PortalId;
-
                 var userPermanentlyDeleted = 0;
                 var userAlreadyBeenDeletedPreviously = 0;
                 var userMarkedDeleted = 0;
@@ -330,7 +337,7 @@ namespace Upendo.Modules.UserManager.Controllers
                     }
                 }
                 ViewBag.ResultLog = resultLog.ToString();
-                var operationsSummary = $"{ _lSummaryOfOperationsPermanentlyDeleted } {userPermanentlyDeleted}, {_lAlreadyDeletedPreviously} {userAlreadyBeenDeletedPreviously}, {_lMarkedAsDeleted} {userMarkedDeleted}, {_lNotFoundLog} {userNotFound}, {_lInvalidUserIDs} {userInvalid}";
+                var operationsSummary = $"{_lSummaryOfOperationsPermanentlyDeleted} {userPermanentlyDeleted}, {_lAlreadyDeletedPreviously} {userAlreadyBeenDeletedPreviously}, {_lMarkedAsDeleted} {userMarkedDeleted}, {_lNotFoundLog} {userNotFound}, {_lInvalidUserIDs} {userInvalid}";
                 var logInfo = new LogInfo
                 {
                     LogTypeKey = EventLogController.EventLogType.ADMIN_ALERT.ToString(),
