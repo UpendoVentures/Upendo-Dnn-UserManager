@@ -281,7 +281,6 @@ namespace Upendo.Modules.UserManager.Controllers
             ViewBag.IsCurrentUserSuperUser = _currentUser.IsSuperUser;
             if (_currentUser.IsSuperUser)
             {
-                var resultLog = new StringBuilder();
                 var userIdList = bulkDeleteViewModel.UserIds.Split(',').Select(id => id.Trim()).ToList();
                 if (userIdList.Count() > 3000)
                 {
@@ -294,7 +293,13 @@ namespace Upendo.Modules.UserManager.Controllers
                 var userAlreadyBeenDeletedPreviously = 0;
                 var userMarkedDeleted = 0;
                 var userNotFound = 0;
-                var userInvalid = 0;
+                var userInvalid = 0; 
+                
+                var resultLogPermanentlyDeleted = new StringBuilder();
+                var resultLogAlreadyBeenDeletedPreviously = new StringBuilder();
+                var resultLogMarkedDeleted = new StringBuilder();
+                var resultLogNotFound = new StringBuilder();
+                var resultLogInvalid = new StringBuilder();
 
                 foreach (var userId in userIdList)
                 {
@@ -307,36 +312,41 @@ namespace Upendo.Modules.UserManager.Controllers
                             {
                                 UserController.RemoveUser(user);
                                 userPermanentlyDeleted++;
-                                resultLog.AppendLine($"{_lUser} {user.Username} (ID: {id}) {_lPermanentlyDeleted}");
+                                resultLogPermanentlyDeleted.AppendLine($"{_lUser} {user.Username} (ID: {id}) {_lPermanentlyDeleted}");
                             }
                             else
                             {
                                 if (user.IsDeleted)
                                 {
                                     userAlreadyBeenDeletedPreviously++;
-                                    resultLog.AppendLine($"{_lUser} {user.Username} (ID: {id}) {_lThisUserAlreadyBeenDeletedPreviously}");
+                                    resultLogAlreadyBeenDeletedPreviously.AppendLine($"{_lUser} {user.Username} (ID: {id}) {_lThisUserAlreadyBeenDeletedPreviously}");
                                 }
                                 else
                                 {
                                     UserRepository.DeleteUser(portalId, id);
                                     userMarkedDeleted++;
-                                    resultLog.AppendLine($"{_lUser} {user.Username} (ID: {id}) {_lMarkedDeleted}");
+                                    resultLogMarkedDeleted.AppendLine($"{_lUser} {user.Username} (ID: {id}) {_lMarkedDeleted}");
                                 }
                             }
                         }
                         else
                         {
                             userNotFound++;
-                            resultLog.AppendLine($"{_lUser} {_lWithID} {id} {_lNotFound}");
+                            resultLogNotFound.AppendLine($"{_lUser} {_lWithID} {id} {_lNotFound}");
                         }
                     }
                     else
                     {
                         userInvalid++;
-                        resultLog.AppendLine($"{_lInvalidUserID} {userId}");
+                        resultLogInvalid.AppendLine($"{_lInvalidUserID} {userId}");
                     }
                 }
-                ViewBag.ResultLog = resultLog.ToString();
+                ViewBag.ResultLogPermanentlyDeleted = resultLogPermanentlyDeleted.ToString();
+                ViewBag.ResultLogAlreadyBeenDeletedPreviously = resultLogAlreadyBeenDeletedPreviously.ToString();
+                ViewBag.ResultLogMarkedDeleted = resultLogMarkedDeleted.ToString();
+                ViewBag.ResultLogInvalid = resultLogInvalid.ToString();
+                ViewBag.ResultLogNotFound = resultLogNotFound.ToString();
+
                 var operationsSummary = $"{_lSummaryOfOperationsPermanentlyDeleted} {userPermanentlyDeleted}, {_lAlreadyDeletedPreviously} {userAlreadyBeenDeletedPreviously}, {_lMarkedAsDeleted} {userMarkedDeleted}, {_lNotFoundLog} {userNotFound}, {_lInvalidUserIDs} {userInvalid}";
                 var logInfo = new LogInfo
                 {
