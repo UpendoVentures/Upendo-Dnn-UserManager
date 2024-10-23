@@ -171,6 +171,9 @@
   <data name="ThisUserAlreadyBeenDeletedPreviously.Text" xml:space="preserve">
     <value>has already been previously deleted.</value>
   </data>
+  <data name="ToMaintainPerformanceControls.Text" xml:space="preserve">
+    <value>To maintain performance controls, the number of user accounts that can be deleted at a time is 3000.</value>
+  </data>
   <data name="User.Text" xml:space="preserve">
     <value>User</value>
   </data>
