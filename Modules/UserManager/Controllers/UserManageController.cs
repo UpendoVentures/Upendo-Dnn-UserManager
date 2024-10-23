@@ -1,5 +1,5 @@
 /*
-Copyright © Upendo Ventures, LLC
+Copyright ï¿½ Upendo Ventures, LLC
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and 
 associated documentation files (the "Software"), to deal in the Software without restriction, 
@@ -35,7 +35,6 @@ using System.Web.Mvc;
 using Upendo.Modules.UserManager.Models.DnnModel;
 using Upendo.Modules.UserManager.Utility;
 using Upendo.Modules.UserManager.ViewModels;
-using static Telerik.Web.UI.OrgChartStyles;
 
 namespace Upendo.Modules.UserManager.Controllers
 {
