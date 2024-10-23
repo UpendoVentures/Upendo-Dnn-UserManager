@@ -32,7 +32,6 @@ using System.Web.Mvc;
 using Upendo.Modules.UserManager.Models.DnnModel;
 using Upendo.Modules.UserManager.Utility;
 using Upendo.Modules.UserManager.ViewModels;
-using static Telerik.Web.UI.OrgChartStyles;
 
 namespace Upendo.Modules.UserManager.Controllers
 {
