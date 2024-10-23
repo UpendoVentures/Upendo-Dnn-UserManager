@@ -205,34 +205,7 @@ namespace Upendo.Modules.UserManager.Controllers
                 return View(item);
             }
         }
-
-        [HttpGet]
-        public ActionResult GenerateTestUsers(int numberOfUsers)
-        {
-            var portalId = ModuleContext.PortalId;
-            for (int i = 1; i <= numberOfUsers; i++)
-            {
-                var user = new UserViewModel
-                {
-                    Username = $"user{i}",
-                    FirstName = $"FirstName{i}",
-                    LastName = $"LastName{i}",
-                    Email = $"user{i}@test.com",
-                    Password = "Password123!",
-                    ConfirmPassword = "Password123!",
-                    DisplayName = $"User {i}",
-                    PortalID = portalId,
-                    Approved = true,
-                    IsSuperUser = false,
-                    SendEmail = false
-                };
-
-                UserRepository.CreateUser(user, portalId);
-            }
-
-            return RedirectToAction("Index");
-        }
-
+               
         public ActionResult Edit(int itemId)
         {
             var portalId = ModuleContext.PortalId;
