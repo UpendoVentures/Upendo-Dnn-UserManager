@@ -21,84 +21,15 @@
     var totalItems = Model.RecordsTotal;
     var pagesTotal = (int)Math.Ceiling((double)totalItems / itemsPerPage);
 }
-<div id="Items-@Dnn.ModuleContext.ModuleId" style="margin: 2%!important;">
-    <div class="col-md-12" style="margin-bottom: 20px;">
-        <a type="button" class="dnnPrimaryAction" href="@Url.Action("Create", "UserManage", new {ctl = "Edit"})">
-            @Localization.GetString("BtnCreateUser", @ResourceFile)
-        </a>
-        <ul class="nav navbar-nav navbar-right">
-            <span id="dialogs-DeleteUnauthorized" class="dnnActions" style="display: initial;">
-                <a type="button" class="confirm btn btn-warning" href="@Url.Action("DeleteUnauthorizedUsers", "UserManage", new {})" style="color: white;">
-                    <span class="glyphicon glyphicon-trash color-white" aria-hidden="true"></span>
-                    @Localization.GetString("DeleteUnauthorizedUsers", @ResourceFile)
-                </a>
-            </span>
-            <span id="dialogs-RemoveDelete" class="dnnActions" style="display: initial;">
-                <a type="button" class="confirm btn btn-warning" href="@Url.Action("RemoveDeletedUsers", "UserManage", new {})" style="color: white;">
-                    <span class="glyphicon glyphicon-trash color-white" aria-hidden="true"></span>
-                    @Localization.GetString("RemoveDeleteUsers", @ResourceFile)
-                </a>
-            </span>
-            <span class="dnnActions" style="display: initial;">
-                <div class="UDMU_tooltip-custom">
-                    <a href="@Url.Action("BulkDelete", "UserManage", new {})"
-                       class="btn btn-danger @(ViewBag.IsCurrentUserSuperUser ? "" : "UDMU_disabled-link")"
-                       style="color: white;">
-                        <span class="glyphicon glyphicon-tasks color-white" aria-hidden="true"></span>
-                        @Localization.GetString("BulkDeleteUser", @ResourceFile)
-                    </a>
-                    <span class="UDMU_tooltiptext @(!ViewBag.IsCurrentUserSuperUser ? "" : "hidden")">
-                        @Localization.GetString("OnlySuperUserIsAllowedBulkDeleteUserAccounts", @SharedResourceFile)
-                    </span>
-                </div>
-            </span>
-            <span class="dnnActions" style="display: initial;">
-                <a type="button" class="btn btn-info" href="@Url.Action("Index", "RolesManage", new {})" style="color: white;">
-                    <span class="glyphicon glyphicon-tasks color-white" aria-hidden="true"></span>
-                    @Localization.GetString("RolesList", @ResourceFile)
-                </a>
-            </span>
-        </ul>
-    </div>
-    <div class="col-md-12 pl2">
+<div class="m10 mt35">
+    <div class="admin-manager" id="Items-@Dnn.ModuleContext.ModuleId">
         <nav class="navbar navbar-default" role="navigation">
-            <div class="col-md-2 ">
-                <ul class="nav navbar-nav">
-                    <li class="dropdown">
-                        <a class="dropDown btn dropdown-toggle color-black" data-toggle="dropdown" href="#" style=" display: inline-flex;">
-                            @Localization.GetString("RowsPerPage", @SharedResourceFile) @Model.Take
-                            <span class="caret"></span>
-                        </a>        <ul class="dropdown-menu">
-                            <li>
-                                <a class="confirm page-link" href="@Url.Action("Index", "UserManage", new { take = 5, pageIndex = @Model.PageIndex, filter = @ViewBag.Filter, search=@Model.Search})">
-                                    <span aria-hidden="true">5</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a class="confirm page-link" href="@Url.Action("Index", "UserManage", new { take = 10, pageIndex = @Model.PageIndex, filter = @ViewBag.Filter, search=@Model.Search})">
-                                    <span aria-hidden="true">10</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a class="confirm page-link" href="@Url.Action("Index", "UserManage", new { take = 50, pageIndex = @Model.PageIndex, filter = @ViewBag.Filter, search=@Model.Search})">
-                                    <span aria-hidden="true">50</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a class="confirm page-link" href="@Url.Action("Index", "UserManage", new { take = 100, pageIndex = @Model.PageIndex, filter = @ViewBag.Filter, search=@Model.Search})">
-                                    <span aria-hidden="true">100</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a class="confirm page-link" href="@Url.Action("Index", "UserManage", new { take = @Model.RecordsTotal, pageIndex = @Model.PageIndex, filter = @ViewBag.Filter, search=@Model.Search})">
-                                    <span aria-hidden="true">@Localization.GetString("All", @SharedResourceFile)</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
+            <div class="col-md2">
+                <a type="button" class="AM-btn AM-btn-primary" href="@Url.Action("Create", "UserManage", new {ctl = "Edit"})">
+                    @Localization.GetString("BtnCreateUser", @ResourceFile)
+                </a>
             </div>
-            <div class="col-md-10 AM-d-flex AM-justify-content-end">
+            <div class="col-md10 AM-d-flex AM-justify-content-end">
                 <span id="dialogs-DeleteUnauthorized mr5" class="dnnActions mr5" style="display: initial;">
                     <a type="button" class="confirm AM-btn AM-btn-danger" href="@Url.Action("DeleteUnauthorizedUsers", "UserManage", new {})" style="color: white;">
                         <span class="fa fa-trash color-white" aria-hidden="true"></span>
@@ -111,6 +42,19 @@
                         @Localization.GetString("RemoveDeleteUsers", @ResourceFile)
                     </a>
                 </span>
+                <span class="dnnActions mr5" style="display: initial;">
+                    <div class="UDMU_tooltip-custom">
+                        <a href="@Url.Action("BulkDelete", "UserManage", new {})"
+                           class="confirm AM-btn AM-btn-danger @(ViewBag.IsCurrentUserSuperUser ? "" : "UDMU_disabled-link")"
+                           style="color: white;">
+                            <span class="glyphicon glyphicon-tasks color-white" aria-hidden="true"></span>
+                            @Localization.GetString("BulkDeleteUser", @ResourceFile)
+                        </a>
+                        <span class="UDMU_tooltiptext @(!ViewBag.IsCurrentUserSuperUser ? "" : "hidden")">
+                            @Localization.GetString("OnlySuperUserIsAllowedBulkDeleteUserAccounts", @SharedResourceFile)
+                        </span>
+                    </div>
+                </span>
                 <span class="dnnActions" style="display: initial;">
                     <a type="button" class="AM-btn AM-btn-info" href="@Url.Action("Index", "RolesManage", new {})" style="color: white;">
                         <span class="fa fa-tasks color-white" aria-hidden="true"></span>
@@ -118,9 +62,8 @@
                     </a>
                 </span>
             </div>
-        </div>
     </div>
-    <div class="col-md-12 pl0 pr0">
+    <div class="col-md-12 pl0 pr0 admin-manager">
         <div class="AM-row">
             <div class="col-md-3 AM-d-flex AM-justify-content-start pl0 pr0">
                 <div class="dropdown">
@@ -281,7 +224,7 @@
             }
         </tbody>
     </table>
-    <div class="data-footer">
+    <div class="data-footer admin-manager">
         <div class="center">
             @Localization.GetString("Page", @SharedResourceFile)
             <a class="btn btn-default @(pageView <= 1 ? "custom-disabled" : "")" href="@Url.Action("Index", "UserManage", new {take = @Model.Take, pageIndex=@pageIndexMinus, filter = @ViewBag.Filter, search=@Model.Search, orderBy=@Model.OrderBy , order=@Model.Order})"
@@ -299,6 +242,7 @@
             <strong class="line-height-normal mr5">@Model.RecordsTotal</strong> @Localization.GetString("Entries", @SharedResourceFile)
         </div>
     </div>
+</div>
 </div>
 
 <script>
