@@ -133,7 +133,7 @@
     <value>Enter User IDs (comma-separated):</value>
   </data>
   <data name="InvalidUserID.Text" xml:space="preserve">
-    <value>Invalid User ID:</value>
+    <value>Invalid User ID</value>
   </data>
   <data name="InvalidUserIDs.Text" xml:space="preserve">
     <value>Invalid User IDs:</value>
