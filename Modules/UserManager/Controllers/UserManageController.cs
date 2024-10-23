@@ -1,5 +1,5 @@
 /*
-Copyright © Upendo Ventures, LLC
+Copyright ï¿½ Upendo Ventures, LLC
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and 
 associated documentation files (the "Software"), to deal in the Software without restriction, 
@@ -24,15 +24,17 @@ using DotNetNuke.Security.Membership;
 using DotNetNuke.Security.Permissions;
 using DotNetNuke.Security.Roles;
 using DotNetNuke.Services.Localization;
+using DotNetNuke.Services.Log.EventLog;
 using DotNetNuke.Web.Mvc.Framework.ActionFilters;
 using DotNetNuke.Web.Mvc.Framework.Controllers;
 using System;
+using System.Linq;
 using System.Net;
+using System.Text;
 using System.Web.Mvc;
 using Upendo.Modules.UserManager.Models.DnnModel;
 using Upendo.Modules.UserManager.Utility;
 using Upendo.Modules.UserManager.ViewModels;
-using static Telerik.Web.UI.OrgChartStyles;
 
 namespace Upendo.Modules.UserManager.Controllers
 {
@@ -41,10 +43,43 @@ namespace Upendo.Modules.UserManager.Controllers
     {
         private readonly string ResourceFile = "~/DesktopModules/MVC/Upendo.Modules.UserManager/App_LocalResources/UserManageController.resx";
         private readonly string SharedResourceFile = "~/DesktopModules/MVC/Upendo.Modules.UserManager/App_LocalResources/Shared.resx";
+        private readonly string ResourceFileBulkDelete = "~/DesktopModules/MVC/Upendo.Modules.UserManager/App_LocalResources/BulkDelete.resx";
+
+        private readonly UserInfo _currentUser = UserController.Instance.GetCurrentUserInfo();
+        private readonly string _lUser = "";
+        private readonly string _lPermanentlyDeleted = "";
+        private readonly string _lMarkedDeleted = "";
+        private readonly string _lWithID = "";
+        private readonly string _lNotFound = "";
+        private readonly string _lInvalidUserID = "";
+        private readonly string _lNotPermissions = "";
+        private readonly string _lThisUserAlreadyBeenDeletedPreviously = "";
+        private readonly string _lSummaryOfOperationsPermanentlyDeleted = "";
+        private readonly string _lAlreadyDeletedPreviously = "";
+        private readonly string _lMarkedAsDeleted = "";
+        private readonly string _lNotFoundLog = "";
+        private readonly string _lInvalidUserIDs = "";
+        private readonly string _lOperationSummary = "";
+        private readonly string _lToMaintainPerformanceControls = "";
 
         public UserManageController()
         {
             DotNetNuke.Framework.JavaScriptLibraries.JavaScript.RequestRegistration(CommonJs.DnnPlugins);
+            _lUser = Localization.GetString("User", ResourceFileBulkDelete);
+            _lPermanentlyDeleted = Localization.GetString("PermanentlyDeleted", ResourceFileBulkDelete);
+            _lMarkedDeleted = Localization.GetString("MarkedDeleted", ResourceFileBulkDelete);
+            _lWithID = Localization.GetString("WithID", ResourceFileBulkDelete);
+            _lNotFound = Localization.GetString("NotFound", ResourceFileBulkDelete);
+            _lInvalidUserID = Localization.GetString("InvalidUserID", ResourceFileBulkDelete);
+            _lNotPermissions = Localization.GetString("NotPermissions", ResourceFile);
+            _lThisUserAlreadyBeenDeletedPreviously = Localization.GetString("ThisUserAlreadyBeenDeletedPreviously", ResourceFileBulkDelete);
+            _lSummaryOfOperationsPermanentlyDeleted = Localization.GetString("SummaryOfOperationsPermanentlyDeleted", ResourceFileBulkDelete);
+            _lAlreadyDeletedPreviously = Localization.GetString("AlreadyDeletedPreviously", ResourceFileBulkDelete);
+            _lMarkedAsDeleted = Localization.GetString("MarkedAsDeleted", ResourceFileBulkDelete);
+            _lNotFoundLog = Localization.GetString("NotFoundLog", ResourceFileBulkDelete);
+            _lInvalidUserIDs = Localization.GetString("InvalidUserIDs", ResourceFileBulkDelete);
+            _lOperationSummary = Localization.GetString("OperationSummary", ResourceFileBulkDelete);
+            _lToMaintainPerformanceControls = Localization.GetString("ToMaintainPerformanceControls", ResourceFileBulkDelete);
         }
         [ModuleAction(ControlKey = "Edit", TitleKey = "AddItem")]
         public ActionResult Index(double? take, int? pageIndex, string filter, int? goToPage, string search, string orderBy, string order)
@@ -64,9 +99,8 @@ namespace Upendo.Modules.UserManager.Controllers
             }
             else
             {
-                var currentUser = UserController.Instance.GetCurrentUserInfo();
                 // Pass the information of whether the current user is a SuperUser to the view
-                ViewBag.IsCurrentUserSuperUser = currentUser.IsSuperUser;
+                ViewBag.IsCurrentUserSuperUser = _currentUser.IsSuperUser;
 
                 var takeValue = take ?? default;
                 var pageIndexValue = take == null ? default : pageIndex.Value;
@@ -87,10 +121,10 @@ namespace Upendo.Modules.UserManager.Controllers
                         break;
                     case "SuperUsers":
                         // Determine the appropriate filter value based on whether the current user is a SuperUser
-                        filter = currentUser.IsSuperUser ? "SuperUsers" : "Authorized";
+                        filter = _currentUser.IsSuperUser ? "SuperUsers" : "Authorized";
 
                         // Set the ViewBag.Filter message based on whether the current user is a SuperUser
-                        ViewBag.Filter = currentUser.IsSuperUser
+                        ViewBag.Filter = _currentUser.IsSuperUser
                             ? Localization.GetString("SuperUsers", SharedResourceFile)
                             : Localization.GetString("Authorized", SharedResourceFile);
                         break;
@@ -170,25 +204,22 @@ namespace Upendo.Modules.UserManager.Controllers
                 return View(item);
             }
         }
-
+               
         public ActionResult Edit(int itemId)
         {
             var portalId = ModuleContext.PortalId;
             var item = UserRepository.GetUser(portalId, itemId);
 
-            // Get the current authenticated user
-            var currentUser = UserController.Instance.GetCurrentUserInfo();
-            ViewBag.IsCurrentUserSuperUser = currentUser.IsSuperUser;
-            ViewBag.OwnProfile = currentUser.UserID != itemId ? false : currentUser.IsSuperUser ? false : true;
+            ViewBag.IsCurrentUserSuperUser = _currentUser.IsSuperUser;
+            ViewBag.OwnProfile = _currentUser.UserID != itemId ? false : _currentUser.IsSuperUser ? false : true;
             return View(item);
         }
 
         [HttpPost]
         public ActionResult Edit(UserViewModel item)
         {
-            var currentUser = UserController.Instance.GetCurrentUserInfo();
             var portalId = ModuleContext.PortalId;
-            if (currentUser.UserID != item.UserId)
+            if (_currentUser.UserID != item.UserId)
             {
                 UserRepository.EditUser(portalId, item);
             }
@@ -209,6 +240,106 @@ namespace Upendo.Modules.UserManager.Controllers
             UserRepository.DeleteUser(portalId, itemId);
             return RedirectToDefaultRoute();
         }
+
+        public ActionResult BulkDelete()
+        {
+            ViewBag.IsCurrentUserSuperUser = _currentUser.IsSuperUser;
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult BulkDelete(BulkDeleteViewModel bulkDeleteViewModel)
+        {
+            ViewBag.IsCurrentUserSuperUser = _currentUser.IsSuperUser;
+            if (_currentUser.IsSuperUser)
+            {
+                var userIdList = bulkDeleteViewModel.UserIds.Split(',').Select(id => id.Trim()).ToList();
+                if (userIdList.Count() > 3000)
+                {
+                    string errorMessage = _lToMaintainPerformanceControls;
+                    ViewBag.ErrorMessage = errorMessage;
+                    return View();
+                }
+                var portalId = ModuleContext.PortalId;
+                var userPermanentlyDeleted = 0;
+                var userAlreadyBeenDeletedPreviously = 0;
+                var userMarkedDeleted = 0;
+                var userNotFound = 0;
+                var userInvalid = 0; 
+                
+                var resultLogPermanentlyDeleted = new StringBuilder();
+                var resultLogAlreadyBeenDeletedPreviously = new StringBuilder();
+                var resultLogMarkedDeleted = new StringBuilder();
+                var resultLogNotFound = new StringBuilder();
+                var resultLogInvalid = new StringBuilder();
+
+                foreach (var userId in userIdList)
+                {
+                    if (int.TryParse(userId, out int id))
+                    {
+                        var user = UserController.GetUserById(portalId, id);
+                        if (user != null)
+                        {
+                            if (bulkDeleteViewModel.PermanentDelete)
+                            {
+                                UserController.RemoveUser(user);
+                                userPermanentlyDeleted++;
+                                resultLogPermanentlyDeleted.AppendLine($"{_lUser} {user.Username} (ID: {id}) {_lPermanentlyDeleted}");
+                            }
+                            else
+                            {
+                                if (user.IsDeleted)
+                                {
+                                    userAlreadyBeenDeletedPreviously++;
+                                    resultLogAlreadyBeenDeletedPreviously.AppendLine($"{_lUser} {user.Username} (ID: {id}) {_lThisUserAlreadyBeenDeletedPreviously}");
+                                }
+                                else
+                                {
+                                    UserRepository.DeleteUser(portalId, id);
+                                    userMarkedDeleted++;
+                                    resultLogMarkedDeleted.AppendLine($"{_lUser} {user.Username} (ID: {id}) {_lMarkedDeleted}");
+                                }
+                            }
+                        }
+                        else
+                        {
+                            userNotFound++;
+                            resultLogNotFound.AppendLine($"{_lUser} {_lWithID} {id} {_lNotFound}");
+                        }
+                    }
+                    else
+                    {
+                        userInvalid++;
+                        resultLogInvalid.AppendLine($"{_lInvalidUserID} {userId}");
+                    }
+                }
+                ViewBag.ResultLogPermanentlyDeleted = resultLogPermanentlyDeleted.ToString();
+                ViewBag.ResultLogAlreadyBeenDeletedPreviously = resultLogAlreadyBeenDeletedPreviously.ToString();
+                ViewBag.ResultLogMarkedDeleted = resultLogMarkedDeleted.ToString();
+                ViewBag.ResultLogInvalid = resultLogInvalid.ToString();
+                ViewBag.ResultLogNotFound = resultLogNotFound.ToString();
+
+                var operationsSummary = $"{_lSummaryOfOperationsPermanentlyDeleted} {userPermanentlyDeleted}, {_lAlreadyDeletedPreviously} {userAlreadyBeenDeletedPreviously}, {_lMarkedAsDeleted} {userMarkedDeleted}, {_lNotFoundLog} {userNotFound}, {_lInvalidUserIDs} {userInvalid}";
+                var logInfo = new LogInfo
+                {
+                    LogTypeKey = EventLogController.EventLogType.ADMIN_ALERT.ToString(),
+                    LogUserID = UserController.Instance.GetCurrentUserInfo().UserID,
+                    LogPortalID = portalId,
+                    LogCreateDate = DateTime.Now,
+                    LogServerName = Environment.MachineName
+                };
+                logInfo.AddProperty(_lOperationSummary, operationsSummary);
+                EventLogController.Instance.AddLog(logInfo);
+            }
+            else
+            {
+                var errorMessage = _lNotPermissions;
+                LoggerSource.Instance.GetLogger(typeof(UserRepository)).Error(errorMessage);
+                ViewBag.ErrorMessage = errorMessage;
+            }
+            return View("BulkDelete");
+        }
+
         public ActionResult ChangePassword(int itemId)
         {
             DotNetNuke.Framework.JavaScriptLibraries.JavaScript.RequestRegistration(CommonJs.DnnPlugins);

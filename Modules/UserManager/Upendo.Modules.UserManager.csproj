@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -46,15 +46,17 @@
   </PropertyGroup>
   <Import Project="..\..\Build\SolutionReferences.targets" />
   <ItemGroup>
-    <PackageReference Include="DotNetNuke.Core" Version="9.9.0" />
-    <PackageReference Include="DotNetNuke.Instrumentation" Version="9.9.0" />
-    <PackageReference Include="DotNetNuke.Web" Version="9.9.0" />
-    <PackageReference Include="DotNetNuke.Web.Mvc" Version="9.9.0" />
-    <PackageReference Include="DotNetNuke.Web.Client" Version="9.9.0" />
-    <PackageReference Include="DotNetNuke.Web.Deprecated" Version="9.9.0" />
-    <PackageReference Include="DotNetNuke.WebApi" Version="9.9.0" />
-    <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
-    <PackageReference Include="Microsoft.AspNet.Mvc" Version="5.1.3" />
+    <PackageReference Include="DotNetNuke.Core" Version="9.11.0" />
+    <PackageReference Include="DotNetNuke.DependencyInjection">
+      <Version>9.11.0</Version>
+    </PackageReference>
+    <PackageReference Include="DotNetNuke.Instrumentation" Version="9.11.0" />
+    <PackageReference Include="DotNetNuke.Web" Version="9.11.0" />
+    <PackageReference Include="DotNetNuke.Web.Mvc" Version="9.11.0" />
+    <PackageReference Include="DotNetNuke.Web.Client" Version="9.11.0" />
+    <PackageReference Include="DotNetNuke.WebApi" Version="9.11.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="Microsoft.AspNet.Mvc" Version="5.2.9" />
     <PackageReference Include="Microsoft.AspNet.Razor" Version="3.1.2" />
     <PackageReference Include="Microsoft.AspNet.WebPages" Version="3.1.2" />
     <PackageReference Include="Microsoft.Web.Infrastructure" Version="1.0.0.0" />
@@ -106,6 +108,7 @@
     <Compile Include="Utility\Functions.cs" />
     <Compile Include="Utility\RolesRepository.cs" />
     <Compile Include="Utility\UserRepository.cs" />
+    <Compile Include="ViewModels\BulkDeleteViewModel.cs" />
     <Compile Include="ViewModels\Pagination.cs" />
     <Compile Include="ViewModels\ResultJsonViewModel.cs" />
     <Compile Include="ViewModels\RolesViewModel.cs" />
@@ -172,12 +175,16 @@
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Providers\DataProviders\SqlDataProvider\01.01.01.SqlDataProvider" />
     <Content Include="Providers\DataProviders\SqlDataProvider\Uninstall.SqlDataProvider" />
+    <Content Include="Views\UserManage\BulkDelete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_LocalResources\RolesManageController.resx" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_LocalResources\UserRepository.resx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_LocalResources\BulkDelete.resx" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">14.0</VisualStudioVersion>
