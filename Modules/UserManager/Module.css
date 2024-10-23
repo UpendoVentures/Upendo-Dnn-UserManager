@@ -1,103 +1,135 @@
-#table {
-    font-family: Arial, Helvetica, sans-serif;
-    border-collapse: collapse;
-    width: 100%;
+.admin-manager {
+    margin-left: 5px;
+    margin-right: 5px;
 }
 
-    #table td, #table th {
-        border: 1px solid #ddd;
-        padding: 8px;
+    .admin-manager .table {
+        font-family: Arial, Helvetica, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
     }
 
-    #table tr:nth-child(even) {
-        background-color: #f2f2f2;
+        .admin-manager .table td,
+        .admin-manager .table th {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+
+        .admin-manager .table tr:nth-child(even) {
+            background-color: #fafafa42;
+        }
+
+        .admin-manager .table tr:hover {
+            background-color: #ddd;
+        }
+
+    .admin-manager .dark-brown {
+        color: #ba9545;
     }
 
-    #table tr:hover {
-        background-color: #ddd;
+    .admin-manager .red {
+        color: red;
     }
 
-    #table th {
-        padding-top: 12px;
-        padding-bottom: 12px;
-        text-align: left;
+    .admin-manager .yellowgreen {
+        color: yellowgreen;
+    }
+
+    .admin-manager .background-dark-brown {
         background-color: #6d5a2c;
-        color: white;
     }
 
-#title {
-    color: #6d5a2c;
-}
-
-#subtitle {
-    color: #ba9545;
-}
-
-.input-group input[type=text] {
-    width: 100px;
-    box-sizing: border-box;
-    border-radius: 8px;
-    font-size: 16px;
-    background-color: white;
-    background-position: 10px 10px;
-    background-repeat: no-repeat;
-    padding: 6px;
-    transition: width 0.4s ease-in-out;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-}
-
-    .input-group input[type=text]:focus {
-        width: 250px;
+    .admin-manager table.table tr.background-dark-brown:hover {
+        background-color: #6d5a2c;
+        color: #ffffff;
     }
 
-.formItem {
+    .admin-manager .background-color-gray {
+        background: #e4e4e4d4;
+    }
+
+    .admin-manager .input-group input[type="text"] {
+        box-sizing: border-box;
+        border-radius: 8px;
+        background-color: white;
+        background-position: 10px 10px;
+        background-repeat: no-repeat;
+        padding: 6px;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    }
+
+        .admin-manager .input-group input[type="text"]:focus {
+            width: 250px;
+        }
+
+    .admin-manager .input-group {
+        display: flex;
+        align-items: center;
+    }
+
+        .admin-manager .input-group .form-control {
+            flex: 1;
+            box-shadow: 0 0 3px 0 #888888;
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+            margin: 0;
+        }
+
+    .admin-manager .input-group-btn {
+        margin-right: -1px;
+    }
+
+.input-group-btn .AM-btn .AM-btn-primary {
+    height: 40px;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    margin: 0;
+}
+
+.admin-manager .formItem {
     margin-top: 20px;
-    font-size: 16px;
 }
 
-    .formItem input {
+    .admin-manager .formItem input {
         width: 95%;
         box-sizing: border-box;
         border: 2px solid #ccc;
         border-radius: 4px;
-        font-size: 16px;
         padding: 3px;
-        box-shadow: 0 1px 6px 0 rgba(0,0,0,0.2), 0 2px 8px 0 rgba(0,0,0,0.19);
+        box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.2), 0 2px 8px 0 rgba(0, 0, 0, 0.19);
         margin-top: 3px;
     }
 
-.buttomForm button {
+.admin-manager .buttomForm button {
     border: none;
     padding: 12px 30px;
     text-align: center;
     text-decoration: none;
     display: inline-block;
-    font-size: 16px;
     margin: 4px 2px;
     cursor: pointer;
-    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     border-radius: 8px;
 }
 
-.cancel-buttom {
+.admin-manager .cancel-buttom {
     border: none;
     background-color: grey;
     padding: 12px 30px;
     text-align: center;
     text-decoration: none;
     display: inline-block;
-    font-size: 16px;
     margin: 4px 2px;
     cursor: pointer;
-    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     border-radius: 8px;
 }
 
-.buttomForm .primary {
-    background-color: #008CBA;
+.admin-manager .buttomForm .primary {
+    background-color: #008cba;
 }
 
-.buttomForm .disabled {
+.admin-manager .disabled {
     background-color: #b4babc;
     pointer-events: none;
     opacity: 0.65;
@@ -173,10 +205,12 @@
 
 .checkbox {
     font-size: 16px;
+}
+.admin-manager .checkbox {
     margin-top: 20px;
 }
 
-#checkbox {
+.admin-manager #checkbox {
     margin-top: 20px;
     margin-bottom: 20px;
     height: 20px;
@@ -184,50 +218,54 @@
     border-radius: 50%;
 }
 
-.left {
+.admin-manager .left {
     float: left;
     margin: 2px;
 }
 
-.right {
+.admin-manager .right {
     float: right;
     margin: 2px;
 }
 
-.center {
+.admin-manager .center {
     margin: auto;
     width: 60%;
     text-align: center;
 }
 
-.right {
+.admin-manager .right {
     margin: auto;
     width: 60%;
     text-align: right;
 }
 
-.white-color {
+.admin-manager .white-color {
     color: white;
 }
 
-.text-align-center {
+.admin-manager .text-align-center {
     text-align: center;
 }
 
-.text-align-left {
+.admin-manager .text-align-left {
     text-align: left;
 }
 
-.text-align-right {
+.admin-manager .text-align-right {
     text-align: right !important;
 }
 
-.text-align-justify {
+.admin-manager .text-align-justify {
     text-align: justify;
 }
 
-.float-right {
+.admin-manager .float-right {
     float: right !important;
+}
+
+.m10 {
+    margin: 10px;
 }
 
 .ml5 {
@@ -246,6 +284,22 @@
     margin-left: 30px;
 }
 
+.mr2 {
+    margin-right: 2px !important;
+}
+
+.mr5 {
+    margin-right: 5px !important;
+}
+
+.mt0 {
+    margin-top: 0 !important;
+}
+
+.mt1 {
+    margin-top: 1px !important;
+}
+
 .mt5 {
     margin-top: 5px;
 }
@@ -258,6 +312,14 @@
     margin-top: 35px;
 }
 
+.mb15 {
+    margin-bottom: 15px;
+}
+
+.mb25 {
+    margin-bottom: 25px;
+}
+
 .pb10 {
     padding-bottom: 10px !important;
 }
@@ -266,155 +328,402 @@
     padding: 1px 1 !important;
 }
 
-.accountSettings {
+.p7 {
+    padding: 7px 7px !important;
+}
+
+.pl0 {
+    padding-left: 0 !important;
+}
+
+.pr0 {
+    padding-right: 0 !important;
+}
+
+.admin-manager .accountSettings {
     margin-left: 10px !important;
 }
 
-    .accountSettings img {
+    .admin-manager .accountSettings img {
         border-radius: 50% !important;
     }
 
-.accountData {
+.admin-manager .accountData {
     margin-left: 10px !important;
     margin-top: 30px !important;
 }
 
 /* Grid System */
-.row::after {
-    content: "";
-    display: table;
-}
-
-.pl2 {
+.admin-manager .pl2 {
     padding-left: 2px !important;
 }
 
-.pr2 {
+.admin-manager .pr2 {
     padding-right: 2px !important;
 }
 
-[class*="col-"] {
+.admin-manager [class*="col-"] {
     float: left;
+    box-sizing: border-box;
+    width: 100%; /* Default to 100% width for small screens */
 }
 
-.col-1 {
-    width: 8.33%;
-}
+/* Medium devices (tablets, 768px and up) */
+@media (min-width: 768px) {
+    .admin-manager .col-md-1 {
+        width: calc(8.33%);
+    }
 
-.col-2 {
-    width: 16.66%;
-}
+    .admin-manager .col-md-2 {
+        width: calc(16.66%);
+    }
 
-.col-3 {
-    width: 25%;
-}
+    .admin-manager .col-md-3 {
+        width: calc(25%);
+    }
 
-.col-4 {
-    width: 33.33%;
-}
+    .admin-manager .col-md-4 {
+        width: calc(33.33%);
+    }
 
-.col-5 {
-    width: 41.66%;
-}
+    .admin-manager .col-md-5 {
+        width: calc(41.66%);
+    }
 
-.col-6 {
-    width: 50%;
-}
+    .admin-manager .col-md-6 {
+        width: calc(50%);
+    }
 
-.col-7 {
-    width: 58.33%;
-}
+    .admin-manager .col-md-7 {
+        width: calc(58.33%);
+    }
 
-.col-8 {
-    width: 66.66%;
-}
+    .admin-manager .col-md-8 {
+        width: calc(66.66%);
+    }
 
-.col-9 {
-    width: 75%;
-}
+    .admin-manager .col-md-9 {
+        width: calc(75%);
+    }
 
-.col-10 {
-    width: 83.33%;
-}
+    .admin-manager .col-md-10 {
+        width: calc(83.33%);
+    }
 
-.col-11 {
-    width: 91.66%;
-}
+    .admin-manager .col-md-11 {
+        width: calc(91.66%);
+    }
 
-.col-12 {
-    width: 100%;
+    .admin-manager .col-md-12 {
+        width: calc(100%);
+    }
 }
 /* Grid System */
 
-.dropDownList {
-    box-sizing: border-box;
-    border: 2px solid #ccc;
-    border-radius: 4px;
-    padding: 9px;
-    box-shadow: 0 1px 6px 0 rgba(0,0,0,0.2), 0 2px 8px 0 rgba(0,0,0,0.19);
-    font-size: 16px;
-    border-radius: 10px;
-}
-
-.dropDown {
-    display: flex;
-    height: 40px;
-    background: #e4e4e4d4;
-    color: black;
-    padding: 20px !important;
-    font-size: 16px !important;
-    border-radius: 8px !important;
-    align-items: center !important;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1) !important;
-}
-
-.input-group input {
+.admin-manager .input-group input {
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
 }
 
-.box-shadow {
+.admin-manager .box-shadow {
     height: 40px;
-    box-shadow: 0 0 8px 0 #888888
+    box-shadow: 0 0 8px 0 #888888;
 }
 
-.paginationStyle {
+.admin-manager .paginationStyle {
     display: inline-block;
     padding-left: 0;
     margin: 0px !important;
     border-radius: 4px;
 }
 
-.data-footer {
+.admin-manager .data-footer {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    font-size: 16px !important;
     padding: 0 8px;
 }
 
-.navbar-default {
+.admin-manager .navbar-default {
     background-color: #ffffff00 !important;
     border-color: #ffffff0a !important;
 }
 
-.color-white {
+.admin-manager .color-white {
     color: white !important;
 }
 
-.color-black {
+.admin-manager .color-black {
     color: black !important;
 }
 
 /* version 1.01.02 additions */
-.field-validation-error {
+.admin-manager .field-validation-error {
     color: darkred;
     font-size: small;
 }
 
-.datepicker-dropdown.datepicker-orient-left:after {
+.admin-manager .datepicker-dropdown.datepicker-orient-left:after {
     left: 50% !important;
 }
 
-.datepicker-dropdown.datepicker-orient-top:before {
-    border-top: 0 solid rgba(0, 0, 0, .15) !important;
+.admin-manager .datepicker-dropdown.datepicker-orient-top:before {
+    border-top: 0 solid rgba(0, 0, 0, 0.15) !important;
+}
+
+.admin-manager .dropDownList {
+    box-sizing: border-box;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    padding: 9px;
+    box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.2), 0 2px 8px 0 rgba(0, 0, 0, 0.19);
+    border-radius: 10px;
+}
+
+.admin-manager .dropDown {
+    display: flex;
+    height: 40px;
+    background: #e4e4e4d4;
+    color: black;
+    padding: 20px !important;
+    border-radius: 8px !important;
+    align-items: center !important;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1) !important;
+}
+
+.admin-manager .dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.admin-manager .dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+}
+
+    .admin-manager .dropdown-content a {
+        color: black;
+        padding: 12px 16px;
+        text-decoration: none;
+        display: block;
+    }
+
+        .admin-manager .dropdown-content a:hover {
+            background-color: #f1f1f1;
+        }
+
+.admin-manager .dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.admin-manager .dropdown:hover .dropbtn {
+    background-color: #3e8e41;
+}
+
+.admin-manager .AM-d-flex {
+    display: flex;
+}
+
+.admin-manager .AM-justify-content-center {
+    justify-content: center;
+}
+
+.admin-manager .AM-justify-content-end {
+    justify-content: flex-end;
+}
+
+.custom-input-group {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.admin-manager .dnnActions {
+    padding-top: 0%;
+}
+
+.admin-manager .line-height-normal {
+    line-height: normal;
+}
+
+.admin-manager .custom-disabled {
+    pointer-events: none;
+    opacity: 0.5;
+}
+
+.AM-btn {
+    padding: 0.25rem 0.5rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #212529;
+    background-color: transparent;
+    border: 1px solid transparent;
+    border-radius: 0.375rem;
+    display: inline-block;
+    text-align: center;
+    text-decoration: none;
+    vertical-align: middle;
+    cursor: pointer;
+    user-select: none;
+    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.AM-btn-sm {
+    padding: 0.25rem 0.5rem !important;
+}
+
+.AM-btn-medium {
+    padding: 0.375rem 0.75rem;
+}
+
+.AM-btn-large {
+    padding: 0.5rem 1rem;
+}
+
+.AM-btn-primary {
+    color: #fff;
+    background-color: #00539b;
+    border-color: #00539b;
+}
+
+    .AM-btn-primary:hover {
+        color: #fff;
+        background-color: #00539b8f;
+        border-color: #00539b8f;
+    }
+
+.AM-btn-default {
+    color: white;
+    background-color: #adadad;
+    border-color: #adadad;
+}
+
+    .AM-btn-default:hover {
+        background-color: #adadadba;
+        border-color: #adadadba;
+    }
+
+    .AM-btn-default:disabled {
+        background-color: #e6e6e6;
+        border-color: #ccc;
+        cursor: not-allowed;
+        opacity: 0.65;
+    }
+
+.AM-btn-danger {
+    color: white;
+    background-color: #dc3545;
+    border-color: #dc3545;
+}
+
+    .AM-btn-danger:hover {
+        color: white;
+        background-color: #dc35459c;
+        border-color: #dc35459c;
+    }
+
+.AM-btn-info {
+    color: white;
+    background-color: #25cff2;
+    border-color: #25cff2;
+}
+
+.AM-btn-info {
+    color: white;
+    background-color: #25cff2;
+    border-color: #25cff2;
+}
+
+.AM-search-input {
+    height: 40px;
+    margin-bottom: 5px;
+    padding: 7px;
+}
+
+/* Styles for the alert */
+.AM-alert {
+    padding: 15px;
+    margin-bottom: 20px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    position: relative;
+}
+
+.AM-alert-danger {
+    color: #a94442;
+    background-color: #f2dede;
+    border-color: #ebccd1;
+}
+
+.AM-alert .close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    color: inherit;
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.AM-hidden {
+    display: none;
+}
+
+.admin-manager .input-group {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: stretch;
+    width: 100%;
+}
+
+.admin-manager .input-group-addon {
+    padding: 0.375rem 0.75rem;
+    margin-left: -1px;
+    display: flex;
+    align-items: center;
+    border: 1px solid #ced4da;
+    border-radius: 0.2rem;
+}
+
+.AM-width-auto {
+    width: auto !important;
+}
+
+.centerInTable {
+    text-align: center;
+}
+
+.AM-input-group {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.AM-input-group-btn {
+    margin-right: -1px;
+}
+
+.AM-input-group .AM-btn,
+.AM-input-group .form-control {
+    height: 38px;
+    padding: 6px 12px;
+    border: 1px solid #ccc;
+}
+
+.AM-input-group .AM-btn {
+    margin-left: 0;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.AM-input-group .form-control {
+    flex: 1;
+    line-height: 26px;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
 }

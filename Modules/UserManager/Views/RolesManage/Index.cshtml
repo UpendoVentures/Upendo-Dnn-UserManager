@@ -14,84 +14,75 @@
     var pageView = @Model.GoToPage > 1 ? @Model.GoToPage : (pageIndexTo / @Model.Take) == 0 ? 1 : (pageIndexTo / @Model.Take);
     string ResourceFile = "~/DesktopModules/MVC/Upendo.Modules.UserManager/App_LocalResources/Index.resx";
     string SharedResourceFile = "~/DesktopModules/MVC/Upendo.Modules.UserManager/App_LocalResources/Shared.resx";
+    var itemsPerPage = Model.Take;
+    var totalItems = Model.RecordsTotal;
+    var pagesTotal = (int)Math.Ceiling((double)totalItems / itemsPerPage);
 }
-<div id="Items-@Dnn.ModuleContext.ModuleId" style="margin: 2%!important;">
-
-    <h2 id="subtitle">@Localization.GetString("EditingSiteRoles", @SharedResourceFile)</h2>
-    <hr />
-
-    <div class="col-md-9">
-        <ul class="nav navbar-nav" style="margin-right: 20px;">
-            <li class="dropdown">
-                <a class="dropDown btn dropdown-toggle" data-toggle="dropdown" href="#" style=" display: inline-flex;">
-                    @Localization.GetString("RowsPerPage", @SharedResourceFile) @Model.Take
-                    <span class="caret"></span>
-                </a>        <ul class="dropdown-menu">
-                    <li>
+<div class="admin-manager m10" id="Items-@Dnn.ModuleContext.ModuleId">
+    <div class="center">
+        <h2 id="subtitle">@Localization.GetString("EditingSiteRoles", @SharedResourceFile)</h2>
+    </div>
+    <div class="col-md-12 mt5 pl0 pr0">
+        <div class="AM-row">
+            <div class="col-md-3 AM-d-flex AM-justify-content-start pl0">
+                <div class="dropdown">
+                    <a class="dropDown dropdown-toggle"><strong>@Localization.GetString("RowsPerPage", @SharedResourceFile) @Model.Take <span class="caret"></span></strong></a>
+                    <div class="dropdown-content">
                         <a class="confirm page-link" href="@Url.Action("Index", "RolesManage", new { take = 5, pageIndex = @Model.PageIndex, search=@Model.Search})">
                             <span aria-hidden="true">5</span>
                         </a>
-                    </li>
-                    <li>
+
                         <a class="confirm page-link" href="@Url.Action("Index", "RolesManage", new { take = 10, pageIndex = @Model.PageIndex, search=@Model.Search})">
                             <span aria-hidden="true">10</span>
                         </a>
-                    </li>
-                    <li>
+
                         <a class="confirm page-link" href="@Url.Action("Index", "RolesManage", new { take = 50, pageIndex = @Model.PageIndex, search=@Model.Search})">
                             <span aria-hidden="true">50</span>
                         </a>
-                    </li>
-                    <li>
+
                         <a class="confirm page-link" href="@Url.Action("Index", "RolesManage", new { take = 100, pageIndex = @Model.PageIndex, search=@Model.Search})">
                             <span aria-hidden="true">100</span>
                         </a>
-                    </li>
-                    <li>
+
                         <a class="confirm page-link" href="@Url.Action("Index", "RolesManage", new { take = @Model.RecordsTotal, pageIndex = @Model.PageIndex, search=@Model.Search})">
                             <span aria-hidden="true">@Localization.GetString("All", @SharedResourceFile)</span>
                         </a>
-                    </li>
-                </ul>
-            </li>
-        </ul>
-        <div class="input-group">
-            <span class="input-group-btn">
-                <button class="btn btn-primary box-shadow" type="submit">
-                    <span class="glyphicon glyphicon-search color-white" aria-hidden="true"></span> 
-                    @Localization.GetString("Search", @SharedResourceFile)
-                </button>
-            </span>
-            @Html.TextBoxFor(m => m.Search, new { @class = "form-control", @type = "text", @style = " height: 40px;box-shadow: 0 0 3px 0 #888888" })
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-5 AM-d-flex AM-justify-content-center">
+                <div class="AM-input-group">
+                    <div class="AM-input-group-prepend">
+                        <button class="AM-btn AM-btn-primary box-shadow" type="submit">@Localization.GetString("Search", @SharedResourceFile)</button>
+                    </div>
+                    @Html.TextBoxFor(m => m.Search, new { @class = "form-control AM-search-input mt5", @type = "text" })
+                </div>
+            </div>
+            <div class="col-md-4 AM-d-flex AM-justify-content-end mt5">
+                <a type="button" class="AM-btn AM-btn-primary" href="@Url.Action("Create", "RolesManage", new {ctl = "Edit"})">
+                    @Localization.GetString("CreateRole", @ResourceFile)
+                </a>
+                <a type="button" class="AM-btn AM-btn-info color-white ml5" href="@Url.Action("Index", "UserManage", new {})">
+                    <span class="fa fa-chevron-left color-white" aria-hidden="true"></span>
+                    @Localization.GetString("UserList", @ResourceFile)
+                </a>
+            </div>
         </div>
-    </div>
-    <div class="col-md-3">
-        <ul class="nav navbar-nav navbar-right">
-            <a type="button" class="dnnPrimaryAction" href="@Url.Action("Create", "RolesManage", new {ctl = "Edit"})">
-                <span class="glyphicon glyphicon-search color-white" aria-hidden="true"></span>  
-                @Localization.GetString("CreateRole", @ResourceFile)
-            </a>
-            <a type="button" class="btn btn-warning color-white" style="display: initial;" href="@Url.Action("Index", "UserManage", new {})">
-                <span class="glyphicon glyphicon-chevron-left color-white" aria-hidden="true"></span> 
-                @Localization.GetString("UserList", @ResourceFile)
-            </a>
-        </ul>
     </div>
     <table class="table table-striped table-bordered table-hover">
         <thead>
-            <tr style="background-color:#6d5a2c; color:#FFFFFF">
+            <tr class="background-dark-brown color-white">
                 <th class="hidden">@Localization.GetString("Id", @ResourceFile)</th>
                 <th>
                     @Localization.GetString("RoleName", @ResourceFile)
-                    <div class="nav navbar-nav navbar-right">
-                        <a class="btn-sm" href="@Url.Action("Index", "RolesManage", new {take = @Model.Take, pageIndex=@Model.PageIndex, search=@Model.Search, orderBy="RoleName" , order="asc"})"
-                           data-toggle="tooltip" data-placement="top" title="Asc">
-                            <span class="glyphicon glyphicon-arrow-up" aria-hidden="true" style="color:#FFFFFF"></span>
-                        </a>
-                        <a class="btn-sm" href="@Url.Action("Index", "RolesManage", new {take = @Model.Take, pageIndex=@Model.PageIndex, search=@Model.Search, orderBy="RoleName", order="desc"})"
-                           data-toggle="tooltip" data-placement="top" title="Desc">
-                            <span class="glyphicon glyphicon-arrow-down" aria-hidden="true" style="color:#FFFFFF"></span>
-                        </a>
+                    <a class="AM-btn-sm" href="@Url.Action("Index", "RolesManage", new {take = @Model.Take, pageIndex=@Model.PageIndex, search=@Model.Search, orderBy="RoleName" , order="asc"})"
+                       data-toggle="tooltip" data-placement="top" title="Asc">
+                        <span class="fa fa-arrow-up" aria-hidden="true" style="color:#FFFFFF"></span>
+                    </a>
+                    <a class="AM-btn-sm" href="@Url.Action("Index", "RolesManage", new {take = @Model.Take, pageIndex=@Model.PageIndex, search=@Model.Search, orderBy="RoleName", order="desc"})"
+                       data-toggle="tooltip" data-placement="top" title="Desc">
+                        <span class="fa fa-arrow-down" aria-hidden="true" style="color:#FFFFFF"></span>
+                    </a>
                 </th>
                 <th>@Localization.GetString("Users", @ResourceFile)</th>
                 <th style="text-align:center">@Localization.GetString("Auto", @ResourceFile)</th>
@@ -127,23 +118,23 @@
                         <td class="text-center">
                             @if (@item.AutoAssignment == true)
                             {
-                                <span class="glyphicon glyphicon-ok" aria-hidden="true" style="color:yellowgreen"></span>
+                                <span class="fa fa-check" aria-hidden="true" style="color:yellowgreen"></span>
                             }
                             else
                             {
-                                <span class="glyphicon glyphicon-remove" aria-hidden="true" style="color:red"></span>
+                                <span class="fa fa-remove" aria-hidden="true" style="color:red"></span>
 
                             }
 
                         </td>
                         <td class="text-center">
-                            <a class="btn btn-warning btn-sm edit hint--top hint--warning" href="@Url.Action("Edit", "RolesManage", new {ctl = "Edit", itemId = item.RoleId})"
+                            <a class="AM-btn AM-btn-primary btn-sm edit hint--top hint--warning" href="@Url.Action("Edit", "RolesManage", new {ctl = "Edit", itemId = item.RoleId})"
                                data-toggle="tooltip" data-placement="top" title="@Localization.GetString("Edit", @SharedResourceFile)">
-                                <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+                                <span class="fa fa-edit" aria-hidden="true"></span>
                             </a>
                             <span id="dialogs-delete" class="dnnActions" style="display: initial;">
-                                <a class="confirm btn btn-danger btn-sm delete hint--top hint--error" data-placement="top" data-singleton="true" href="@Url.Action("Delete", "RolesManage", new {itemId = item.RoleId})">
-                                    <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                                <a class="confirm AM-btn AM-btn-danger AM-btn-sm delete hint--top hint--error" data-placement="top" data-singleton="true" href="@Url.Action("Delete", "RolesManage", new {itemId = item.RoleId})">
+                                    <span class="fa fa-trash" aria-hidden="true"></span>
                                 </a>
                             </span>
                         </td>
@@ -153,29 +144,62 @@
         </tbody>
     </table>
     <div class="data-footer">
-        <span class="text-align-left">@Localization.GetString("Page", @SharedResourceFile) @pageView @Localization.GetString("Of", @SharedResourceFile) @Model.PagesTotal @Localization.GetString("Pages", @SharedResourceFile)</span>
-        <div class="input-group ml10">
-            <span class="input-group-btn">
-                <button class="btn btn-primary box-shadow" type="submit">@Localization.GetString("GoToPage", @SharedResourceFile)</button>
-            </span>
-            @Html.TextBoxFor(m => m.GoToPage, new { @class = "form-control", @type = "text", @style = "width: 82px; height: 40px;box-shadow: 0 0 3px 0 #888888" })
-        </div>
-        <div class="right">
-            <span> @Localization.GetString("Showing", @SharedResourceFile)  @showing @Localization.GetString("To", @SharedResourceFile) @pageIndexTo @Localization.GetString("Of", @SharedResourceFile) @Model.RecordsTotal @Localization.GetString("Entries", @SharedResourceFile)</span>
-            <a class="btn btn-default btn-sm hint--top hint--" href="@Url.Action("Index", "RolesManage", new {take = @Model.Take, pageIndex=@pageIndexMinus, search=@Model.Search, orderBy="RoleName" , order=@Model.Order})"
-               data-toggle="tooltip" data-placement="top" title="@Localization.GetString("Previus", @SharedResourceFile)">
-                <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-            </a>
-            <a class="btn btn-default btn-sm ml5 hint--top hint--" href="@Url.Action("Index", "RolesManage", new {take = @Model.Take, pageIndex=@pageIndexPlus, search=@Model.Search, orderBy="RoleName" , order=@Model.Order})"
-               data-toggle="tooltip" data-placement="top" title="@Localization.GetString("Next", @SharedResourceFile)">
-                <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-            </a>
+        <div class="col-md-12 mt5">
+            <div class="AM-row">
+                <div class="col-md-3 AM-d-flex AM-justify-content-start">
+                    <div class="AM-input-group">
+                        <span class="AM-input-group-btn">
+                            <button id="goToPageButton" class="AM-btn AM-btn-primary box-shadow @(pagesTotal < 2 ? "custom-disabled" : "")" type="button" onclick="validatePageInput()">@Localization.GetString("GoToPage", @SharedResourceFile)</button>
+                        </span>
+                        @Html.TextBoxFor(m => m.GoToPage, new { @id = "goToPageInput", @class = "form-control " + (pagesTotal < 2 ? "custom-disabled" : ""), @type = "text" })
+                    </div>
+                </div>
+                <div class="col-md-5 center">
+                    @Localization.GetString("Page", @SharedResourceFile)
+                    <a class="btn btn-default btn-sm hint--top hint--" href="@Url.Action("Index", "RolesManage", new {take = @Model.Take, pageIndex=@pageIndexMinus, search=@Model.Search, orderBy="RoleName" , order=@Model.Order})"
+                       data-toggle="tooltip" data-placement="top" title="@Localization.GetString("Previus", @SharedResourceFile)">
+                        <span class="fa fa-chevron-left" aria-hidden="true"></span>
+                    </a>
+                    @pageView
+                    <a class="btn btn-default btn-sm ml5 hint--top hint--" href="@Url.Action("Index", "RolesManage", new {take = @Model.Take, pageIndex=@pageIndexPlus, search=@Model.Search, orderBy="RoleName" , order=@Model.Order})"
+                       data-toggle="tooltip" data-placement="top" title="@Localization.GetString("Next", @SharedResourceFile)">
+                        <span class="fa fa-chevron-right" aria-hidden="true"></span>
+                    </a>
+                    @Localization.GetString("Of", @SharedResourceFile) <strong>@pagesTotal</strong> @Localization.GetString("Pages", @SharedResourceFile)
+                </div>
+                <div class="col-md-4 AM-d-flex AM-justify-content-end">
+                    <strong class="line-height-normal mr5">@Model.RecordsTotal</strong> @Localization.GetString("Entries", @SharedResourceFile)
+                </div>
+                <div class="col-md-12 AM-d-flex AM-justify-content-start">
+                    <div id="error-message" class="text-danger" style="display:none;">
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
 
 <script>
-    var deleteText = '@DotNetNuke.Services.Localization.Localization.GetString("DeleteRolConfirmation.Text", "~/DesktopModules/MVC/Upendo.Modules.UserManager/App_LocalResources/Index.resx")';
+     function validatePageInput() {
+        var pleaseEnterValidPage = '@DotNetNuke.Services.Localization.Localization.GetString("PleaseEnterValidPage.Text", "~/DesktopModules/MVC/Upendo.Modules.UserManager/App_LocalResources/UserRoles.resx")';
+        var input = document.getElementById("goToPageInput");
+        var button = document.getElementById("goToPageButton");
+        var errorMessage = document.getElementById("error-message");
+        var pagesTotal = @pagesTotal;
+
+        var pageValue = parseInt(input.value, 10);
+
+        if (isNaN(pageValue) || pageValue < 1 || pageValue > pagesTotal) {
+            errorMessage.style.display = "block";
+            errorMessage.innerText = pleaseEnterValidPage + " " + pagesTotal;
+        } else {
+            errorMessage.style.display = "none";
+            // Submit the form if the input is valid
+            button.type = "submit";
+            button.click();
+        }
+    }
+    var deleteText = '@DotNetNuke.Services.Localization.Localization.GetString("DeleteRoleConfirmation.Text", "~/DesktopModules/MVC/Upendo.Modules.UserManager/App_LocalResources/Index.resx")';
 
     $(function () {
         $('.dropdown-toggle').dropdown()
