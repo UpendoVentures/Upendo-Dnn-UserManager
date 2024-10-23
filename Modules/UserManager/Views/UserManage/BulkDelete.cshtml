@@ -9,7 +9,7 @@
     string ResourceFileBulkDelete = "~/DesktopModules/MVC/Upendo.Modules.UserManager/App_LocalResources/BulkDelete.resx";
 }
 
-<div class="UDUM_m2">
+<div class="UDUM_m2 admin-manager">
     <h2 id="subtitle">
         @Localization.GetString("BulkDeleteUserAccounts", @ResourceFileBulkDelete)
         <a type="button" class="btn btn-warning color-white float-right" style="display: initial;"
@@ -48,40 +48,47 @@
         </div>
     </fieldset>
     <div class="row UDUM_m2">
-        <div class="col-12">
-            <h3>@Localization.GetString("DeletionResults", @ResourceFileBulkDelete)</h3>
-        </div>
+        @if (!string.IsNullOrEmpty(ViewBag.ResultLogMarkedDeleted) ||
+        !string.IsNullOrEmpty(ViewBag.ResultLogPermanentlyDeleted) ||
+        !string.IsNullOrEmpty(ViewBag.ResultLogAlreadyBeenDeletedPreviously) ||
+        !string.IsNullOrEmpty(ViewBag.ResultLogNotFound) ||
+        !string.IsNullOrEmpty(ViewBag.ResultLogInvalid))
+        {
+            <div class="col-12">
+                <h3>@Localization.GetString("DeletionResults", @ResourceFileBulkDelete)</h3>
+            </div>
+        }
         @if (!string.IsNullOrEmpty(ViewBag.ResultLogMarkedDeleted))
         {
-            <div class="col-3">
+            <div class="col-md-3">
                 <p>Deleted</p>
                 <pre id="resultLogMarkedDeleted">@ViewBag.ResultLogMarkedDeleted</pre>
             </div>
         }
         @if (!string.IsNullOrEmpty(ViewBag.ResultLogPermanentlyDeleted))
         {
-            <div class="col-3 ml15">
+            <div class="col-md-3 ml15">
                 <p>Permanently Deleted</p>
                 <pre id="resultLogPermanentlyDeleted">@ViewBag.ResultLogPermanentlyDeleted</pre>
             </div>
         }
         @if (!string.IsNullOrEmpty(ViewBag.ResultLogAlreadyBeenDeletedPreviously))
         {
-            <div class="col-3 ml15">
+            <div class="col-md-3 ml15">
                 <p>Already Deleted</p>
                 <pre id="resultLogAlreadyBeenDeletedPreviously">@ViewBag.ResultLogAlreadyBeenDeletedPreviously</pre>
             </div>
         }
         @if (!string.IsNullOrEmpty(ViewBag.ResultLogNotFound))
         {
-            <div class="col-3 ml15">
+            <div class="col-md-3 ml15">
                 <p>NotFound</p>
                 <pre id="resultLogNotFound">@ViewBag.ResultLogNotFound</pre>
             </div>
         }
         @if (!string.IsNullOrEmpty(ViewBag.ResultLogInvalid))
         {
-            <div class="col-2 ml15">
+            <div class="col-md-2 ml15">
                 <p>Invalid</p>
                 <pre id="resultLogInvalid">@ViewBag.ResultLogInvalid</pre>
             </div>
