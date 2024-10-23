@@ -47,20 +47,71 @@
             </span>
         </div>
     </fieldset>
-    @if (ViewBag.ResultLog != null)
-    {
-        <h3>@Localization.GetString("DeletionResults", @ResourceFileBulkDelete)</h3>
-        <pre id="resultLog">@ViewBag.ResultLog</pre>
-    }
+    <div class="row UDUM_m2">
+        <div class="col-12">
+            <h3>@Localization.GetString("DeletionResults", @ResourceFileBulkDelete)</h3>
+        </div>
+        @if (!string.IsNullOrEmpty(ViewBag.ResultLogMarkedDeleted))
+        {
+            <div class="col-3">
+                <p>Deleted</p>
+                <pre id="resultLogMarkedDeleted">@ViewBag.ResultLogMarkedDeleted</pre>
+            </div>
+        }
+        @if (!string.IsNullOrEmpty(ViewBag.ResultLogPermanentlyDeleted))
+        {
+            <div class="col-3 ml15">
+                <p>Permanently Deleted</p>
+                <pre id="resultLogPermanentlyDeleted">@ViewBag.ResultLogPermanentlyDeleted</pre>
+            </div>
+        }
+        @if (!string.IsNullOrEmpty(ViewBag.ResultLogAlreadyBeenDeletedPreviously))
+        {
+            <div class="col-3 ml15">
+                <p>Already Deleted</p>
+                <pre id="resultLogAlreadyBeenDeletedPreviously">@ViewBag.ResultLogAlreadyBeenDeletedPreviously</pre>
+            </div>
+        }
+        @if (!string.IsNullOrEmpty(ViewBag.ResultLogNotFound))
+        {
+            <div class="col-3 ml15">
+                <p>NotFound</p>
+                <pre id="resultLogNotFound">@ViewBag.ResultLogNotFound</pre>
+            </div>
+        }
+        @if (!string.IsNullOrEmpty(ViewBag.ResultLogInvalid))
+        {
+            <div class="col-2 ml15">
+                <p>Invalid</p>
+                <pre id="resultLogInvalid">@ViewBag.ResultLogInvalid</pre>
+            </div>
+        }
+    </div>
 </div>
 <script type="text/javascript">
     document.addEventListener('DOMContentLoaded', function () {
         function resetForm() {
             document.getElementById('userIds').value = '';
             document.getElementById('permanentDelete').checked = false;
-            var resultLog = document.getElementById('resultLog');
-            if (resultLog) {
-                resultLog.innerHTML = '';
+            var resultLogMarkedDeleted = document.getElementById('resultLogMarkedDeleted');
+            if (resultLogMarkedDeleted) {
+                resultLogMarkedDeleted.innerHTML = '';
+            }
+            var resultLogPermanentlyDeleted = document.getElementById('resultLogPermanentlyDeleted');
+            if (resultLogPermanentlyDeleted) {
+                resultLogPermanentlyDeleted.innerHTML = '';
+            }
+            var resultLogAlreadyBeenDeletedPreviously = document.getElementById('resultLogAlreadyBeenDeletedPreviously');
+            if (resultLogAlreadyBeenDeletedPreviously) {
+                resultLogAlreadyBeenDeletedPreviously.innerHTML = '';
+            }
+            var resultLogNotFound = document.getElementById('resultLogNotFound');
+            if (resultLogNotFound) {
+                resultLogNotFound.innerHTML = '';
+            }
+            var resultLogInvalid = document.getElementById('resultLogInvalid');
+            if (resultLogInvalid) {
+                resultLogInvalid.innerHTML = '';
             }
         }
         window.resetForm = resetForm;
