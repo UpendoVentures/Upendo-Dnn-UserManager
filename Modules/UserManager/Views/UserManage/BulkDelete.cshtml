@@ -1,0 +1,134 @@
+@inherits DotNetNuke.Web.Mvc.Framework.DnnWebViewPage<Upendo.Modules.UserManager.ViewModels.BulkDeleteViewModel>
+@using System.Collections.Generic
+@using DotNetNuke.Web.Mvc.Helpers
+@using DotNetNuke.Services.Localization;
+
+@{
+    string ResourceFile = "~/DesktopModules/MVC/Upendo.Modules.UserManager/App_LocalResources/Index.resx";
+    string SharedResourceFile = "~/DesktopModules/MVC/Upendo.Modules.UserManager/App_LocalResources/Shared.resx";
+    string ResourceFileBulkDelete = "~/DesktopModules/MVC/Upendo.Modules.UserManager/App_LocalResources/BulkDelete.resx";
+}
+
+<div class="UDUM_m2 admin-manager">
+    <h2 id="subtitle">
+        @Localization.GetString("BulkDeleteUserAccounts", @ResourceFileBulkDelete)
+        <a type="button" class="btn btn-warning color-white float-right" style="display: initial;"
+           href="@Url.Action("Index", "UserManage", new {})">
+            <span class="glyphicon glyphicon-chevron-left color-white" aria-hidden="true"></span>
+            @Localization.GetString("UserList", @ResourceFile)
+        </a>
+    </h2>
+    @if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
+    {
+        <div class="dnnFormMessage dnnFormError" id="errorMessage">
+            <button type="button" class="close" onclick="closeErrorMessage()">&times;</button>
+            <p>@ViewBag.ErrorMessage</p>
+        </div>
+    }
+    <fieldset>
+        <div class="form-group">
+            <label for="userIds">@Localization.GetString("EnterUserIDsCommaSeparated", @ResourceFileBulkDelete)</label>
+            @Html.TextAreaFor(m => m.UserIds, new { @class = "form-control UDUM_custom-textarea", id = "userIds" })
+        </div>
+        <div class="form-group">
+            <label for="permanentDelete">@Localization.GetString("PermanentDelete", @ResourceFileBulkDelete)</label>
+            @Html.CheckBoxFor(m => m.PermanentDelete, new { id = "permanentDelete" })
+        </div>
+        <div class="UDMU_tooltip-custom">
+            <button type="submit" class="btn btn-danger @(ViewBag.IsCurrentUserSuperUser ? "" : "UDMU_disabled")"
+                    @(ViewBag.IsCurrentUserSuperUser ? "" : "disabled")>
+                @Localization.GetString("DeleteUsers", @ResourceFileBulkDelete)
+            </button>
+            <button type="button" class="btn btn-secondary" onclick="resetForm()">
+                @Localization.GetString("Reset", @ResourceFileBulkDelete)
+            </button>
+            <span class="UDMU_tooltiptext @(!ViewBag.IsCurrentUserSuperUser ? "" : "hidden")">
+                @Localization.GetString("OnlySuperUserIsAllowedBulkDeleteUserAccounts", @SharedResourceFile)
+            </span>
+        </div>
+    </fieldset>
+    <div class="row UDUM_m2">
+        @if (!string.IsNullOrEmpty(ViewBag.ResultLogMarkedDeleted) ||
+        !string.IsNullOrEmpty(ViewBag.ResultLogPermanentlyDeleted) ||
+        !string.IsNullOrEmpty(ViewBag.ResultLogAlreadyBeenDeletedPreviously) ||
+        !string.IsNullOrEmpty(ViewBag.ResultLogNotFound) ||
+        !string.IsNullOrEmpty(ViewBag.ResultLogInvalid))
+        {
+            <div class="col-12">
+                <h3>@Localization.GetString("DeletionResults", @ResourceFileBulkDelete)</h3>
+            </div>
+        }
+        @if (!string.IsNullOrEmpty(ViewBag.ResultLogMarkedDeleted))
+        {
+            <div class="col-md-3">
+                <p>Deleted</p>
+                <pre id="resultLogMarkedDeleted">@ViewBag.ResultLogMarkedDeleted</pre>
+            </div>
+        }
+        @if (!string.IsNullOrEmpty(ViewBag.ResultLogPermanentlyDeleted))
+        {
+            <div class="col-md-3 ml15">
+                <p>Permanently Deleted</p>
+                <pre id="resultLogPermanentlyDeleted">@ViewBag.ResultLogPermanentlyDeleted</pre>
+            </div>
+        }
+        @if (!string.IsNullOrEmpty(ViewBag.ResultLogAlreadyBeenDeletedPreviously))
+        {
+            <div class="col-md-3 ml15">
+                <p>Already Deleted</p>
+                <pre id="resultLogAlreadyBeenDeletedPreviously">@ViewBag.ResultLogAlreadyBeenDeletedPreviously</pre>
+            </div>
+        }
+        @if (!string.IsNullOrEmpty(ViewBag.ResultLogNotFound))
+        {
+            <div class="col-md-3 ml15">
+                <p>NotFound</p>
+                <pre id="resultLogNotFound">@ViewBag.ResultLogNotFound</pre>
+            </div>
+        }
+        @if (!string.IsNullOrEmpty(ViewBag.ResultLogInvalid))
+        {
+            <div class="col-md-2 ml15">
+                <p>Invalid</p>
+                <pre id="resultLogInvalid">@ViewBag.ResultLogInvalid</pre>
+            </div>
+        }
+    </div>
+</div>
+<script type="text/javascript">
+    document.addEventListener('DOMContentLoaded', function () {
+        function resetForm() {
+            document.getElementById('userIds').value = '';
+            document.getElementById('permanentDelete').checked = false;
+            var resultLogMarkedDeleted = document.getElementById('resultLogMarkedDeleted');
+            if (resultLogMarkedDeleted) {
+                resultLogMarkedDeleted.innerHTML = '';
+            }
+            var resultLogPermanentlyDeleted = document.getElementById('resultLogPermanentlyDeleted');
+            if (resultLogPermanentlyDeleted) {
+                resultLogPermanentlyDeleted.innerHTML = '';
+            }
+            var resultLogAlreadyBeenDeletedPreviously = document.getElementById('resultLogAlreadyBeenDeletedPreviously');
+            if (resultLogAlreadyBeenDeletedPreviously) {
+                resultLogAlreadyBeenDeletedPreviously.innerHTML = '';
+            }
+            var resultLogNotFound = document.getElementById('resultLogNotFound');
+            if (resultLogNotFound) {
+                resultLogNotFound.innerHTML = '';
+            }
+            var resultLogInvalid = document.getElementById('resultLogInvalid');
+            if (resultLogInvalid) {
+                resultLogInvalid.innerHTML = '';
+            }
+        }
+        window.resetForm = resetForm;
+
+        function closeErrorMessage() {
+            var errorMessage = document.getElementById('errorMessage');
+            if (errorMessage) {
+                errorMessage.style.display = 'none';
+            }
+        }
+        window.closeErrorMessage = closeErrorMessage;
+    });
+</script>

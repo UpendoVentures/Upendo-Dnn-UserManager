@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -108,6 +108,7 @@
     <Compile Include="Utility\Functions.cs" />
     <Compile Include="Utility\RolesRepository.cs" />
     <Compile Include="Utility\UserRepository.cs" />
+    <Compile Include="ViewModels\BulkDeleteViewModel.cs" />
     <Compile Include="ViewModels\Pagination.cs" />
     <Compile Include="ViewModels\ResultJsonViewModel.cs" />
     <Compile Include="ViewModels\RolesViewModel.cs" />
@@ -174,12 +175,16 @@
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Providers\DataProviders\SqlDataProvider\01.01.01.SqlDataProvider" />
     <Content Include="Providers\DataProviders\SqlDataProvider\Uninstall.SqlDataProvider" />
+    <Content Include="Views\UserManage\BulkDelete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_LocalResources\RolesManageController.resx" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_LocalResources\UserRepository.resx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_LocalResources\BulkDelete.resx" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">14.0</VisualStudioVersion>
