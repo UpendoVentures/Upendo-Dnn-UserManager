@@ -20,7 +20,8 @@
     </h2>
     @if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
     {
-        <div class="dnnFormMessage dnnFormError">
+        <div class="dnnFormMessage dnnFormError" id="errorMessage">
+            <button type="button" class="close" onclick="closeErrorMessage()">&times;</button>
             <p>@ViewBag.ErrorMessage</p>
         </div>
     }
@@ -63,5 +64,13 @@
             }
         }
         window.resetForm = resetForm;
+
+        function closeErrorMessage() {
+            var errorMessage = document.getElementById('errorMessage');
+            if (errorMessage) {
+                errorMessage.style.display = 'none';
+            }
+        }
+        window.closeErrorMessage = closeErrorMessage;
     });
 </script>
