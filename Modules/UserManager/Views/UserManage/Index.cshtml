@@ -21,15 +21,15 @@
     var totalItems = Model.RecordsTotal;
     var pagesTotal = (int)Math.Ceiling((double)totalItems / itemsPerPage);
 }
-<div class="admin-manager m10" id="Items-@Dnn.ModuleContext.ModuleId">
-    <div class="col-md-12 mt5 mb25 pl0 pr0">
-        <div class="AM-row">
-            <div class="col-md-2 AM-d-flex AM-justify-content-start pl0">
+<div class="m10 mt35">
+    <div class="admin-manager" id="Items-@Dnn.ModuleContext.ModuleId">
+        <nav class="navbar navbar-default" role="navigation">
+            <div class="col-md2">
                 <a type="button" class="AM-btn AM-btn-primary" href="@Url.Action("Create", "UserManage", new {ctl = "Edit"})">
                     @Localization.GetString("BtnCreateUser", @ResourceFile)
                 </a>
             </div>
-            <div class="col-md-10 AM-d-flex AM-justify-content-end">
+            <div class="col-md10 AM-d-flex AM-justify-content-end">
                 <span id="dialogs-DeleteUnauthorized mr5" class="dnnActions mr5" style="display: initial;">
                     <a type="button" class="confirm AM-btn AM-btn-danger" href="@Url.Action("DeleteUnauthorizedUsers", "UserManage", new {})" style="color: white;">
                         <span class="fa fa-trash color-white" aria-hidden="true"></span>
@@ -42,6 +42,19 @@
                         @Localization.GetString("RemoveDeleteUsers", @ResourceFile)
                     </a>
                 </span>
+                <span class="dnnActions mr5" style="display: initial;">
+                    <div class="UDMU_tooltip-custom">
+                        <a href="@Url.Action("BulkDelete", "UserManage", new {})"
+                           class="confirm AM-btn AM-btn-danger @(ViewBag.IsCurrentUserSuperUser ? "" : "UDMU_disabled-link")"
+                           style="color: white;">
+                            <span class="glyphicon glyphicon-tasks color-white" aria-hidden="true"></span>
+                            @Localization.GetString("BulkDeleteUser", @ResourceFile)
+                        </a>
+                        <span class="UDMU_tooltiptext @(!ViewBag.IsCurrentUserSuperUser ? "" : "hidden")">
+                            @Localization.GetString("OnlySuperUserIsAllowedBulkDeleteUserAccounts", @SharedResourceFile)
+                        </span>
+                    </div>
+                </span>
                 <span class="dnnActions" style="display: initial;">
                     <a type="button" class="AM-btn AM-btn-info" href="@Url.Action("Index", "RolesManage", new {})" style="color: white;">
                         <span class="fa fa-tasks color-white" aria-hidden="true"></span>
@@ -49,9 +62,8 @@
                     </a>
                 </span>
             </div>
-        </div>
     </div>
-    <div class="col-md-12 pl0 pr0">
+    <div class="col-md-12 pl0 pr0 admin-manager">
         <div class="AM-row">
             <div class="col-md-3 AM-d-flex AM-justify-content-start pl0 pr0">
                 <div class="dropdown">
@@ -136,10 +148,10 @@
             </div>
         </div>
     </div>
-    <table class="table table-striped table-bordered table-hover">
+    <table class="admin-manager table table-striped table-bordered table-hover">
         <thead>
-            <tr class="background-dark-brown color-white">
-                <th class="hidden">@Localization.GetString("Id", @ResourceFile)</th>
+            <tr style="background-color:#6d5a2c; color:#FFFFFF">
+                <th class="@(ViewBag.IsCurrentUserSuperUser ? "" : "hidden")">@Localization.GetString("Id", @ResourceFile)</th>
                 <th class="uppercase-text">@Localization.GetString("Username", @ResourceFile)</th>
                 <th class="uppercase-text">@Localization.GetString("DisplayName", @ResourceFile)</th>
                 <th class="uppercase-text">@Localization.GetString("Email", @ResourceFile)</th>
@@ -164,7 +176,7 @@
                 foreach (var item in Model.Data)
                 {
                     <tr>
-                        <td class="hidden">
+                        <td class="@(ViewBag.IsCurrentUserSuperUser ? "" : "hidden")">
                             @item.UserId
                         </td>
                         <td>
@@ -212,7 +224,7 @@
             }
         </tbody>
     </table>
-    <div class="data-footer">
+    <div class="data-footer admin-manager">
         <div class="center">
             @Localization.GetString("Page", @SharedResourceFile)
             <a class="btn btn-default @(pageView <= 1 ? "custom-disabled" : "")" href="@Url.Action("Index", "UserManage", new {take = @Model.Take, pageIndex=@pageIndexMinus, filter = @ViewBag.Filter, search=@Model.Search, orderBy=@Model.OrderBy , order=@Model.Order})"
@@ -230,6 +242,7 @@
             <strong class="line-height-normal mr5">@Model.RecordsTotal</strong> @Localization.GetString("Entries", @SharedResourceFile)
         </div>
     </div>
+</div>
 </div>
 
 <script>

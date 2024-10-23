@@ -126,6 +126,9 @@
   <data name="BtnCreateUser.Text" xml:space="preserve">
     <value>Create User</value>
   </data>
+  <data name="BulkDeleteUser.Text" xml:space="preserve">
+    <value>Bulk Delete User</value>
+  </data>
   <data name="CreateRole.Text" xml:space="preserve">
     <value>Create Role</value>
   </data>

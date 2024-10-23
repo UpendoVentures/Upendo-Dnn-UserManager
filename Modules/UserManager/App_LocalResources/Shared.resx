@@ -174,4 +174,10 @@
   <data name="EditingSiteRoles.Text" xml:space="preserve">
     <value>Editing Site Roles</value>
   </data>
+  <data name="Delete.Text" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="OnlySuperUserIsAllowedBulkDeleteUserAccounts.Text" xml:space="preserve">
+    <value>Only a superuser is allowed to bulk delete user accounts</value>
+  </data>
 </root>
