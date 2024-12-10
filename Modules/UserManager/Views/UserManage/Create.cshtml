@@ -77,8 +77,8 @@
             </div>
             <div class="col-md-12">
                 <div class="AMFormItem col-md-3">
-                    @Html.CheckBoxFor(m => m.IsSuperUser, new { @id = "checkbox" })
-                    <label>@Localization.GetString("IsSuperUser", @ResourceFile)</label>
+                    @Html.CheckBoxFor(m => m.IsSuperUser, new { @id = "chkCIsSuperuser" })
+                    <label for="chkCIsSuperuser">@Localization.GetString("IsSuperUser", @ResourceFile)</label>
                 </div>
                 <div class="AMFormItem col-md-3">
                     @Html.CheckBoxFor(m => m.Approved, new { @id = "checkbox" })
@@ -104,6 +104,14 @@
     </div>
 </div>
 <script type="text/javascript">
+    document.addEventListener("DOMContentLoaded", function () {
+        var isCurrentUserSuperUser = @Json.Encode(ViewBag.IsCurrentUserSuperUser);
+        var superuserCheckbox = document.getElementById("chkCIsSuperuser");
+
+        if (superuserCheckbox) {
+            superuserCheckbox.disabled = !isCurrentUserSuperUser;
+        }
+    });
   var weak = '@Localization.GetString("Weak.Text", @ResourceFile)';
   var fair = '@Localization.GetString("Fair.Text", @ResourceFile)';
   var strong = '@Localization.GetString("Strong.Text", @ResourceFile)';
