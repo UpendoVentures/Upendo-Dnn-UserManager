@@ -153,6 +153,7 @@ namespace Upendo.Modules.UserManager.Controllers
         public ActionResult Create()
         {
             DotNetNuke.Framework.JavaScriptLibraries.JavaScript.RequestRegistration(CommonJs.DnnPlugins);
+            ViewBag.IsCurrentUserSuperUser = _currentUser.IsSuperUser;
             return View();
         }
 
@@ -165,6 +166,10 @@ namespace Upendo.Modules.UserManager.Controllers
             if (!ModelState.IsValid)
             {
                 return View(item);
+            }
+            if (!_currentUser.IsSuperUser)
+            {
+                item.IsSuperUser = false;
             }
             var userCreateStatus = UserRepository.CreateUser(item, portalId);
             if (userCreateStatus == UserCreateStatus.Success)
@@ -201,10 +206,11 @@ namespace Upendo.Modules.UserManager.Controllers
                 }
                 string errorMessage = UserController.GetUserCreateStatus(userCreateStatus);
                 ModelState.AddModelError(string.Empty, errorMessage);
+                ViewBag.IsCurrentUserSuperUser = _currentUser.IsSuperUser;
                 return View(item);
             }
         }
-               
+
         public ActionResult Edit(int itemId)
         {
             var portalId = ModuleContext.PortalId;
@@ -221,6 +227,10 @@ namespace Upendo.Modules.UserManager.Controllers
             var portalId = ModuleContext.PortalId;
             if (_currentUser.UserID != item.UserId)
             {
+                if (!_currentUser.IsSuperUser)
+                {
+                    item.IsSuperUser = false;
+                }
                 UserRepository.EditUser(portalId, item);
             }
             return RedirectToDefaultRoute();
@@ -265,8 +275,8 @@ namespace Upendo.Modules.UserManager.Controllers
                 var userAlreadyBeenDeletedPreviously = 0;
                 var userMarkedDeleted = 0;
                 var userNotFound = 0;
-                var userInvalid = 0; 
-                
+                var userInvalid = 0;
+
                 var resultLogPermanentlyDeleted = new StringBuilder();
                 var resultLogAlreadyBeenDeletedPreviously = new StringBuilder();
                 var resultLogMarkedDeleted = new StringBuilder();
