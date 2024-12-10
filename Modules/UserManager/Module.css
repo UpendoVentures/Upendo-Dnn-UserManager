@@ -210,7 +210,7 @@
     margin-top: 20px;
 }
 
-.admin-manager #checkbox {
+.admin-manager #checkbox, #chkCIsSuperuser {
     margin-top: 20px;
     margin-bottom: 20px;
     height: 20px;
