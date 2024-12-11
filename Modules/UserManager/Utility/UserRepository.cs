@@ -286,7 +286,6 @@ namespace Upendo.Modules.UserManager.Utility
             userInfo.FirstName = user.FirstName;
             userInfo.LastName = user.LastName;
             userInfo.Email = user.Email;
-            userInfo.Username = user.Username;
             userInfo.DisplayName = user.DisplayName;
             userInfo.PortalID = portalId;
             userInfo.IsSuperUser = currentUser.IsSuperUser ? user.IsSuperUser : false;
@@ -302,6 +301,10 @@ namespace Upendo.Modules.UserManager.Utility
                 userInfo.Roles[userInfo.Roles.Count() - 1] = user.NewUserRol;
             }
             UserController.UpdateUser(portalId, userInfo);
+            if (userInfo.Username != user.Username)
+            {
+                UserController.ChangeUsername(user.UserId, user.Username);
+            }
         }
 
         /// <summary>
