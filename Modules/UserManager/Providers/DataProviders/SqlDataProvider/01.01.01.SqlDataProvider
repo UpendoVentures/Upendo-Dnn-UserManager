@@ -47,10 +47,10 @@ BEGIN
         SELECT @TotalRecords = COUNT(*)
         FROM [dbo].[Users] u
         LEFT JOIN [dbo].[UserPortals] up ON u.UserID = up.UserID
-        WHERE (LOWER(u.[UserName]) COLLATE Latin1_General_CI_AI LIKE '%' + LOWER(@SearchTerm) COLLATE Latin1_General_CI_AI + '%' OR
-               LOWER(u.[FirstName]) COLLATE Latin1_General_CI_AI LIKE '%' + LOWER(@SearchTerm) COLLATE Latin1_General_CI_AI + '%' OR
-               LOWER(u.[Email]) COLLATE Latin1_General_CI_AI LIKE '%' + LOWER(@SearchTerm) COLLATE Latin1_General_CI_AI + '%' OR
-               LOWER(u.[DisplayName]) COLLATE Latin1_General_CI_AI LIKE '%' + LOWER(@SearchTerm) COLLATE Latin1_General_CI_AI + '%')
+        WHERE (LOWER(u.[UserName]) LIKE '%' + LOWER(@SearchTerm) + '%' OR
+               LOWER(u.[FirstName]) LIKE '%' + LOWER(@SearchTerm) + '%' OR
+               LOWER(u.[Email]) LIKE '%' + LOWER(@SearchTerm) + '%' OR
+               LOWER(u.[DisplayName]) LIKE '%' + LOWER(@SearchTerm) + '%')
               AND u.IsDeleted = 0
               AND (@IsSuperUser IS NULL OR u.IsSuperUser = @IsSuperUser)
               AND (@Deleted IS NULL OR up.IsDeleted = @Deleted)
@@ -62,10 +62,10 @@ BEGIN
         SELECT @TotalRecords = COUNT(*)
         FROM [dbo].[Users] u
         LEFT JOIN [dbo].[UserPortals] up ON u.UserID = up.UserID
-        WHERE (LOWER(u.[UserName]) COLLATE Latin1_General_CI_AI LIKE '%' + LOWER(@SearchTerm) COLLATE Latin1_General_CI_AI + '%' OR
-               LOWER(u.[FirstName]) COLLATE Latin1_General_CI_AI LIKE '%' + LOWER(@SearchTerm) COLLATE Latin1_General_CI_AI + '%' OR
-               LOWER(u.[Email]) COLLATE Latin1_General_CI_AI LIKE '%' + LOWER(@SearchTerm) COLLATE Latin1_General_CI_AI + '%' OR
-               LOWER(u.[DisplayName]) COLLATE Latin1_General_CI_AI LIKE '%' + LOWER(@SearchTerm) COLLATE Latin1_General_CI_AI + '%')
+        WHERE (LOWER(u.[UserName]) LIKE '%' + LOWER(@SearchTerm) + '%' OR
+               LOWER(u.[FirstName]) LIKE '%' + LOWER(@SearchTerm) + '%' OR
+               LOWER(u.[Email]) LIKE '%' + LOWER(@SearchTerm) + '%' OR
+               LOWER(u.[DisplayName]) LIKE '%' + LOWER(@SearchTerm) + '%')
               AND (@PortalId IS NULL OR up.PortalId = @PortalId);
     END;
 
@@ -86,10 +86,10 @@ BEGIN
     FROM [dbo].[Users] u
     LEFT JOIN [dbo].[UserPortals] up ON u.UserID = up.UserID
     WHERE
-        (LOWER(u.[UserName]) COLLATE Latin1_General_CI_AI LIKE '%' + LOWER(@SearchTerm) COLLATE Latin1_General_CI_AI + '%' OR
-        LOWER(u.[FirstName]) COLLATE Latin1_General_CI_AI LIKE '%' + LOWER(@SearchTerm) COLLATE Latin1_General_CI_AI + '%' OR
-        LOWER(u.[Email]) COLLATE Latin1_General_CI_AI LIKE '%' + LOWER(@SearchTerm) COLLATE Latin1_General_CI_AI + '%' OR
-        LOWER(u.[DisplayName]) COLLATE Latin1_General_CI_AI LIKE '%' + LOWER(@SearchTerm) COLLATE Latin1_General_CI_AI + '%')
+        (LOWER(u.[UserName]) LIKE '%' + LOWER(@SearchTerm) + '%' OR
+        LOWER(u.[FirstName]) LIKE '%' + LOWER(@SearchTerm) + '%' OR
+        LOWER(u.[Email]) LIKE '%' + LOWER(@SearchTerm) + '%' OR
+        LOWER(u.[DisplayName]) LIKE '%' + LOWER(@SearchTerm) + '%')
         AND u.IsDeleted = 0
         AND (@IsSuperUser IS NULL OR u.IsSuperUser = @IsSuperUser)
         AND (@Deleted IS NULL OR up.IsDeleted = @Deleted)
