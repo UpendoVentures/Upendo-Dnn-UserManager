@@ -127,7 +127,7 @@ namespace Upendo.Modules.UserManager.Utility
             using (var connection = new SqlConnection(connectionString))
             {
                 var pageIndex = pagination.PageIndex == 0 ? 1 : pagination.PageIndex;
-                var search = string.IsNullOrWhiteSpace(pagination.Search) ? "" : pagination.Search;
+                var search = string.IsNullOrWhiteSpace(pagination.Search) ? "" : pagination.Search.Replace(" ", string.Empty).ToLower();
                 var totalRecordsParameter = new SqlParameter("@TotalRecords", SqlDbType.Int);
                 totalRecordsParameter.Direction = ParameterDirection.Output;
                 var command = new SqlCommand("UUM_GetUsers", connection);
