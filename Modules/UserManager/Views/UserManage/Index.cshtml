@@ -197,6 +197,9 @@
                             @if (@item.IsSuperUser == true)
                             {
                                 <span class="fa fa-check yellowgreen mt1" aria-hidden="true"></span>
+                                <button class="AM-btn AM-btn-secondary AM-btn-sm impersonate-btn" data-userid="@item.UserId">
+                                    <i class="fas fa-user-secret"></i> Impersonate
+                                </button>
                             }
                             else
                             {
@@ -218,6 +221,13 @@
                                     <span class="fa fa-trash color-white" aria-hidden="true"></span>
                                 </a>
                             </span>
+                            @if (ViewBag.IsCurrentUserSuperUser)
+                            {
+                                <a data-hint="Edit" class="AM-btn AM-btn-primary AM-btn-sm edit warning" href="@Url.Action("ImpersonateUser", "UserManage", new {ctl = "Edit", itemId = item.UserId})"
+                                   data-toggle="tooltip" data-placement="top" title="Impersonate">
+                                    <span class="fas fa-user-secret color-white" aria-hidden="true"></span>
+                                </a>
+                            }
                         </td>
                     </tr>
                 }
