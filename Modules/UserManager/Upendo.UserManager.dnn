@@ -86,8 +86,13 @@
             <basePath>DesktopModules\MVC\Upendo.Modules.UserManager</basePath>
             <script type="Install">
               <path>Providers\DataProviders\SqlDataProvider</path>
-              <name>01.01.01.SqlDataProvider</name>
+              <name>01.01.02.SqlDataProvider</name>
               <version>01.01.01</version>
+            </script>
+            <script type="Install">
+              <path>Providers\DataProviders\SqlDataProvider</path>
+              <name>01.04.01.SqlDataProvider</name>
+              <version>01.04.01</version>
             </script>
             <script type="UnInstall">
               <path>Providers\DataProviders\SqlDataProvider</path>
