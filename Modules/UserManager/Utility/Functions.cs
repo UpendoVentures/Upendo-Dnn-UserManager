@@ -31,6 +31,8 @@ using System.Data;
 using DotNetNuke.Instrumentation;
 using DotNetNuke.Services.Localization;
 using DotNetNuke.Security.Roles;
+using System.Globalization;
+using System.Text;
 
 namespace Upendo.Modules.UserManager.Utility
 {
@@ -127,7 +129,7 @@ namespace Upendo.Modules.UserManager.Utility
             using (var connection = new SqlConnection(connectionString))
             {
                 var pageIndex = pagination.PageIndex == 0 ? 1 : pagination.PageIndex;
-                var search = string.IsNullOrWhiteSpace(pagination.Search) ? "" : pagination.Search.Replace(" ", string.Empty).ToLower();
+                var search = RemoveDiacritics(string.IsNullOrWhiteSpace(pagination.Search) ? "" : pagination.Search.Replace(" ", string.Empty).ToLower());
                 var totalRecordsParameter = new SqlParameter("@TotalRecords", SqlDbType.Int);
                 totalRecordsParameter.Direction = ParameterDirection.Output;
                 var command = new SqlCommand("UUM_GetUsers", connection);
@@ -253,6 +255,23 @@ namespace Upendo.Modules.UserManager.Utility
             int tabId = ModuleContext.TabId;
             ModulePermissionCollection permissions = ModulePermissionController.GetModulePermissions(moduleId, tabId);
             return ModulePermissionController.HasModulePermission(permissions, "EDIT");
+        }
+
+        private static string RemoveDiacritics(string text)
+        {
+            var normalizedString = text.Normalize(NormalizationForm.FormD);
+            var stringBuilder = new StringBuilder();
+
+            foreach (var c in normalizedString)
+            {
+                var unicodeCategory = CharUnicodeInfo.GetUnicodeCategory(c);
+                if (unicodeCategory != UnicodeCategory.NonSpacingMark)
+                {
+                    stringBuilder.Append(c);
+                }
+            }
+
+            return stringBuilder.ToString().Normalize(NormalizationForm.FormC);
         }
     }
 }
