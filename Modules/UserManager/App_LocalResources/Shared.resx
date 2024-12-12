@@ -180,4 +180,7 @@
   <data name="OnlySuperUserIsAllowedBulkDeleteUserAccounts.Text" xml:space="preserve">
     <value>Only a superuser is allowed to bulk delete user accounts</value>
   </data>
+  <data name="Cancel.Text" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
 </root>
