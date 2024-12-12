@@ -197,9 +197,6 @@
                             @if (@item.IsSuperUser == true)
                             {
                                 <span class="fa fa-check yellowgreen mt1" aria-hidden="true"></span>
-                                <button class="AM-btn AM-btn-secondary AM-btn-sm impersonate-btn" data-userid="@item.UserId">
-                                    <i class="fas fa-user-secret"></i> Impersonate
-                                </button>
                             }
                             else
                             {
@@ -223,10 +220,11 @@
                             </span>
                             @if (ViewBag.IsCurrentUserSuperUser)
                             {
-                                <a data-hint="Edit" class="AM-btn AM-btn-primary AM-btn-sm edit warning" href="@Url.Action("ImpersonateUser", "UserManage", new {ctl = "Edit", itemId = item.UserId})"
-                                   data-toggle="tooltip" data-placement="top" title="Impersonate">
-                                    <span class="fas fa-user-secret color-white" aria-hidden="true"></span>
-                                </a>
+                                <span id="dialogs-impersonate" class="dnnActions" style="display: initial;">
+                                    <a data-hint="Delete" class="confirm AM-btn AM-btn-primary AM-btn-sm" data-placement="top" data-singleton="true" href="@Url.Action("ImpersonateUserById", "UserManage", new {itemId = item.UserId})">
+                                        <span class="fas fa-eye color-white" aria-hidden="true"></span>
+                                    </a>
+                                </span>
                             }
                         </td>
                     </tr>
@@ -259,6 +257,13 @@
     var deleteText = '@DotNetNuke.Services.Localization.Localization.GetString("DeleteConfirmation.Text", "~/DesktopModules/MVC/Upendo.Modules.UserManager/App_LocalResources/Index.resx")';
     var deleteUnauthorizedText = '@DotNetNuke.Services.Localization.Localization.GetString("DeleteUnauthorized.Text", "~/DesktopModules/MVC/Upendo.Modules.UserManager/App_LocalResources/Index.resx")';
     var removeDeleteText = '@DotNetNuke.Services.Localization.Localization.GetString("RemoveDelete.Text", "~/DesktopModules/MVC/Upendo.Modules.UserManager/App_LocalResources/Index.resx")';
+    var impersonateText = '@DotNetNuke.Services.Localization.Localization.GetString("Impersonate.Text", "~/DesktopModules/MVC/Upendo.Modules.UserManager/App_LocalResources/Impersonate.resx")';
+    var impersonateAnotherUserAccountConfirmation = '@DotNetNuke.Services.Localization.Localization.GetString("ImpersonateAnotherUserAccountConfirmation.Text", "~/DesktopModules/MVC/Upendo.Modules.UserManager/App_LocalResources/Impersonate.resx")';
+    var impersonateAnotherUserAccountConfirmationAlert = '@DotNetNuke.Services.Localization.Localization.GetString("ImpersonateAnotherUserAccountConfirmationAlert.Text", "~/DesktopModules/MVC/Upendo.Modules.UserManager/App_LocalResources/Impersonate.resx")';
+    var areYouSure = '@DotNetNuke.Services.Localization.Localization.GetString("AreYouSure.Text", "~/DesktopModules/MVC/Upendo.Modules.UserManager/App_LocalResources/Impersonate.resx")';
+    var cancel = '@DotNetNuke.Services.Localization.Localization.GetString("Cancel.Text", "~/DesktopModules/MVC/Upendo.Modules.UserManager/App_LocalResources/Shared.resx")';
+    var deleteBtnText = '@DotNetNuke.Services.Localization.Localization.GetString("Delete.Text", "~/DesktopModules/MVC/Upendo.Modules.UserManager/App_LocalResources/Shared.resx")';
+
 $(function () {
     $('.dropdown-toggle').dropdown();
 });
@@ -266,10 +271,21 @@ $(function () {
 $(function () {
     $('#dialogs-delete .confirm').dnnConfirm({
         title: "",
-        yesText: "Delete",
-        noText: "Cancel",
+        yesText: deleteBtnText,
+        noText: cancel,
         dialogClass: 'dnnFormPopup',
         text: '<p style="font-size:20px;">' + deleteText + '</p>',
+        });
+    });
+
+$(function () {
+    $('#dialogs-impersonate .confirm').dnnConfirm({
+        title: areYouSure,
+        yesText: impersonateText,
+        noText: cancel,
+        dialogClass: 'dnnFormPopup',
+        width: 700,
+        text: '<div class="admin-manager"> <div class="red"> <p>' + impersonateAnotherUserAccountConfirmation + '</p>' + '<p>' + impersonateAnotherUserAccountConfirmationAlert + '</p> </div> </div>',
         });
     });
 
