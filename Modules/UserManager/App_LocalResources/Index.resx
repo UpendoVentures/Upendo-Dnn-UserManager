@@ -127,7 +127,7 @@
     <value>Create User</value>
   </data>
   <data name="BulkDeleteUser.Text" xml:space="preserve">
-    <value>Bulk Delete User</value>
+    <value>Bulk Delete Users</value>
   </data>
   <data name="CreateRole.Text" xml:space="preserve">
     <value>Create Role</value>
@@ -187,7 +187,7 @@
     <value>Username</value>
   </data>
   <data name="UserRoles.Text" xml:space="preserve">
-    <value>User Roles</value>
+    <value>User's Roles</value>
   </data>
   <data name="Users.Text" xml:space="preserve">
     <value>USERS</value>
