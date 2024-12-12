@@ -117,15 +117,16 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AreYouSure.Text" xml:space="preserve">
+    <value>Are you sure you want to perform this action?</value>
+  </data>
   <data name="Impersonate.Text" xml:space="preserve">
     <value>Impersonate</value>
   </data>
   <data name="ImpersonateAnotherUserAccountConfirmation.Text" xml:space="preserve">
-    <value>You are about to impersonate another user account. If you confirm, the website will attempt to log you in as if
- they logged in themselves. You'll need to logout and log back in to restore your superuser access. If you cancel,
- nothing will happen.</value>
+    <value>You are about to impersonate another user account. If you confirm, he website will attempt to log you in as if they logged in themselves. You will need to logout and log back in to restore your superuser access. If you cancel, nothing will happen.</value>
   </data>
   <data name="ImpersonateAnotherUserAccountConfirmationAlert.Text" xml:space="preserve">
-    <value>Technical Limitation: If you're using another authentication provider other than the built-in DNN provider, this feature may or may not work, depending on the type of authentication you have installed/enabled.</value>
+    <value>Technical Limitation: If you are using another authentication provider other than the built-in DNN provider, this feature may or may not work, depending on the type of authentication you have installed/enabled.</value>
   </data>
 </root>
