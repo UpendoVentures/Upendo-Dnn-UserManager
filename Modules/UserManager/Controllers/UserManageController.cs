@@ -534,26 +534,7 @@ namespace Upendo.Modules.UserManager.Controllers
             TempData["Message"] = UserRepository.SendPasswordResetLink(portalId, itemId, portalSettings);
             return RedirectToAction("Index");
         }
-
-        /// <summary>
-        /// Confirmation view for impersonating a user
-        /// </summary>
-        /// <param name="itemId"></param>
-        /// <returns></returns>
-        public ActionResult ImpersonateUser(int itemId)
-        {
-            if (_currentUser.IsSuperUser)
-            {
-                var portalId = ModuleContext.PortalId;
-                var item = UserRepository.GetUser(portalId, itemId);
-                ViewBag.IsCurrentUserSuperUser = _currentUser.IsSuperUser;
-                return View(item);
-            }
-            string errorMessage = Localization.GetString("NotPermissions.Text", ResourceFile);
-            ViewBag.ErrorMessage = errorMessage;
-            return View("Error");
-        }
-
+              
         /// <summary>
         /// Impersonate a user
         /// </summary>
