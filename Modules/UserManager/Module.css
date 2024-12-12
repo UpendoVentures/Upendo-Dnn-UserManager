@@ -206,6 +206,7 @@
 .checkbox {
     font-size: 16px;
 }
+
 .admin-manager .checkbox {
     margin-top: 20px;
 }
@@ -318,6 +319,11 @@
 
 .mb25 {
     margin-bottom: 25px;
+}
+
+.mtb-2 {
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
 }
 
 .pb10 {
@@ -726,4 +732,8 @@
     line-height: 26px;
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
+}
+
+.AM-white, .AM-white a, .AM-white a:visited {
+    color: white;
 }
