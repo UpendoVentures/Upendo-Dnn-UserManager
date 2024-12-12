@@ -26,10 +26,11 @@
         <nav class="navbar navbar-default" role="navigation">
             <div class="col-md2">
                 <a type="button" class="AM-btn AM-btn-primary" href="@Url.Action("Create", "UserManage", new {ctl = "Edit"})">
+                    <span class="fa fa-plus color-white" aria-hidden="true"></span>
                     @Localization.GetString("BtnCreateUser", @ResourceFile)
                 </a>
             </div>
-            <div class="col-md10 AM-d-flex AM-justify-content-end">
+            <div class="col-md10 AM-d-flex AM-justify-content-end mtb-2">
                 <span id="dialogs-DeleteUnauthorized mr5" class="dnnActions mr5" style="display: initial;">
                     <a type="button" class="confirm AM-btn AM-btn-danger" href="@Url.Action("DeleteUnauthorizedUsers", "UserManage", new {})" style="color: white;">
                         <span class="fa fa-trash color-white" aria-hidden="true"></span>
@@ -214,14 +215,16 @@
                                 <span class="fa fa-tasks color-white" aria-hidden="true"></span>
                             </a>
                             <span id="dialogs-delete" class="dnnActions" style="display: initial;">
-                                <a data-hint="Delete" class="confirm AM-btn AM-btn-danger AM-btn-sm delete" data-placement="top" data-singleton="true" href="@Url.Action("Delete", "UserManage", new {itemId = item.UserId})">
+                                <a data-hint="Delete" class="confirm AM-btn AM-btn-danger AM-btn-sm delete" data-placement="top" data-singleton="true" href="@Url.Action("Delete", "UserManage", new {itemId = item.UserId})" 
+                                    data-toggle="tooltip" data-placement="top" title="@Localization.GetString("DeleteUser", @ResourceFile)">
                                     <span class="fa fa-trash color-white" aria-hidden="true"></span>
                                 </a>
                             </span>
                             @if (ViewBag.IsCurrentUserSuperUser)
                             {
                                 <span id="dialogs-impersonate" class="dnnActions" style="display: initial;">
-                                    <a data-hint="Delete" class="confirm AM-btn AM-btn-primary AM-btn-sm" data-placement="top" data-singleton="true" href="@Url.Action("ImpersonateUserById", "UserManage", new {itemId = item.UserId})">
+                                    <a data-hint="Delete" class="confirm AM-btn AM-btn-primary AM-btn-sm" data-placement="top" data-singleton="true" href="@Url.Action("ImpersonateUserById", "UserManage", new {itemId = item.UserId})" 
+                                        data-toggle="tooltip" data-placement="top" title="@Localization.GetString("ImpersonateUser", @ResourceFile)">
                                         <span class="fas fa-eye color-white" aria-hidden="true"></span>
                                     </a>
                                 </span>
@@ -258,8 +261,8 @@
     var deleteUnauthorizedText = '@DotNetNuke.Services.Localization.Localization.GetString("DeleteUnauthorized.Text", "~/DesktopModules/MVC/Upendo.Modules.UserManager/App_LocalResources/Index.resx")';
     var removeDeleteText = '@DotNetNuke.Services.Localization.Localization.GetString("RemoveDelete.Text", "~/DesktopModules/MVC/Upendo.Modules.UserManager/App_LocalResources/Index.resx")';
     var impersonateText = '@DotNetNuke.Services.Localization.Localization.GetString("Impersonate.Text", "~/DesktopModules/MVC/Upendo.Modules.UserManager/App_LocalResources/Impersonate.resx")';
-    var impersonateAnotherUserAccountConfirmation = '@DotNetNuke.Services.Localization.Localization.GetString("ImpersonateAnotherUserAccountConfirmation.Text", "~/DesktopModules/MVC/Upendo.Modules.UserManager/App_LocalResources/Impersonate.resx")';
-    var impersonateAnotherUserAccountConfirmationAlert = '@DotNetNuke.Services.Localization.Localization.GetString("ImpersonateAnotherUserAccountConfirmationAlert.Text", "~/DesktopModules/MVC/Upendo.Modules.UserManager/App_LocalResources/Impersonate.resx")';
+    var impersonateAnotherUserAccountConfirmation = '@Html.Raw(DotNetNuke.Services.Localization.Localization.GetString("ImpersonateAnotherUserAccountConfirmation.Text", "~/DesktopModules/MVC/Upendo.Modules.UserManager/App_LocalResources/Impersonate.resx"))';
+    var impersonateAnotherUserAccountConfirmationAlert = '@Html.Raw(DotNetNuke.Services.Localization.Localization.GetString("ImpersonateAnotherUserAccountConfirmationAlert.Text", "~/DesktopModules/MVC/Upendo.Modules.UserManager/App_LocalResources/Impersonate.resx"))';
     var areYouSure = '@DotNetNuke.Services.Localization.Localization.GetString("AreYouSure.Text", "~/DesktopModules/MVC/Upendo.Modules.UserManager/App_LocalResources/Impersonate.resx")';
     var cancel = '@DotNetNuke.Services.Localization.Localization.GetString("Cancel.Text", "~/DesktopModules/MVC/Upendo.Modules.UserManager/App_LocalResources/Shared.resx")';
     var deleteBtnText = '@DotNetNuke.Services.Localization.Localization.GetString("Delete.Text", "~/DesktopModules/MVC/Upendo.Modules.UserManager/App_LocalResources/Shared.resx")';
