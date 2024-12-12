@@ -1,0 +1,104 @@
+﻿/************************************************************/
+/*****              SqlDataProvider                     *****/
+/************************************************************/
+
+IF OBJECT_ID('{databaseOwner}{objectQualifier}UUM_GetUsers', 'P') IS NOT NULL
+BEGIN
+    EXEC('DROP PROCEDURE ' + '{databaseOwner}{objectQualifier}UUM_GetUsers');
+END
+GO
+
+CREATE PROCEDURE {databaseOwner}{objectQualifier}UUM_GetUsers
+    @PageIndex INT,
+    @PageSize INT,
+    @SearchTerm NVARCHAR(100) = NULL,
+    @SortColumn NVARCHAR(50) = 'UserID',
+    @SortOrder NVARCHAR(4) = 'ASC',
+    @IsSuperUser BIT = NULL,
+    @Authorised BIT = NULL,
+    @PortalId INT = NULL,
+    @Deleted BIT = NULL,
+    @AllUsers BIT = NULL,
+    @TotalRecords INT OUTPUT
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    DECLARE @Offset INT;
+    SET @Offset = (@PageIndex - 1) * @PageSize;
+
+    DECLARE @SortExpression NVARCHAR(100);
+    SET @SortExpression = QUOTENAME(@SortColumn) + ' ' + @SortOrder;
+
+    DECLARE @Results TABLE
+    (
+        UserID INT,
+        FirstName NVARCHAR(100),
+        Username NVARCHAR(100),
+        Email NVARCHAR(100),
+        DisplayName NVARCHAR(100),
+        IsSuperUser BIT,
+        RowNumber INT
+    );
+
+    -- Perform total count
+    IF @AllUsers = 0
+    BEGIN
+        SELECT @TotalRecords = COUNT(*)
+        FROM [dbo].[Users] u
+        LEFT JOIN [dbo].[UserPortals] up ON u.UserID = up.UserID
+        WHERE (LOWER(u.[UserName]) COLLATE Latin1_General_CI_AI LIKE '%' + LOWER(@SearchTerm) COLLATE Latin1_General_CI_AI + '%' OR
+               LOWER(u.[FirstName]) COLLATE Latin1_General_CI_AI LIKE '%' + LOWER(@SearchTerm) COLLATE Latin1_General_CI_AI + '%' OR
+               LOWER(u.[Email]) COLLATE Latin1_General_CI_AI LIKE '%' + LOWER(@SearchTerm) COLLATE Latin1_General_CI_AI + '%' OR
+               LOWER(u.[DisplayName]) COLLATE Latin1_General_CI_AI LIKE '%' + LOWER(@SearchTerm) COLLATE Latin1_General_CI_AI + '%')
+              AND u.IsDeleted = 0
+              AND (@IsSuperUser IS NULL OR u.IsSuperUser = @IsSuperUser)
+              AND (@Deleted IS NULL OR up.IsDeleted = @Deleted)
+              AND (@Authorised IS NULL OR (up.Authorised = @Authorised AND up.IsDeleted = 0))
+              AND (@PortalId IS NULL OR up.PortalId = @PortalId);
+    END
+    ELSE
+    BEGIN
+        SELECT @TotalRecords = COUNT(*)
+        FROM [dbo].[Users] u
+        LEFT JOIN [dbo].[UserPortals] up ON u.UserID = up.UserID
+        WHERE (LOWER(u.[UserName]) COLLATE Latin1_General_CI_AI LIKE '%' + LOWER(@SearchTerm) COLLATE Latin1_General_CI_AI + '%' OR
+               LOWER(u.[FirstName]) COLLATE Latin1_General_CI_AI LIKE '%' + LOWER(@SearchTerm) COLLATE Latin1_General_CI_AI + '%' OR
+               LOWER(u.[Email]) COLLATE Latin1_General_CI_AI LIKE '%' + LOWER(@SearchTerm) COLLATE Latin1_General_CI_AI + '%' OR
+               LOWER(u.[DisplayName]) COLLATE Latin1_General_CI_AI LIKE '%' + LOWER(@SearchTerm) COLLATE Latin1_General_CI_AI + '%')
+              AND (@PortalId IS NULL OR up.PortalId = @PortalId);
+    END;
+
+    -- Get paginated results
+    INSERT INTO @Results (UserID, FirstName, Username, Email, DisplayName, IsSuperUser, RowNumber)
+    SELECT u.UserID, u.FirstName, u.Username, u.Email, u.DisplayName, u.IsSuperUser,
+           ROW_NUMBER() OVER (
+               ORDER BY
+               CASE WHEN @SortOrder = 'ASC' AND @SortColumn = 'FirstName' THEN u.FirstName END ASC,
+               CASE WHEN @SortOrder = 'DESC' AND @SortColumn = 'FirstName' THEN u.FirstName END DESC,
+               CASE WHEN @SortOrder = 'ASC' AND @SortColumn = 'Username' THEN u.UserName END ASC,
+               CASE WHEN @SortOrder = 'DESC' AND @SortColumn = 'Username' THEN u.UserName END DESC,
+               CASE WHEN @SortOrder = 'ASC' AND @SortColumn = 'Email' THEN u.Email END ASC,
+               CASE WHEN @SortOrder = 'DESC' AND @SortColumn = 'Email' THEN u.Email END DESC,
+               CASE WHEN @SortOrder = 'ASC' AND @SortColumn = 'DisplayName' THEN u.DisplayName END ASC,
+               CASE WHEN @SortOrder = 'DESC' AND @SortColumn = 'DisplayName' THEN u.DisplayName END DESC
+           ) AS RowNumber
+    FROM [dbo].[Users] u
+    LEFT JOIN [dbo].[UserPortals] up ON u.UserID = up.UserID
+    WHERE
+        (LOWER(u.[UserName]) COLLATE Latin1_General_CI_AI LIKE '%' + LOWER(@SearchTerm) COLLATE Latin1_General_CI_AI + '%' OR
+        LOWER(u.[FirstName]) COLLATE Latin1_General_CI_AI LIKE '%' + LOWER(@SearchTerm) COLLATE Latin1_General_CI_AI + '%' OR
+        LOWER(u.[Email]) COLLATE Latin1_General_CI_AI LIKE '%' + LOWER(@SearchTerm) COLLATE Latin1_General_CI_AI + '%' OR
+        LOWER(u.[DisplayName]) COLLATE Latin1_General_CI_AI LIKE '%' + LOWER(@SearchTerm) COLLATE Latin1_General_CI_AI + '%')
+        AND u.IsDeleted = 0
+        AND (@IsSuperUser IS NULL OR u.IsSuperUser = @IsSuperUser)
+        AND (@Deleted IS NULL OR up.IsDeleted = @Deleted)
+        AND (@Authorised IS NULL OR (up.Authorised = @Authorised AND up.IsDeleted = 0))
+        AND (@PortalId IS NULL OR up.PortalId = @PortalId)
+    ORDER BY RowNumber;
+
+    -- Return paginated results
+    SELECT UserID, FirstName, Username, Email, DisplayName, IsSuperUser
+    FROM @Results
+    WHERE RowNumber BETWEEN (@Offset + 1) AND (@Offset + @PageSize);
+END;
