@@ -9,6 +9,7 @@
     string srcLogo = DotNetNuke.Entities.Tabs.TabController.CurrentPage.Title + "/DesktopModules/MVC/Upendo.Modules.UserManager/Images/Upendo-logo-trans.png";
     string ResourceFile = "~/DesktopModules/MVC/Upendo.Modules.UserManager/App_LocalResources/Index.resx";
     string SharedResourceFile = "~/DesktopModules/MVC/Upendo.Modules.UserManager/App_LocalResources/Shared.resx";
+    string ImpersonateResourceFile = "~/DesktopModules/MVC/Upendo.Modules.UserManager/App_LocalResources/Impersonate.resx";
 
     double PageIndex = Model.PageIndex == 0 ? 1 : Model.PageIndex;
     var pageIndexMinus = (PageIndex - 1) <= 0 ? 0 : (Model.PageIndex - 1);
@@ -206,25 +207,25 @@
 
                         </td>
                         <td class="text-center">
-                            <a data-hint="Edit" class="AM-btn AM-btn-primary AM-btn-sm edit warning" href="@Url.Action("Edit", "UserManage", new {ctl = "Edit", itemId = item.UserId})"
-                               data-toggle="tooltip" data-placement="top" title="@Localization.GetString("Edit", @SharedResourceFile)">
+                            <a class="AM-btn AM-btn-primary AM-btn-sm edit warning" href="@Url.Action("Edit", "UserManage", new {ctl = "Edit", itemId = item.UserId})"
+                               data-toggle="tooltip" title="@Localization.GetString("Edit", @SharedResourceFile)">
                                 <span class="fa fa-edit color-white" aria-hidden="true"></span>
                             </a>
-                            <a data-hint="User Roles" class="AM-btn AM-btn-info AM-btn-sm edit " href="@Url.Action("UserRoles", "UserManage", new {itemId = item.UserId})"
-                               data-toggle="tooltip" data-placement="top" title="@Localization.GetString("UserRoles", @ResourceFile)">
+                            <a class="AM-btn AM-btn-info AM-btn-sm edit " href="@Url.Action("UserRoles", "UserManage", new {itemId = item.UserId})"
+                               data-toggle="tooltip" title="@Localization.GetString("UserRoles", @ResourceFile)">
                                 <span class="fa fa-tasks color-white" aria-hidden="true"></span>
                             </a>
                             <span id="dialogs-delete" class="dnnActions" style="display: initial;">
-                                <a data-hint="Delete" class="confirm AM-btn AM-btn-danger AM-btn-sm delete" data-placement="top" data-singleton="true" href="@Url.Action("Delete", "UserManage", new {itemId = item.UserId})" 
-                                    data-toggle="tooltip" data-placement="top" title="@Localization.GetString("DeleteUser", @ResourceFile)">
+                                <a class="confirm AM-btn AM-btn-danger AM-btn-sm delete" data-placement="top" data-singleton="true" href="@Url.Action("Delete", "UserManage", new {itemId = item.UserId})"
+                                   data-toggle="tooltip" title="@Localization.GetString("Delete", @SharedResourceFile)">
                                     <span class="fa fa-trash color-white" aria-hidden="true"></span>
                                 </a>
                             </span>
                             @if (ViewBag.IsCurrentUserSuperUser)
                             {
                                 <span id="dialogs-impersonate" class="dnnActions" style="display: initial;">
-                                    <a data-hint="Delete" class="confirm AM-btn AM-btn-primary AM-btn-sm" data-placement="top" data-singleton="true" href="@Url.Action("ImpersonateUserById", "UserManage", new {itemId = item.UserId})" 
-                                        data-toggle="tooltip" data-placement="top" title="@Localization.GetString("ImpersonateUser", @ResourceFile)">
+                                    <a class="AM-btn AM-btn-primary AM-btn-sm confirm" href="@Url.Action("ImpersonateUserById", "UserManage", new {itemId = item.UserId})"
+                                       data-toggle="tooltip" title="@Localization.GetString("Impersonate", @ImpersonateResourceFile)">
                                         <span class="fas fa-eye color-white" aria-hidden="true"></span>
                                     </a>
                                 </span>
