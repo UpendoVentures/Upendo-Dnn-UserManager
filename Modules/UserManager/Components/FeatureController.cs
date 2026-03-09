@@ -26,10 +26,18 @@ using DotNetNuke.Services.Localization;
 
 namespace Upendo.Modules.UserManager.Components
 {
+    /// <summary>
+    /// Provides functionality for managing the Upendo DNN User Manager module, including module upgrades and permissions initialization.
+    /// </summary>
     public class UserManagerController : IUpgradeable
     {
         private readonly string ResourceFile = "~/DesktopModules/MVC/Upendo.Modules.UserManager/App_LocalResources/FeatureController.resx";
 
+        /// <summary>
+        /// Upgrades the module to the specified version by performing necessary initialization tasks.
+        /// </summary>
+        /// <param name="Version">The version to which the module is being upgraded.</param>
+        /// <returns>A string indicating the success of the upgrade process.</returns>
         public string UpgradeModule(string Version)
         {
             switch (Version)
@@ -40,6 +48,7 @@ namespace Upendo.Modules.UserManager.Components
             }
             return Localization.GetString("UpgradeSuccessful.Text", ResourceFile);
         }
+        
         private void InitModulePermissions()
         {
             PermissionController permCtl = new PermissionController();
