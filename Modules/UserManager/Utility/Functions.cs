@@ -28,9 +28,6 @@ using DotNetNuke.Security.Permissions;
 using System.Collections;
 using System.Data.SqlClient;
 using System.Data;
-using DotNetNuke.Instrumentation;
-using DotNetNuke.Services.Localization;
-using DotNetNuke.Security.Roles;
 using System.Globalization;
 using System.Text;
 
@@ -38,8 +35,6 @@ namespace Upendo.Modules.UserManager.Utility
 {
     public class Functions
     {
-        private static readonly RoleController RoleController = new RoleController();
-
         public static Users MakeUser(UserInfo u)
         {
             var user = new Users()

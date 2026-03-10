@@ -17,16 +17,7 @@ OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.SqlClient;
-using System.IO;
-using System.Linq;
-using System.Net;
-using System.Web.Security;
-using DotNetNuke.Data;
+using DotNetNuke.Abstractions.Application;
 using DotNetNuke.Entities.Host;
 using DotNetNuke.Entities.Portals;
 using DotNetNuke.Entities.Users;
@@ -35,6 +26,9 @@ using DotNetNuke.Security.Membership;
 using DotNetNuke.Security.Roles;
 using DotNetNuke.Services.Localization;
 using DotNetNuke.Services.Mail;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using Upendo.Modules.UserManager.Models.DnnModel;
 using Upendo.Modules.UserManager.ViewModels;
 
@@ -45,8 +39,18 @@ namespace Upendo.Modules.UserManager.Utility
     /// </summary>
     public class UserRepository
     {
+        private static readonly IHostSettings hostSettings;
         private static readonly string ResourceFile = "~/DesktopModules/MVC/Upendo.Modules.UserManager/App_LocalResources/UserRepository.resx";
-        private static readonly RoleController RoleController = new RoleController();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="UserRepository"/> class.
+        /// </summary>
+        /// <param name="hostSettings">An instance of <see cref="IHostSettings"/> used to access host-level settings.</param>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="hostSettings"/> is <c>null</c>.</exception>
+        public UserRepository(IHostSettings hostSettings)
+        {
+            hostSettings = hostSettings ?? throw new ArgumentNullException(nameof(hostSettings));
+        }
 
         /// <summary>
         /// Get all users by param
@@ -159,7 +163,7 @@ namespace Upendo.Modules.UserManager.Utility
             {
                 if (item.Status != RoleStatus.Approved) continue;
                 if (item.RoleName == "Administrators" && !isAdminOrSuperUser) continue;
-                UserRoleInfo userRole = RoleController.GetUserRole(portalId, userInfo.UserID, item.RoleID);
+                UserRoleInfo userRole = RoleController.Instance.GetUserRole(portalId, userInfo.UserID, item.RoleID);
 
                 var rolViewModel = new RolesViewModel()
                 {
@@ -328,6 +332,16 @@ namespace Upendo.Modules.UserManager.Utility
             }
         }
 
+        /// <summary>
+        /// Changes the password of a user in the specified portal.
+        /// </summary>
+        /// <param name="portalId">The ID of the portal where the user resides.</param>
+        /// <param name="itemId">The ID of the user whose password is to be changed.</param>
+        /// <param name="newPassword">The new password to set for the user.</param>
+        /// <remarks>
+        /// This method retrieves the user by their ID and updates their password using the 
+        /// <see cref="DotNetNuke.Entities.Users.UserController.ResetAndChangePassword"/> method.
+        /// </remarks>
         public static void ChangePassword(int portalId, int itemId, string newPassword)
         {
             var user = UserController.GetUserById(portalId, itemId);
@@ -336,6 +350,14 @@ namespace Upendo.Modules.UserManager.Utility
                 UserController.ResetAndChangePassword(user, newPassword);
             }
         }
+        
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="portalId"></param>
+        /// <param name="itemId"></param>
+        /// <param name="portalSettings"></param>
+        /// <returns></returns>
         public static string SendPasswordResetLink(int portalId, int itemId, PortalSettings portalSettings)
         {
             try
@@ -355,7 +377,7 @@ namespace Upendo.Modules.UserManager.Utility
                 else
                 {
                     // Create a password reset token
-                    UserController.ResetPasswordToken(user, Host.AdminMembershipResetLinkValidity);
+                    UserController.ResetPasswordToken(user, hostSettings.AdminMembershipResetLinkValidity.Minutes);
 
                     // Send password reminder email
                     var canSend = Mail.SendMail(user, MessageType.PasswordReminder, portalSettings) == string.Empty;
@@ -373,13 +395,28 @@ namespace Upendo.Modules.UserManager.Utility
             }
         }
 
+        /// <summary>
+        /// Updates the effective and expiry dates for a user's role in the specified portal.
+        /// </summary>
+        /// <param name="portalId">The ID of the portal where the user and role exist.</param>
+        /// <param name="itemId">The ID of the user whose role dates are being updated.</param>
+        /// <param name="roleId">The ID of the role to update for the user.</param>
+        /// <param name="effectiveDate">The new effective date for the user's role. Pass <c>null</c> to retain the current effective date.</param>
+        /// <param name="expiryDate">The new expiry date for the user's role. Pass <c>null</c> to retain the current expiry date.</param>
+        /// <returns>
+        /// <c>true</c> if the role dates were successfully updated; otherwise, <c>false</c>.
+        /// </returns>
+        /// <remarks>
+        /// This method retrieves the user and their role information, updates the effective and expiry dates as specified,
+        /// and applies the changes to the user's role. If an error occurs during the process, it logs the exception and returns <c>false</c>.
+        /// </remarks>
         public static bool UpdateDateTimeUserRole(int portalId, int itemId, int roleId, DateTime? effectiveDate, DateTime? expiryDate)
         {
 
             try
             {
                 var user = UserController.GetUserById(portalId, itemId);
-                UserRoleInfo userRole = RoleController.GetUserRole(portalId, itemId, roleId);
+                UserRoleInfo userRole = RoleController.Instance.GetUserRole(portalId, itemId, roleId);
 
                 var dataEffectiveDate = effectiveDate == null ? (userRole.EffectiveDate == DateTime.MinValue ? (object)DBNull.Value : userRole.EffectiveDate) : effectiveDate;
                 var dataExpiryDate = expiryDate == null ? (userRole.ExpiryDate == DateTime.MinValue ? (object)DBNull.Value : userRole.ExpiryDate) : expiryDate;
@@ -392,7 +429,7 @@ namespace Upendo.Modules.UserManager.Utility
                 {
                     userRole.ExpiryDate = (DateTime)dataExpiryDate;
                 }
-                RoleController.AddUserRole(portalId, itemId, roleId, userRole.EffectiveDate, userRole.ExpiryDate);
+                RoleController.Instance.AddUserRole(portalId, itemId, roleId, RoleStatus.Approved, false, userRole.EffectiveDate, userRole.ExpiryDate);
                 return true;
             }
             catch (Exception ex)
