@@ -21,7 +21,6 @@ using DotNetNuke.Entities.Users;
 using DotNetNuke.Framework.JavaScriptLibraries;
 using DotNetNuke.Instrumentation;
 using DotNetNuke.Security.Membership;
-using DotNetNuke.Security.Permissions;
 using DotNetNuke.Security.Roles;
 using DotNetNuke.Services.Localization;
 using DotNetNuke.Services.Log.EventLog;
@@ -29,15 +28,22 @@ using DotNetNuke.Web.Mvc.Framework.ActionFilters;
 using DotNetNuke.Web.Mvc.Framework.Controllers;
 using System;
 using System.Linq;
-using System.Net;
 using System.Text;
 using System.Web.Mvc;
-using Upendo.Modules.UserManager.Models.DnnModel;
 using Upendo.Modules.UserManager.Utility;
 using Upendo.Modules.UserManager.ViewModels;
 
 namespace Upendo.Modules.UserManager.Controllers
 {
+    /// <summary>
+    /// Represents the controller responsible for managing user-related operations 
+    /// within the Upendo User Manager module.
+    /// </summary>
+    /// <remarks>
+    /// This controller provides actions for creating, editing, deleting, and managing 
+    /// user roles, passwords, and other user-related functionalities. It also handles 
+    /// bulk operations and user impersonation.
+    /// </remarks>
     [DnnHandleError]
     public class UserManageController : DnnController
     {
@@ -62,6 +68,13 @@ namespace Upendo.Modules.UserManager.Controllers
         private readonly string _lOperationSummary = "";
         private readonly string _lToMaintainPerformanceControls = "";
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Upendo.Modules.UserManager.Controllers.UserManageController"/> class.
+        /// </summary>
+        /// <remarks>
+        /// This constructor sets up the necessary resources and registers the required JavaScript libraries 
+        /// for the Upendo User Manager module. It also initializes localized strings used throughout the controller.
+        /// </remarks>
         public UserManageController()
         {
             DotNetNuke.Framework.JavaScriptLibraries.JavaScript.RequestRegistration(CommonJs.DnnPlugins);
@@ -81,6 +94,24 @@ namespace Upendo.Modules.UserManager.Controllers
             _lOperationSummary = Localization.GetString("OperationSummary", ResourceFileBulkDelete);
             _lToMaintainPerformanceControls = Localization.GetString("ToMaintainPerformanceControls", ResourceFileBulkDelete);
         }
+        
+        /// <summary>
+        /// Displays a paginated list of users based on the specified filters and sorting options.
+        /// </summary>
+        /// <param name="take">The number of records to take for pagination. If null, a default value is used.</param>
+        /// <param name="pageIndex">The index of the current page for pagination. If null, a default value is used.</param>
+        /// <param name="filter">
+        /// The filter criteria for the user list. Possible values include:
+        /// "All", "Authorized", "Unauthorized", "Deleted", or "SuperUsers".
+        /// </param>
+        /// <param name="goToPage">The specific page number to navigate to. If null, the default page is used.</param>
+        /// <param name="search">The search term to filter users by name or other criteria.</param>
+        /// <param name="orderBy">The field by which the user list should be sorted.</param>
+        /// <param name="order">The sorting order, such as "asc" for ascending or "desc" for descending.</param>
+        /// <returns>
+        /// A view displaying the filtered, sorted, and paginated list of users. 
+        /// If the user is not authenticated or lacks the required permissions, an error view is returned.
+        /// </returns>
         [ModuleAction(ControlKey = "Edit", TitleKey = "AddItem")]
         public ActionResult Index(double? take, int? pageIndex, string filter, int? goToPage, string search, string orderBy, string order)
         {
@@ -150,6 +181,17 @@ namespace Upendo.Modules.UserManager.Controllers
             }
         }
 
+        /// <summary>
+        /// Displays the view for creating a new user in the Upendo User Manager module.
+        /// </summary>
+        /// <remarks>
+        /// This method registers the required JavaScript libraries and sets a flag in the 
+        /// ViewBag to indicate whether the current user is a superuser. It then returns 
+        /// the view for user creation.
+        /// </remarks>
+        /// <returns>
+        /// An <see cref="ActionResult"/> that renders the user creation view.
+        /// </returns>
         public ActionResult Create()
         {
             DotNetNuke.Framework.JavaScriptLibraries.JavaScript.RequestRegistration(CommonJs.DnnPlugins);
@@ -157,6 +199,18 @@ namespace Upendo.Modules.UserManager.Controllers
             return View();
         }
 
+        /// <summary>
+        /// Handles the creation of a new user based on the provided user details.
+        /// </summary>
+        /// <param name="item">The <see cref="UserViewModel"/> containing the details of the user to be created.</param>
+        /// <returns>
+        /// An <see cref="ActionResult"/> that redirects to the Index action if the user is successfully created, 
+        /// or returns the current view with validation errors if the creation fails.
+        /// </returns>
+        /// <remarks>
+        /// This method validates the provided user details and ensures that non-superusers cannot create superuser accounts.
+        /// It also handles various user creation statuses, such as duplicate email, invalid username, or banned passwords.
+        /// </remarks>
         [HttpPost]
         public ActionResult Create(UserViewModel item)
         {
@@ -211,6 +265,18 @@ namespace Upendo.Modules.UserManager.Controllers
             }
         }
 
+        /// <summary>
+        /// Displays the edit view for a specific user based on the provided user ID.
+        /// </summary>
+        /// <param name="itemId">The unique identifier of the user to be edited.</param>
+        /// <returns>
+        /// An <see cref="ActionResult"/> that renders the edit view for the specified user.
+        /// </returns>
+        /// <remarks>
+        /// This method retrieves the user details using the provided <paramref name="itemId"/> 
+        /// and prepares the necessary data for the view, including information about whether 
+        /// the current user is a superuser or editing their own profile.
+        /// </remarks>
         public ActionResult Edit(int itemId)
         {
             var portalId = ModuleContext.PortalId;
@@ -221,6 +287,23 @@ namespace Upendo.Modules.UserManager.Controllers
             return View(item);
         }
 
+        /// <summary>
+        /// Updates the details of an existing user based on the provided <see cref="UserViewModel"/>.
+        /// </summary>
+        /// <param name="item">
+        /// A <see cref="UserViewModel"/> instance containing the updated user details.
+        /// </param>
+        /// <returns>
+        /// An <see cref="ActionResult"/> that redirects to the default route upon successful update.
+        /// </returns>
+        /// <remarks>
+        /// This method ensures that only authorized users can update user details. 
+        /// If the current user is not a superuser, the <c>IsSuperUser</c> property of the user being edited is set to <c>false</c>.
+        /// The method uses the <see cref="UserRepository.EditUser"/> to persist the changes.
+        /// </remarks>
+        /// <exception cref="UnauthorizedAccessException">
+        /// Thrown if the current user does not have sufficient permissions to edit the specified user.
+        /// </exception>
         [HttpPost]
         public ActionResult Edit(UserViewModel item)
         {
@@ -235,6 +318,19 @@ namespace Upendo.Modules.UserManager.Controllers
             }
             return RedirectToDefaultRoute();
         }
+        
+        /// <summary>
+        /// Displays the details of a specific user based on the provided user ID.
+        /// </summary>
+        /// <param name="itemId">The unique identifier of the user whose details are to be displayed.</param>
+        /// <returns>
+        /// An <see cref="ActionResult"/> that renders the view displaying the user's details.
+        /// </returns>
+        /// <remarks>
+        /// This method retrieves the user details from the repository using the provided user ID 
+        /// and the current portal ID. It also ensures that the required JavaScript libraries 
+        /// are registered for the view.
+        /// </remarks>
         public ActionResult Details(int itemId)
         {
             DotNetNuke.Framework.JavaScriptLibraries.JavaScript.RequestRegistration(CommonJs.DnnPlugins);
@@ -243,6 +339,20 @@ namespace Upendo.Modules.UserManager.Controllers
             var item = UserRepository.GetUser(portalId, itemId);
             return View(item);
         }
+        
+        /// <summary>
+        /// Deletes a user identified by the specified <paramref name="itemId"/> from the system.
+        /// </summary>
+        /// <param name="itemId">
+        /// The unique identifier of the user to be deleted.
+        /// </param>
+        /// <returns>
+        /// A <see cref="ActionResult"/> that redirects to the default route after the user is successfully deleted.
+        /// </returns>
+        /// <remarks>
+        /// This method registers the required JavaScript libraries, retrieves the current portal ID, 
+        /// and invokes the <see cref="UserRepository.DeleteUser(int, int)"/> method to remove the user.
+        /// </remarks>
         public ActionResult Delete(int itemId)
         {
             DotNetNuke.Framework.JavaScriptLibraries.JavaScript.RequestRegistration(CommonJs.DnnPlugins);
@@ -251,12 +361,32 @@ namespace Upendo.Modules.UserManager.Controllers
             return RedirectToDefaultRoute();
         }
 
+        /// <summary>
+        /// Displays the view for performing bulk deletion of users.
+        /// </summary>
+        /// <remarks>
+        /// This action prepares the necessary data for the bulk deletion view, such as 
+        /// determining if the current user is a superuser. It does not perform any deletion 
+        /// operations itself.
+        /// </remarks>
+        /// <returns>
+        /// A <see cref="ViewResult"/> that renders the bulk deletion view.
+        /// </returns>
         public ActionResult BulkDelete()
         {
             ViewBag.IsCurrentUserSuperUser = _currentUser.IsSuperUser;
             return View();
         }
 
+        /// <summary>
+        /// Handles the bulk deletion of users based on the provided view model.
+        /// </summary>
+        /// <param name="bulkDeleteViewModel">
+        /// The view model containing the details of the users to be deleted, such as their IDs.
+        /// </param>
+        /// <returns>
+        /// A view representing the result of the bulk delete operation.
+        /// </returns>
         [HttpPost]
         public ActionResult BulkDelete(BulkDeleteViewModel bulkDeleteViewModel)
         {
@@ -350,6 +480,20 @@ namespace Upendo.Modules.UserManager.Controllers
             return View("BulkDelete");
         }
 
+        /// <summary>
+        /// Displays the Change Password view for a specific user.
+        /// </summary>
+        /// <param name="itemId">
+        /// The unique identifier of the user whose password is to be changed.
+        /// </param>
+        /// <returns>
+        /// An <see cref="ActionResult"/> that renders the Change Password view with the user's details.
+        /// </returns>
+        /// <remarks>
+        /// This method retrieves the user details based on the provided <paramref name="itemId"/> 
+        /// and prepares the data for the Change Password view. It also ensures that the necessary 
+        /// JavaScript libraries are registered for the view.
+        /// </remarks>
         public ActionResult ChangePassword(int itemId)
         {
             DotNetNuke.Framework.JavaScriptLibraries.JavaScript.RequestRegistration(CommonJs.DnnPlugins);
@@ -358,6 +502,26 @@ namespace Upendo.Modules.UserManager.Controllers
             return View(item);
         }
 
+        /// <summary>
+        /// Updates the password for a specified user.
+        /// </summary>
+        /// <param name="user">
+        /// An instance of <see cref="UserViewModel"/> containing the user's details, 
+        /// including the new password and its confirmation.
+        /// </param>
+        /// <returns>
+        /// An <see cref="ActionResult"/> that redirects to the default route upon successful password change.
+        /// </returns>
+        /// <remarks>
+        /// This method validates that the new password matches the confirmation password before updating it.
+        /// If the validation passes, the password is updated using the <see cref="UserRepository.ChangePassword"/> method.
+        /// </remarks>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown if the <paramref name="user"/> parameter is null.
+        /// </exception>
+        /// <exception cref="InvalidOperationException">
+        /// Thrown if the password and confirmation password do not match.
+        /// </exception>
         [HttpPost]
         public ActionResult ChangePassword(UserViewModel user)
         {
@@ -369,6 +533,18 @@ namespace Upendo.Modules.UserManager.Controllers
             }
             return RedirectToDefaultRoute();
         }
+        
+        /// <summary>
+        /// Deletes all unauthorized users from the current portal.
+        /// </summary>
+        /// <remarks>
+        /// This action removes users who have not been authorized within the portal. 
+        /// It utilizes the <see cref="DotNetNuke.Entities.Users.UserController.DeleteUnauthorizedUsers(int)"/> method 
+        /// to perform the deletion based on the portal ID.
+        /// </remarks>
+        /// <returns>
+        /// A <see cref="ActionResult"/> that redirects to the default route after the operation is completed.
+        /// </returns>
         public ActionResult DeleteUnauthorizedUsers()
         {
             DotNetNuke.Framework.JavaScriptLibraries.JavaScript.RequestRegistration(CommonJs.DnnPlugins);
@@ -376,6 +552,17 @@ namespace Upendo.Modules.UserManager.Controllers
             UserController.DeleteUnauthorizedUsers(portalId);
             return RedirectToDefaultRoute();
         }
+        
+        /// <summary>
+        /// Removes all users marked as deleted from the system for the current portal.
+        /// </summary>
+        /// <remarks>
+        /// This action permanently deletes users who have been marked as deleted in the system.
+        /// It ensures that the user records are cleaned up to maintain system performance and data integrity.
+        /// </remarks>
+        /// <returns>
+        /// A <see cref="ActionResult"/> that redirects to the default route after the operation is completed.
+        /// </returns>
         public ActionResult RemoveDeletedUsers()
         {
             DotNetNuke.Framework.JavaScriptLibraries.JavaScript.RequestRegistration(CommonJs.DnnPlugins);
@@ -384,6 +571,22 @@ namespace Upendo.Modules.UserManager.Controllers
             return RedirectToDefaultRoute();
         }
 
+        /// <summary>
+        /// Displays the roles associated with a specific user, allowing for filtering, pagination, and role-specific actions.
+        /// </summary>
+        /// <param name="take">The number of roles to retrieve per page. If null, a default value is used.</param>
+        /// <param name="pageIndex">The current page index for pagination. If null, a default value is used.</param>
+        /// <param name="goToPage">The specific page to navigate to. If null, the current page is used.</param>
+        /// <param name="search">The search term used to filter roles by name or other criteria.</param>
+        /// <param name="itemId">The unique identifier of the user whose roles are being managed.</param>
+        /// <param name="roleId">The unique identifier of a specific role. If null, no specific role is targeted.</param>
+        /// <param name="actionView">The name of the view to render for the action.</param>
+        /// <returns>An <see cref="ActionResult"/> that renders the appropriate view based on the user's roles and permissions.</returns>
+        /// <remarks>
+        /// This method checks if the current user is authenticated and has the required permissions to view or manage roles.
+        /// If the user lacks permissions, an error view is returned. Otherwise, the roles associated with the specified user
+        /// are retrieved and displayed. Additional checks are performed for administrative roles to ensure proper access control.
+        /// </remarks>
         public ActionResult UserRoles(double? take, int? pageIndex, int? goToPage, string search, int itemId, int? roleId, string actionView)
         {
             bool isAuthenticated = Request.IsAuthenticated;
@@ -428,6 +631,22 @@ namespace Upendo.Modules.UserManager.Controllers
             }
         }
 
+        /// <summary>
+        /// Adds a specified role to a user within the current portal.
+        /// </summary>
+        /// <param name="itemId">The ID of the user to whom the role will be assigned.</param>
+        /// <param name="roleId">The ID of the role to be assigned to the user.</param>
+        /// <returns>
+        /// An <see cref="ActionResult"/> indicating the outcome of the operation. 
+        /// Returns an error view if the user is not authenticated or lacks the required permissions.
+        /// </returns>
+        /// <remarks>
+        /// This method checks if the current user is authenticated and has the necessary permissions 
+        /// before assigning the role. If the operation fails, an error is logged.
+        /// </remarks>
+        /// <exception cref="Exception">
+        /// Thrown when an error occurs while adding the user role. The exception is logged.
+        /// </exception>
         [HttpPost]
         public ActionResult AddUserRole(int itemId, int roleId)
         {
@@ -457,6 +676,21 @@ namespace Upendo.Modules.UserManager.Controllers
             }
         }
 
+        /// <summary>
+        /// Removes a specific role from a user in the system.
+        /// </summary>
+        /// <param name="itemId">The unique identifier of the user from whom the role will be removed.</param>
+        /// <param name="roleId">The unique identifier of the role to be removed from the user.</param>
+        /// <returns>
+        /// An <see cref="ActionResult"/> indicating the result of the operation. 
+        /// Returns an error view if the user lacks permissions or authentication, 
+        /// or an empty content result upon successful removal.
+        /// </returns>
+        /// <remarks>
+        /// This method checks if the current user is authenticated and has the necessary permissions 
+        /// before attempting to remove the specified role from the user. If the operation fails, 
+        /// an error is logged.
+        /// </remarks>
         [HttpPost]
         public ActionResult RemoveUserRole(int itemId, int roleId)
         {
@@ -486,6 +720,18 @@ namespace Upendo.Modules.UserManager.Controllers
             }
         }
 
+        /// <summary>
+        /// Updates the effective and expiry dates for a specific user role.
+        /// </summary>
+        /// <param name="itemId">The unique identifier of the user.</param>
+        /// <param name="roleId">The unique identifier of the role to be updated.</param>
+        /// <param name="effectiveDate">The date and time when the role becomes effective. Can be null.</param>
+        /// <param name="expiryDate">The date and time when the role expires. Can be null.</param>
+        /// <returns>An <see cref="ActionResult"/> indicating the result of the operation.</returns>
+        /// <remarks>
+        /// This method updates the date range during which a user role is active. 
+        /// It logs any exceptions encountered during the operation.
+        /// </remarks>
         [HttpPost]
         public ActionResult UpdateDateTimeUserRole(int itemId, int roleId, DateTime? effectiveDate, DateTime? expiryDate)
         {
@@ -502,17 +748,33 @@ namespace Upendo.Modules.UserManager.Controllers
             return Content("");
         }
 
+        /// <summary>
+        /// Clears the effective date and expiration date for a specified user role.
+        /// </summary>
+        /// <param name="itemId">
+        /// The ID of the user whose role's effective and expiration dates are to be cleared.
+        /// </param>
+        /// <param name="roleId">
+        /// The ID of the role for which the effective and expiration dates are to be cleared.
+        /// </param>
+        /// <returns>
+        /// An <see cref="ActionResult"/> indicating the result of the operation.
+        /// </returns>
+        /// <remarks>
+        /// This method sets the effective date and expiration date of the specified user role 
+        /// to <see cref="DateTime.MinValue"/> and logs the action. If an exception occurs, 
+        /// it is logged for further investigation.
+        /// </remarks>
         public ActionResult SetDateTimeUserRoleNull(int itemId, int roleId)
         {
             try
             {
                 var portalId = ModuleContext.PortalId;
-                var roleController = new RoleController();
-                roleController.AddUserRole(portalId, itemId, roleId, DateTime.MinValue, DateTime.MinValue);
+                RoleController.Instance.AddUserRole(portalId, itemId, roleId, RoleStatus.Approved, false, DateTime.MinValue, DateTime.MinValue);
 
                 // Log the action
                 var user = UserController.GetUserById(portalId, itemId);
-                UserRoleInfo userRole = roleController.GetUserRole(portalId, itemId, roleId);
+                UserRoleInfo userRole = RoleController.Instance.GetUserRole(portalId, itemId, roleId);
                 var currentUser = UserController.Instance.GetCurrentUserInfo();
 
                 var logMessage = $"The effective date and expiration date for Role {userRole.FullName} were cleared for User {user.Username} by Username {currentUser.Username}.";
@@ -527,6 +789,19 @@ namespace Upendo.Modules.UserManager.Controllers
             return Content("");
         }
 
+        /// <summary>
+        /// Sends a password reset link to the user with the specified identifier.
+        /// </summary>
+        /// <param name="itemId">
+        /// The unique identifier of the user for whom the password reset link is to be sent.
+        /// </param>
+        /// <returns>
+        /// An <see cref="ActionResult"/> that redirects to the <c>Index</c> action after attempting to send the password reset link.
+        /// </returns>
+        /// <remarks>
+        /// This method utilizes the <see cref="UserRepository.SendPasswordResetLink"/> method to send the password reset link.
+        /// The result of the operation is stored in <c>TempData["Message"]</c>.
+        /// </remarks>
         public ActionResult PasswordResetLink(int itemId)
         {
             var portalId = ModuleContext.PortalId;
